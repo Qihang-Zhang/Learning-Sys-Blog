@@ -1,0 +1,13 @@
+# Motivation
+The idea of writing a Learning Blog has been on my mind for a long time. I have always been inspired by [Lil's Log](https://lilianweng.github.io/), and recently, after seeing my friend’s work on [Awesome-ML-SYS-Tutorial](https://github.com/zhaochenyang20/Awesome-ML-SYS-Tutorial?tab=readme-ov-file), I decided to start my own blog to organize my learnings, thoughts, and reflections, while also sharing insights and sparking discussions with others.
+
+Although it has been quite some time since the emergence of GPT-3.5, it was only recently that I realized that research on Large-Scale Learning Systems has evolved into a paradigm fundamentally different from the Deep Learning era that began with AlexNet in 2012. The efforts required in this field can no longer be simply summarized by a single Scaling Law. As a System, LLMs' System Design has become a highly dynamic and rapidly evolving research area.
+
+The recent advancements from Deepseek have made this shift even more tangible for me. Whether it is DeepseekV3 leveraging [DeepSeekMoE](https://arxiv.org/pdf/2412.19437) or the innovations in [NSA](https://arxiv.org/pdf/2502.11089), it is evident that LLM design is increasingly adapting to GPU-specific constraints, such as communication costs, to expand context windows or scale up model capacity within limited computational resources. These key developments strongly reflect System Design principles. At this point in time, the skill set required for research has undergone a significant transformation compared to the era of small-scale Learning Systems.
+
+Meanwhile, with the rise of Cursor and other Agentic Tools, it has become increasingly clear that the performance of LLMs is often influenced by the way they interact with users. This characteristic was never seen in the pre-LLM era of Learning Systems. Interaction design is just one example, but overall, in Large-Scale Learning Systems, both their fundamental characteristics and research focus are undergoing significant changes. Years from now, we may look back and find that the paradigm shift between LLMs and Deep Learning is as profound as the transition from Deep Learning to the Machine Learning era.
+
+From these perspectives, I believe that the skill set and research focus for Large-Scale Learning Systems are rapidly evolving. This is why I want to write a tutorial on Large-Scale Learning Systems, to systematically organize and share my thought process.
+
+Qihang
+2025-02-28
