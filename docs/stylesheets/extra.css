@@ -278,3 +278,10 @@ table tbody+tbody {
 /* .dropdown-menu .divider {
 	border-color: #e5e5e5;
 } */
+
+/* hide left toc */
+/* .md-typeset .toc,  */
+.md-sidebar--secondary .md-sidebar__scrollwrap,
+.md-nav--secondary {
+  display: none !important;
+}

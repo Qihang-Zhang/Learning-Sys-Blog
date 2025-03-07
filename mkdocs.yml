@@ -16,6 +16,11 @@ markdown_extensions:
   - attr_list
   - pymdownx.arithmatex:
       generic: true  
+  - toc:
+      permalink: true
+      toc_depth: 4
+  - pymdownx.superfences
+  - pymdownx.highlight
 
 extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es6
@@ -56,6 +61,8 @@ theme:
     - search.share
     - header.autohide
     - navigation.footer
+    - toc.integrate
+    - navigation.sections
   language: en
   logo: assets/fruit/watermelon.svg
   icon:
