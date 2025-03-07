@@ -56,9 +56,7 @@ $$
 [v_{t,1}; v_{t,2}; \dots; v_{t,n_h}] = v_t.
 $$
 
-$$
-o_{t,i} = \sum_{j=1}^{t} \text{Softmax}_j \left( \frac{q_{t,i}^T k_{j,i}}{\sqrt{d_h}} \right) v_{j,i},
-$$
+$$o_{t,i} = \sum_{j=1}^{t} \text{Softmax}_j \left( \frac{q_{t,i}^T k_{j,i}}{\sqrt{d_h}} \right) v_{j,i},$$
 
 $$
 u_t = W^O [o_{t,1}; o_{t,2}; \dots; o_{t,n_h}].
