@@ -42,7 +42,7 @@ $$
 v_t = W^V h_t.
 $$
 
-Then, \( q_t, k_t, v_t \) will be sliced into \( n_h \) heads for the multi-head attention computation:
+Then, $q_t, k_t, v_t$ will be sliced into $n_h$ heads for the multi-head attention computation:
 
 $$
 [q_{t,1}; q_{t,2}; \dots; q_{t,n_h}] = q_t,
@@ -64,7 +64,7 @@ $$
 u_t = W^O [o_{t,1}; o_{t,2}; \dots; o_{t,n_h}].
 $$
 
-where \( q_{t,i}, k_{t,i}, v_{t,i} \in \mathbb{R}^{d_h} \) denote the query, key, and value of the \( i \)-th attention head, respectively; \( W^O \in \mathbb{R}^{d \times d_h n_h} \) denotes the output projection matrix. During inference, all keys and values need to be cached to accelerate inference, so MHA needs to cache \( 2 n_h d_h \) elements for each token. In model deployment, this heavy KV cache is a large bottleneck that limits the maximum batch size and sequence length.
+where $q_{t,i}, k_{t,i}, v_{t,i} \in \mathbb{R}^{d_h}$ denote the query, key, and value of the $i$-th attention head, respectively; $W^O \in \mathbb{R}^{d \times d_h n_h}$ denotes the output projection matrix. During inference, all keys and values need to be cached to accelerate inference, so MHA needs to cache $2 n_h d_h$ elements for each token. In model deployment, this heavy KV cache is a large bottleneck that limits the maximum batch size and sequence length.
 
 #### Low-Rank Key-Value Joint Compression
 
