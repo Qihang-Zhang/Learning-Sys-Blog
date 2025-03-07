@@ -6,6 +6,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 import subprocess
+
+# Get the project root directory
+PROJECT_ROOT = Path(__file__).parent.parent
 MOTIVATION = "# Tutorial Towards Large-Scale Learning Systems \n\n The idea of writing a Learning Blog has been on my mind for a long time. I have always been inspired by [Lil's Log](https://lilianweng.github.io/). Recently, Chenyang's work on [Awesome-ML-SYS-Tutorial](https://github.com/zhaochenyang20/Awesome-ML-SYS-Tutorial?tab=readme-ov-file) further inspired me. \n\n Additionally, as I introduced [here](docs/Tutorial/motivation-en.md), I feel that the research focus and skill set required for Large-Scale Learning Systems are evolving rapidly. Given all these influences, I decided to start my own blog to organize my learnings, thoughts, and reflections, while also sharing insights and sparking discussions with others. \n\n"
 
 class Post:
@@ -16,11 +19,37 @@ class Post:
         self.lang = lang
         self.emoji = emoji
         self.relative_path = str(filepath).replace("\\", "/")
+        self.slug = None  # Will be set from front matter if available
+        
+        # Extract slug from front matter if available
+        self._extract_slug_from_front_matter()
+        
+    def _extract_slug_from_front_matter(self):
+        """Extract slug from front matter."""
+        try:
+            content = self.filepath.read_text(encoding='utf-8')
+            if content.startswith('---'):
+                end = content.find('---', 3)
+                if end != -1:
+                    front_matter = yaml.safe_load(content[3:end])
+                    if front_matter and 'slug' in front_matter:
+                        self.slug = front_matter['slug']
+        except Exception:
+            pass
+        
+    def get_mkdocs_url(self) -> str:
+        """Generate mkdocs-compatible URL for the post."""
+        date_str = self.date.strftime("%Y/%m/%d")
+        # Use slug from front matter if available, otherwise use title
+        slug = self.slug if self.slug else self.title
+        # Replace spaces with %20 for URL encoding
+        slug = slug.replace(" ", "%20")
+        return f"https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Tutorial/Tutorial/{date_str}/{slug}.html"
 
 class ReadmeUpdater:
     def __init__(self, posts_dir: str = "docs/Tutorial/Posts", readme_file: str = "README.md"):
-        self.posts_dir = Path(posts_dir)
-        self.readme_file = Path(readme_file)
+        self.posts_dir = PROJECT_ROOT / posts_dir
+        self.readme_file = PROJECT_ROOT / readme_file
         self.posts: Dict[str, Dict[str, Post]] = {}  # key: base_name, value: {"en": Post, "zh": Post}
         self.emoji_map = ["📌", "✍️", "📖", "🔍", "👋"]
         self.emoji_index = 0
@@ -57,7 +86,7 @@ class ReadmeUpdater:
         self.posts.clear()
         if not self.posts_dir.exists():
             return
-
+            
         for file_path in self.posts_dir.glob("*.md"):
             parsed = self.parse_filename(file_path)
             if not parsed:
@@ -89,7 +118,7 @@ class ReadmeUpdater:
             
             emoji = self.get_next_emoji()
             self.posts[base_name][lang] = Post(file_path, date, title, lang, emoji)
-
+        
     def generate_post_list(self) -> str:
         if not self.posts:
             return "No posts found."
@@ -137,9 +166,11 @@ class ReadmeUpdater:
                 
                 links = []
                 if "en" in post_versions:
-                    links.append(f'[English Version]({post_versions["en"].relative_path})')
+                    en_url = post_versions["en"].get_mkdocs_url()
+                    links.append(f'[English Version]({en_url})')
                 if "zh" in post_versions:
-                    links.append(f'[中文版]({post_versions["zh"].relative_path})')
+                    zh_url = post_versions["zh"].get_mkdocs_url()
+                    links.append(f'[中文版]({zh_url})')
                 
                 line = f'- 📌 **{title}** ({" / ".join(links)}) ({date_str})'
                 lines.append(line)
