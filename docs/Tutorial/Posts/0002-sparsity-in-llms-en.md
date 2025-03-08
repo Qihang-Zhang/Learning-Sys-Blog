@@ -66,7 +66,7 @@ where $q_{t,i}, k_{t,i}, v_{t,i} \in \mathbb{R}^{d_h}$ denote the query, key, an
 
 #### Low-Rank Key-Value Joint Compression
 
-The core of MLA is the low-rank joint compression for keys and values to reduce KV cache:
+In [@deepseekv2], the core of MLA is the low-rank joint compression for keys and values to reduce KV cache:
 
 $$
 \mathbf{c}_t^{KV} = W^{DKV} \mathbf{h}_t, 
@@ -126,4 +126,5 @@ where $N_s$ and $N_r$ denote the numbers of shared experts and routed experts, r
 and $\text{Topk}(\cdot, K)$ denotes the set comprising $K$ highest scores among the affinity scores calculated for the $t$-th token and all routed experts.
 
 
-Reference:
+
+\bibliography

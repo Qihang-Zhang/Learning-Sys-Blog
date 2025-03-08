@@ -1,3 +1,3 @@
 python ./utils/yml_autobuild.py
 python ./utils/update_readme.py
-mkdocs serve --watch-theme
+python -W ignore::DeprecationWarning -m mkdocs serve --watch-theme
