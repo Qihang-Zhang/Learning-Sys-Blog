@@ -20,7 +20,7 @@ This is an example post.
 Hello, world!
 ## Section2
 
-## References
+***References:***
 
 \bibliography
 

@@ -1,6 +1,6 @@
-site_name: Toturial Towards Large-Scale Learning Systems
+site_name: Qihang's Blog For Learning Systems
 
-site_url: https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial
+site_url: https://qihang-zhang.github.io/Learning-Sys-Blog
 
 extra_css:
   - stylesheets/extra.css
@@ -66,6 +66,7 @@ theme:
     - navigation.footer
     - toc.integrate
     - navigation.sections
+    - content.code.copy
   language: en
   logo: assets/fruit/watermelon.svg
   icon:

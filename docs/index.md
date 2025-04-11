@@ -22,4 +22,4 @@
 	</body>
 </html>
 
-Hi, this is [Qihang](https://qihang-zhang.github.io)👋. I’m documenting my learning process in this tutorial. This tutorial will focus both on the latest advancements in learning algorithms and engineering techniques.
+Hi, this is [Qihang](https://qihang-zhang.github.io)👋. I’m documenting my learning process in this blog. This blog will focus both on the latest advancements in learning algorithms and engineering techniques.

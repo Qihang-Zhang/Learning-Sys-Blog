@@ -16,7 +16,6 @@ while [[ $# -gt 0 ]]; do
 done
 
 python ./utils/yml_autobuild.py
-python ./utils/update_readme.py
 mkdocs gh-deploy --force
 git add .
 git commit -m "$commit_msg"
