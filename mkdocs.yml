@@ -1,6 +1,6 @@
 site_name: Qihang's Blog For Learning Systems
 
-site_url: https://qihang-zhang.github.io/Learning-Sys-Blog
+site_url: https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial
 
 extra_css:
   - stylesheets/extra.css
@@ -32,7 +32,7 @@ plugins:
   - bibtex:
       bib_file: 'docs/assets/references.bib'
   - blog:
-      blog_dir: Tutorial
+      blog_dir: Blog
       blog_toc: true
       post_dir: "{blog}/Posts"
       post_date_format: medium
@@ -98,7 +98,7 @@ theme:
         name: Switch to light mode
 
 nav: 
-  - Tutorial: 
-    - index: Tutorial/index.md
-    - motivation: Tutorial/motivation.md
   - Homepage: index.md
+  - Blog: 
+    - index: Blog/index.md
+    - motivation: Blog/motivation.md
