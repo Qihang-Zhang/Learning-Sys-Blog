@@ -15,6 +15,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+source .venv/bin/activate
 python ./utils/yml_autobuild.py --mode published
 mkdocs gh-deploy --force
 git add .
