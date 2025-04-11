@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/index.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/index.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Tutorial/index.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/index.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Tutorial/motivation.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/motivation.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Tutorial/2025/02/27/Example.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/2025/02/27/Example.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Tutorial/2025/03/02/sglang%20profiling.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/2025/03/02/sglang%20profiling.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Tutorial/2025/03/04/Sparsity%20In%20LLMs.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/2025/03/04/Sparsity%20In%20LLMs.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Tutorial/2025/03/10/Reinforcement%20learning%20formulation%20in%20Autoregressive%20models%27%20way.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/2025/03/10/Reinforcement%20learning%20formulation%20in%20Autoregressive%20models%27%20way.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Tutorial/archive/2025.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/archive/2025.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Tutorial/category/reinforcement-learning.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/category/reinforcement-learning.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Tutorial/category/in-progress.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/category/in-progress.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Tutorial/category/sparsity.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/category/sparsity.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Tutorial/category/profiling.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/category/profiling.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Tutorial/category/random-thoughts.html</loc>
+         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/category/random-thoughts.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
 </urlset>
