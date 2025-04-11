@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/index.html</loc>
+         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/index.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/index.html</loc>
+         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Blog/index.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/motivation.html</loc>
+         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Blog/motivation.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/Posts/drafts/0000-example.html</loc>
+         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Blog/Posts/drafts/0000-example.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/Posts/drafts/0001-sglang-profiling.html</loc>
+         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Blog/Posts/drafts/0001-sglang-profiling.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/Posts/drafts/0002-sparsity-in-llms.html</loc>
+         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Blog/Posts/drafts/0002-sparsity-in-llms.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
     <url>
-         <loc>https://qihang-zhang.github.io/Large-Scale-Learning-Sys-Toturial/Blog/Posts/drafts/0003-rl-in-ar-way.html</loc>
+         <loc>https://qihang-zhang.github.io/Learning-Sys-Blog/Blog/Posts/drafts/0003-rl-in-ar-way.html</loc>
          <lastmod>2025-04-11</lastmod>
     </url>
 </urlset>
