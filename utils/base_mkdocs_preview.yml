@@ -34,7 +34,7 @@ plugins:
   - blog:
       blog_dir: Blog
       blog_toc: true
-      post_dir: "{blog}/Posts/published"
+      post_dir: "{blog}/Posts"
       post_date_format: medium
       post_url_date_format: yyyy/MM/dd
       post_url_format: "{date}/{slug}"
@@ -99,8 +99,3 @@ theme:
         icon: material/brightness-3
         name: Switch to light mode
 
-nav: 
-  - Homepage: index.md
-  - Blog: 
-    - index: Blog/index.md
-    - motivation: Blog/motivation.md

@@ -1,2 +1,2 @@
-python ./utils/yml_autobuild.py
+python ./utils/yml_autobuild.py --mode preview
 mkdocs serve --watch-theme

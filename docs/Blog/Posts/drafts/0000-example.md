@@ -1,8 +1,9 @@
 ---
+title: "Example——A simple example post"
 categories:
   - Random Thoughts
 date: 2025-02-27
-draft: false
+draft: true
 links:
   - index.md
 readtime: 1

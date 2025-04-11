@@ -1,6 +1,11 @@
 import os
 import os.path
 import os,sys,shutil
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--mode", type=str, default="published", choices=["published", "preview"])
+args = parser.parse_args()
 
 def is_dir_empty(path, depth):
     for item in os.listdir(path):
@@ -52,7 +57,10 @@ def dfs_writedir(path, depth, file):
 global_path = "docs"
 ignore_set = ['.DS_Store', 'assets', 'stylesheets', 'javascript']
 dirc_set = os.listdir(global_path)
-shutil.copyfile('./utils/base_mkdocs.yml', './mkdocs.yml')
+if args.mode == "published":
+    shutil.copyfile('./utils/base_mkdocs_published.yml', './mkdocs.yml')
+else:
+    shutil.copyfile('./utils/base_mkdocs_preview.yml', './mkdocs.yml')
 
 with open("mkdocs.yml","a") as currentfile:  
     currentfile.write("nav: " + '\n')       

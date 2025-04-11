@@ -3,7 +3,7 @@ categories:
   - Sparsity
   - In progress
 date: 2025-03-04
-draft: true
+draft: false
 links:
   - index.md
 readtime: 1
@@ -22,7 +22,7 @@ This post is about my learning experience on sparsity in LLMs.
 
 ## DeepSeek-Series
 
-![deepseek-v2](./assets/0002/deepseek-v2.png)
+![deepseek-v2](../assets/0002/deepseek-v2.png)
 
 ### Multi-Head Latent Attention
 

@@ -15,7 +15,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-python ./utils/yml_autobuild.py
+python ./utils/yml_autobuild.py --mode published
 mkdocs gh-deploy --force
 git add .
 git commit -m "$commit_msg"

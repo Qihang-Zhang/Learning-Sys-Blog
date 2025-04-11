@@ -34,14 +34,16 @@ plugins:
   - blog:
       blog_dir: Blog
       blog_toc: true
-      post_dir: "{blog}/Posts"
+      post_dir: "{blog}/Posts/published"
       post_date_format: medium
       post_url_date_format: yyyy/MM/dd
       post_url_format: "{date}/{slug}"
       # authors: true
       authors_file: "{blog}/.authors.yml"
       draft: true
-      draft_if_future_date: true
+      draft_on_serve: true
+      draft_if_future_date: false
+  - meta
   - tags
   - info:
       enabled: false
