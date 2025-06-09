@@ -34,7 +34,7 @@ plugins:
   - blog:
       blog_dir: Blog
       blog_toc: true
-      post_dir: "{blog}/Posts"
+      post_dir: "{blog}/Posts/published"
       post_date_format: medium
       post_url_date_format: yyyy/MM/dd
       post_url_format: "{date}/{slug}"
@@ -85,7 +85,7 @@ theme:
   palette:
     # Palette toggle for light mode
     - scheme: default
-      primary: white
+      primary: black
       accent: light blue
       toggle:
         icon: material/brightness-7 
@@ -93,7 +93,7 @@ theme:
 
     # Palette toggle for dark mode
     - scheme: slate
-      primary: black
+      primary: white
       accent: light blue
       toggle:
         icon: material/brightness-3
