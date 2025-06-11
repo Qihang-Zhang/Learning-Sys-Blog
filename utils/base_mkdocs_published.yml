@@ -85,7 +85,7 @@ theme:
   palette:
     # Palette toggle for light mode
     - scheme: default
-      primary: black
+      primary: white
       accent: light blue
       toggle:
         icon: material/brightness-7 
@@ -93,7 +93,7 @@ theme:
 
     # Palette toggle for dark mode
     - scheme: slate
-      primary: white
+      primary: black
       accent: light blue
       toggle:
         icon: material/brightness-3
