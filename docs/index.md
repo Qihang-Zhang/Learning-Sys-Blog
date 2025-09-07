@@ -26,8 +26,6 @@ Hi, this is [Qihang](https://qihang-zhang.github.io)👋. I’m documenting my l
 
 The idea of writing a Learning Blog has been on my mind for a long time. I have always been inspired by [Lil's Log](https://lilianweng.github.io/), and recently, after seeing my friend’s work on [Awesome-ML-SYS-Tutorial](https://github.com/zhaochenyang20/Awesome-ML-SYS-Tutorial?tab=readme-ov-file), I decided to start my own blog to organize my learnings, thoughts, and reflections, while also sharing insights and sparking discussions with others.
 
-I believe beautiful and solid design emerges from full-chain optimization and deep integration, which is the essence of engineering. 
-
-That's why I am driven to connect the entire value loop: my interests span not just algorithm design and system architecture, but also hardware adaptation, product interaction design, and ultimately, its business viability. 
+***I do believe beautiful and solid design emerges from full-chain optimization and deep integration, which is the essence of engineering.*** That's why I am driven to connect the entire value loop: my interests span not just algorithm design and system architecture, but also hardware adaptation, product interaction design, and ultimately, its business viability. 
 
 Given all these influences, I decided to start my own blog to organize my learnings, thoughts, and reflections, while also sharing insights and sparking discussions with others.
