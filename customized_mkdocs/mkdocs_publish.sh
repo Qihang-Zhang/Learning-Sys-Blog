@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # default commit message
-commit_msg="auto update"
+commit_msg="auto publish"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -20,6 +20,7 @@ if [ -n "$GENYML_URL" ]; then
 else
   uv run ./customized_mkdocs/mkdocs_genyml.sh -p
 fi
+
 uv run mkdocs gh-deploy --force
 git add .
 git commit -m "$commit_msg"
@@ -29,6 +30,8 @@ echo "--------------------------------"
 echo "publish done"
 
 ./customized_mkdocs/maintain_config/remove_config.sh
+rm -rf site
+rm -rf tmp
 
 echo "--------------------------------"
 echo "remove config done"
