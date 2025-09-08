@@ -18,17 +18,17 @@ done
 
 mkdir -p tmp
 
-python ./customized_mkdocs/add_ifpublish_to_yml.py \
+python ./customized_mkdocs/yml_add_ifpublish.py \
     --will-publish ${publish} \
     -i mkdocs_config/mkdocs_config.yml \
     -o tmp/mkdocs_config.yml
 
-python ./customized_mkdocs/merge_ymls.py \
+python ./customized_mkdocs/yml_merge.py \
     -b customized_mkdocs/base_mkdocs.yml \
     -c tmp/mkdocs_config.yml \
     -o tmp/mkdocs.yml
 
-python ./customized_mkdocs/add_nav_to_yml.py \
+python ./customized_mkdocs/yml_add_nav.py \
     -i tmp/mkdocs.yml \
     -o mkdocs.yml
 

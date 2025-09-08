@@ -16,7 +16,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 source .venv/bin/activate
-zsh ./generate_yml.sh -p
+./customized_mkdocs/mkdocs_genyml.sh -p
 mkdocs gh-deploy --force
 git add .
 git commit -m "$commit_msg"

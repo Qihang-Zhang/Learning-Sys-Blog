@@ -1,3 +1,3 @@
 source .venv/bin/activate
-zsh ./generate_yml.sh
+./customized_mkdocs/mkdocs_genyml.sh
 mkdocs serve --watch-theme
