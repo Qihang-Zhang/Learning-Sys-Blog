@@ -24,3 +24,13 @@ uv run mkdocs gh-deploy --force
 git add .
 git commit -m "$commit_msg"
 git push
+
+echo "--------------------------------"
+echo "publish done"
+echo "--------------------------------"
+
+./customized_mkdocs/maintain_config/remove_config.sh
+
+echo "--------------------------------"
+echo "remove config done"
+echo "--------------------------------"
