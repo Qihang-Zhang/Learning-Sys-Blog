@@ -1,5 +1,5 @@
 [project]
-name = "learning-sys-blog"
+name = "customized_mkdocs"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"

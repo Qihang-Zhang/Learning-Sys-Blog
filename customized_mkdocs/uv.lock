@@ -77,23 +77,6 @@ wheels = [
 ]
 
 [[package]]
-name = "customized-mkdocs"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "mkdocs" },
-    { name = "mkdocs-bibtex" },
-    { name = "mkdocs-material" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "mkdocs", specifier = ">=1.6.1" },
-    { name = "mkdocs-bibtex", specifier = ">=4.2.5" },
-    { name = "mkdocs-material", specifier = ">=9.6.11" },
-]
-
-[[package]]
 name = "ghp-import"
 version = "2.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -133,6 +116,23 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/98/e7/ed339caf3662976949e4fdbfdf4a6db818b8d2aa1cf2b5f73af89e936bba/latexcodec-3.0.0.tar.gz", hash = "sha256:917dc5fe242762cc19d963e6548b42d63a118028cdd3361d62397e3b638b6bc5", size = 31023 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b0/bf/ea8887e9f31a8f93ca306699d11909c6140151393a4216f0d9f85a004077/latexcodec-3.0.0-py3-none-any.whl", hash = "sha256:6f3477ad5e61a0a99bd31a6a370c34e88733a6bad9c921a3ffcfacada12f41a7", size = 18150 },
+]
+
+[[package]]
+name = "learning-sys-blog"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "mkdocs" },
+    { name = "mkdocs-bibtex" },
+    { name = "mkdocs-material" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "mkdocs", specifier = ">=1.6.1" },
+    { name = "mkdocs-bibtex", specifier = ">=4.2.5" },
+    { name = "mkdocs-material", specifier = ">=9.6.11" },
 ]
 
 [[package]]

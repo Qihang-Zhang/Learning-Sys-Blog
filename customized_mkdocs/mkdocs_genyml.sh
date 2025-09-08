@@ -1,5 +1,3 @@
-source .venv/bin/activate
-
 publish=false
 
 # Parse command line arguments
@@ -18,17 +16,17 @@ done
 
 mkdir -p tmp
 
-python ./customized_mkdocs/yml_add_ifpublish.py \
+python3 ./customized_mkdocs/yml_add_ifpublish.py \
     --will-publish ${publish} \
     -i mkdocs_config/mkdocs_config.yml \
     -o tmp/mkdocs_config.yml
 
-python ./customized_mkdocs/yml_merge.py \
+python3 ./customized_mkdocs/yml_merge.py \
     -b customized_mkdocs/base_mkdocs.yml \
     -c tmp/mkdocs_config.yml \
     -o tmp/mkdocs.yml
 
-python ./customized_mkdocs/yml_add_nav.py \
+python3 ./customized_mkdocs/yml_add_nav.py \
     -i tmp/mkdocs.yml \
     -o mkdocs.yml
 

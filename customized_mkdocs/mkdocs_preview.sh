@@ -1,3 +1,2 @@
-source .venv/bin/activate
-./customized_mkdocs/mkdocs_genyml.sh
-mkdocs serve --watch-theme
+uv run ./customized_mkdocs/mkdocs_genyml.sh
+uv run mkdocs serve --watch-theme

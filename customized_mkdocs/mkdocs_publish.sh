@@ -15,9 +15,12 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-source .venv/bin/activate
-./customized_mkdocs/mkdocs_genyml.sh -p
-mkdocs gh-deploy --force
+if [ -n "$GENYML_URL" ]; then
+  curl -fsSL "$GENYML_URL" | bash -s -- -p
+else
+  uv run ./customized_mkdocs/mkdocs_genyml.sh -p
+fi
+uv run mkdocs gh-deploy --force
 git add .
 git commit -m "$commit_msg"
 git push

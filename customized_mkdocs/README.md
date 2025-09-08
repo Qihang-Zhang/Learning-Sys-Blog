@@ -1,16 +1,17 @@
-## Frequent Command
-### To install mkdocs:
+## Quick Start
+### To preview the blog locally:
 
 ```shell
-pip install mkdocs
-pip install mkdocs-material
+uv run custom_mkdocs/mkdocs_preview.sh
 ```
 
-### To build site:
+### To publish the blog to GitHub Pages:
 
 ```shell
-mkdocs build
+uv run custom_mkdocs/mkdocs_publish.sh
 ```
+
+## Basic Commands
 
 ### to preview theme:
 

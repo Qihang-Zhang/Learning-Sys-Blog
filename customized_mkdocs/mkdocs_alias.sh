@@ -1,0 +1,11 @@
+alias copy_config="./customized_mkdocs/maintain_config/copy_config.sh"
+alias remove_config="./customized_mkdocs/maintain_config/remove_config.sh"
+alias mk_preview="./customized_mkdocs/mkdocs_preview.sh"
+alias mk_publish="./customized_mkdocs/mkdocs_publish.sh"
+
+echo "alias created"
+echo "--------------------------------"
+echo "copy_config: copy the config files to the blog"
+echo "remove_config: remove the config files from the blog"
+echo "mk_preview: preview the blog"
+echo "mk_publish: publish the blog"

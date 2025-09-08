@@ -2,3 +2,5 @@
 site
 .venv
 tmp
+*.toml
+*.python-version
