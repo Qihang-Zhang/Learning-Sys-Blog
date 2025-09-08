@@ -27,7 +27,6 @@ git push
 
 echo "--------------------------------"
 echo "publish done"
-echo "--------------------------------"
 
 ./customized_mkdocs/maintain_config/remove_config.sh
 
