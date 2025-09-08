@@ -11,74 +11,91 @@ except ImportError as exc:  # pragma: no cover
 
 
 def _infer_item_key(item: Any) -> Tuple[str, Any] | None:
-    """Infer a stable, hashable identity for a list item.
-
-    Heuristics:
-      - If item is a mapping and has one of common id fields (name, scheme, id, key, type),
-        use that field and its scalar value.
-      - If item is a mapping with a single top-level key (e.g., mkdocs plugins: {blog: {...}}),
-        use that key name as identity with a fixed tag ('single_key', key).
-      - Otherwise, return None (no identity), so we fall back to override behavior.
-    """
     if isinstance(item, dict):
-        # Prefer explicit identifiers when scalar
         for field in ("name", "scheme", "id", "key", "type"):
             if field in item and isinstance(item[field], (str, int, float, bool)):
                 return (field, item[field])
-        # Single-key mapping: identify by the only key name (e.g., "blog")
         if len(item) == 1:
             only_key = next(iter(item))
-            # Use a tagged identity to avoid colliding with explicit fields
             return ("single_key", str(only_key))
     return None
 
 
-def _merge_lists(base: List[Any], customized: List[Any]) -> List[Any]:
-    """Merge two lists with override semantics.
+def _hash_token(item: Any) -> Tuple[str, Any]:
+    """Create a stable token for order-preserving set semantics for non-identifiable items.
 
-    Strategy:
-      - If items have identifiable keys (via _infer_item_key), merge by identity:
-        * If identity appears in both lists, deep-merge those items, customized wins.
-        * If identity appears only in base, keep base item.
-        * If identity appears only in customized, append customized item.
-      - If items are not identifiable (scalars or mixed), fall back to `customized` overriding `base` entirely.
+    Scalars use their type-tag and value; mappings/sequences are serialized.
     """
-    base_id_to_item: Dict[Tuple[str, Any], Any] = {}
-    customized_id_to_item: Dict[Tuple[str, Any], Any] = {}
+    if isinstance(item, (str, int, float, bool)) or item is None:
+        return (type(item).__name__, item)
+    # Fallback to YAML-stable serialization
+    serialized = yaml.safe_dump(item, sort_keys=True, default_flow_style=True)
+    return ("yaml", serialized)
 
-    base_all_identified = True
+
+def _merge_lists(base: List[Any], customized: List[Any]) -> List[Any]:
+    # Split into identifiable items and others for both lists
+    base_id_map: Dict[Tuple[str, Any], Any] = {}
+    base_other_tokens: List[Tuple[str, Any]] = []
+    base_token_to_item: Dict[Tuple[str, Any], Any] = {}
+
     for it in base:
         ident = _infer_item_key(it)
-        if ident is None:
-            base_all_identified = False
-            break
-        base_id_to_item[ident] = it
+        if ident is not None:
+            base_id_map[ident] = it
+        else:
+            tok = _hash_token(it)
+            base_other_tokens.append(tok)
+            base_token_to_item[tok] = it
 
-    customized_all_identified = True
+    cust_id_map: Dict[Tuple[str, Any], Any] = {}
+    cust_other_tokens: List[Tuple[str, Any]] = []
+    cust_token_to_item: Dict[Tuple[str, Any], Any] = {}
+
     for it in customized:
         ident = _infer_item_key(it)
-        if ident is None:
-            customized_all_identified = False
-            break
-        customized_id_to_item[ident] = it
-
-    # If either side has unidentifiable items, safest override behavior
-    if not base_all_identified or not customized_all_identified:
-        return customized
-
-    merged: List[Any] = []
-
-    # Keep order preference: start with base order but override conflicts with customized
-    for ident, base_item in base_id_to_item.items():
-        if ident in customized_id_to_item:
-            merged.append(deep_merge(base_item, customized_id_to_item[ident]))
+        if ident is not None:
+            cust_id_map[ident] = it
         else:
-            merged.append(base_item)
+            tok = _hash_token(it)
+            cust_other_tokens.append(tok)
+            cust_token_to_item[tok] = it
 
-    # Append any new items from customized not present in base
-    for ident, cust_item in customized_id_to_item.items():
-        if ident not in base_id_to_item:
-            merged.append(cust_item)
+    # Build the merged list preserving base order where possible
+    merged: List[Any] = []
+    seen_idents: set[Tuple[str, Any]] = set()
+    seen_tokens: set[Tuple[str, Any]] = set()
+
+    # Iterate original base list order and place merged items accordingly
+    for it in base:
+        ident = _infer_item_key(it)
+        if ident is not None:
+            if ident in cust_id_map:
+                merged.append(deep_merge(base_id_map[ident], cust_id_map[ident]))
+            else:
+                merged.append(base_id_map[ident])
+            seen_idents.add(ident)
+        else:
+            tok = _hash_token(it)
+            # If customized has an equal token, prefer customized instance (could differ by formatting)
+            if tok in cust_token_to_item:
+                merged.append(cust_token_to_item[tok])
+            else:
+                merged.append(base_token_to_item[tok])
+            seen_tokens.add(tok)
+
+    # Append any new customized-only identifiable items, preserving their customized order
+    for it in customized:
+        ident = _infer_item_key(it)
+        if ident is not None and ident not in seen_idents and ident not in base_id_map:
+            merged.append(cust_id_map[ident])
+            seen_idents.add(ident)
+
+    # Append any new customized-only other tokens, preserving order
+    for tok in cust_other_tokens:
+        if tok not in seen_tokens and tok not in base_token_to_item:
+            merged.append(cust_token_to_item[tok])
+            seen_tokens.add(tok)
 
     return merged
 
@@ -100,7 +117,6 @@ def _normalize_mkdocs_structure(data: Any, *, is_root: bool) -> Any:
                 del data[k]
             data["theme"] = theme_obj
 
-    # Recurse into nested dicts and lists
     for k, v in list(data.items()):
         if isinstance(v, dict):
             data[k] = _normalize_mkdocs_structure(v, is_root=False)
@@ -114,15 +130,8 @@ def _normalize_mkdocs_structure(data: Any, *, is_root: bool) -> Any:
 
 
 def deep_merge(base: Any, customized: Any) -> Any:
-    """Deep-merge two YAML-loaded Python objects.
-
-    - If both are dicts: recursively merge; on conflict, `customized` wins.
-    - If both are lists: try key-aware merge; otherwise, `customized` replaces `base`.
-    - Otherwise: return `customized`.
-    """
     if isinstance(base, dict) and isinstance(customized, dict):
         merged: Dict[str, Any] = {}
-        # keys from both; customized overrides
         for key in base.keys() | customized.keys():
             if key in base and key in customized:
                 merged[key] = deep_merge(base[key], customized[key])
@@ -138,21 +147,28 @@ def deep_merge(base: Any, customized: Any) -> Any:
     return customized
 
 
-def load_yaml(path: str) -> Any:
-    with open(path, "r", encoding="utf-8") as f:
-        data = yaml.safe_load(f)
-    return data
+def _insert_blank_lines_between_top_level_items(yaml_text: str) -> str:
+    lines = yaml_text.splitlines()
+    new_lines: List[str] = []
+    for idx, line in enumerate(lines):
+        is_top_level = (not line.startswith(" ")) and line.strip() != ""
+        if is_top_level and new_lines:
+            if new_lines and new_lines[-1] != "":
+                new_lines.append("")
+        new_lines.append(line)
+    return "\n".join(new_lines) + ("\n" if not yaml_text.endswith("\n") else "")
 
 
 def dump_yaml(data: Any, path: str) -> None:
+    dumped = yaml.safe_dump(
+        data,
+        sort_keys=True,
+        allow_unicode=True,
+        default_flow_style=False,
+    )
+    dumped = _insert_blank_lines_between_top_level_items(dumped)
     with open(path, "w", encoding="utf-8") as f:
-        yaml.safe_dump(
-            data,
-            f,
-            sort_keys=False,
-            allow_unicode=True,
-            default_flow_style=False,
-        )
+        f.write(dumped)
 
 
 def parse_args(argv: Any) -> argparse.Namespace:
@@ -161,24 +177,9 @@ def parse_args(argv: Any) -> argparse.Namespace:
             "Merge two YAML files where customized overrides base on conflicts."
         )
     )
-    parser.add_argument(
-        "-b",
-        "--base",
-        required=True,
-        help="Path to base YAML file",
-    )
-    parser.add_argument(
-        "-c",
-        "--customized",
-        required=True,
-        help="Path to customized YAML file",
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        required=True,
-        help="Path to write merged YAML output",
-    )
+    parser.add_argument("-b", "--base", required=True, help="Path to base YAML file")
+    parser.add_argument("-c", "--customized", required=True, help="Path to customized YAML file")
+    parser.add_argument("-o", "--output", required=True, help="Path to write merged YAML output")
     return parser.parse_args(argv)
 
 
@@ -200,6 +201,12 @@ def main(argv: Any = None) -> int:
 
     dump_yaml(merged, args.output)
     return 0
+
+
+def load_yaml(path: str) -> Any:
+    with open(path, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    return data
 
 
 if __name__ == "__main__":
