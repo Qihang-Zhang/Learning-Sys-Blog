@@ -6,3 +6,4 @@ tmp
 *.python-version
 *.lock
 mkdocs.yml
+customized_mkdocs
