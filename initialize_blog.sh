@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="https://github.com/Qihang-Zhang/customized_mkdocs.git"
+REPO_URL="git@github.com:Qihang-Zhang/customized_mkdocs.git"
 TARGET_DIR="./customized_mkdocs"
 
 # Remove existing directory if present
@@ -13,5 +13,7 @@ fi
 git clone "$REPO_URL" "$TARGET_DIR"
 
 # Source aliases and copy config
+chmod +x "$TARGET_DIR"
 source "$TARGET_DIR/mkdocs_alias.sh"
-copy_mkdocs_config
+
+$TARGET_DIR/maintain_config/copy_config.sh
