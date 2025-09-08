@@ -5,6 +5,6 @@ tmp
 *.toml
 *.python-version
 *.lock
-mkdocs.yml
+*mkdocs.yml
 customized_mkdocs
 main.py
