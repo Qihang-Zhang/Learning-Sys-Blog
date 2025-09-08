@@ -22,7 +22,7 @@ This post is about my learning experience on sparsity in LLMs.
 
 ## DeepSeek-Series
 
-![deepseek-v2](../assets/0002/deepseek-v2.png)
+![6745b3d63994bac7f1a4b5fa72aa066f.png](https://img.qihang-zhang.com/2025/09/6745b3d63994bac7f1a4b5fa72aa066f.png)
 
 ### Multi-Head Latent Attention
 
