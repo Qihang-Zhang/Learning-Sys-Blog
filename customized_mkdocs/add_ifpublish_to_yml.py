@@ -85,8 +85,7 @@ def _str_to_bool(value: str) -> bool:
         f"Invalid boolean value for --will-publish: '{value}'. Use true/false."
     )
 
-
-def parse_args(argv: Any) -> argparse.Namespace:
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description=(
             "Rewrite an input mkdocs YAML to output, appending a subfolder to "
@@ -115,21 +114,12 @@ def parse_args(argv: Any) -> argparse.Namespace:
             "Subfolder name to append to blog post_dir (e.g., 'published' or 'drafts')"
         ),
     )
-    return parser.parse_args(argv)
-
-
-def main(argv: Any = None) -> int:
-    args = parse_args(argv)
+    args = parser.parse_args()
 
     data = load_yaml(args.input)
     # Only attempt update if structure matches and will-publish is true
     if args.will_publish:
         _update_blog_post_dir(data, args.subfolder)
     dump_yaml(data, args.output)
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main(sys.argv[1:]))
 
 

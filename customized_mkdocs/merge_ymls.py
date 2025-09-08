@@ -171,7 +171,13 @@ def dump_yaml(data: Any, path: str) -> None:
         f.write(dumped)
 
 
-def parse_args(argv: Any) -> argparse.Namespace:
+def load_yaml(path: str) -> Any:
+    with open(path, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    return data
+
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description=(
             "Merge two YAML files where customized overrides base on conflicts."
@@ -180,11 +186,7 @@ def parse_args(argv: Any) -> argparse.Namespace:
     parser.add_argument("-b", "--base", required=True, help="Path to base YAML file")
     parser.add_argument("-c", "--customized", required=True, help="Path to customized YAML file")
     parser.add_argument("-o", "--output", required=True, help="Path to write merged YAML output")
-    return parser.parse_args(argv)
-
-
-def main(argv: Any = None) -> int:
-    args = parse_args(argv)
+    args = parser.parse_args()
 
     base_data = load_yaml(args.base)
     customized_data = load_yaml(args.customized)
@@ -200,14 +202,3 @@ def main(argv: Any = None) -> int:
         merged = deep_merge(base_data, customized_data)
 
     dump_yaml(merged, args.output)
-    return 0
-
-
-def load_yaml(path: str) -> Any:
-    with open(path, "r", encoding="utf-8") as f:
-        data = yaml.safe_load(f)
-    return data
-
-
-if __name__ == "__main__":
-    raise SystemExit(main(sys.argv[1:]))

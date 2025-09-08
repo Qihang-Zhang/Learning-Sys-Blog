@@ -1,3 +1,3 @@
 source .venv/bin/activate
-python ./utils/yml_autobuild.py --mode preview
+zsh ./generate_yml.sh
 mkdocs serve --watch-theme

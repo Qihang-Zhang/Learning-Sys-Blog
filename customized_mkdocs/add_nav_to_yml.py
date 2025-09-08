@@ -3,10 +3,6 @@ import os.path
 import os,sys,shutil
 import argparse
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--mode", type=str, default="published", choices=["published", "preview"])
-args = parser.parse_args()
-
 def is_dir_empty(path, depth):
     for item in os.listdir(path):
         if os.path.isdir(path + '/' + item):
@@ -25,7 +21,7 @@ def get_first_line(path):
     
     return first_line[2:-1]
                 
-def dfs_writedir(path, depth, file):
+def dfs_writedir(path, depth, file, ignore_set):
     for item in os.listdir(path):
         if item in ignore_set:
             continue
@@ -33,7 +29,7 @@ def dfs_writedir(path, depth, file):
             to_write = " " * 2 * (depth + 1) + "- " + item.split(".")[0] + ': '
             if path == 'docs' and item == "index.md":
                 to_write = " " * 2 * (depth + 1) + "- index.md"
-            elif path == 'docs/Blog' and item == 'Posts': 
+            elif path == f'docs/{args.blog_dir}' and item == args.post_dir: 
                 continue  
             elif path == 'docs' and item == 'index.md':
                 continue
@@ -48,20 +44,31 @@ def dfs_writedir(path, depth, file):
             elif len(item.split(".")) == 1:
                     pass
                     
-            currentfile.write(to_write + '\n')
+            file.write(to_write + '\n')
 
             newitem = path +'/'+ item
             if os.path.isdir(newitem):
-                dfs_writedir(newitem, depth +1, file)
+                dfs_writedir(newitem, depth + 1, file, ignore_set)
                 
-global_path = "docs"
-ignore_set = ['.DS_Store', 'assets', 'stylesheets', 'javascript']
-dirc_set = os.listdir(global_path)
-if args.mode == "published":
-    shutil.copyfile('./utils/base_mkdocs_published.yml', './mkdocs.yml')
-else:
-    shutil.copyfile('./utils/base_mkdocs_preview.yml', './mkdocs.yml')
+if __name__ == "__main__":
+    
+    parser = argparse.ArgumentParser(
+            description=(
+                "Rewrite an input mkdocs YAML to output, appending a subfolder to "
+                "plugins -> blog -> post_dir if present."
+            )
+        )
 
-with open("mkdocs.yml","a") as currentfile:  
-    currentfile.write("nav: " + '\n')       
-    dfs_writedir('docs', 0, file = currentfile)
+    parser.add_argument("--blog_dir", type=str, default="Blog")
+    parser.add_argument("--post_dir", type=str, default="Posts")
+    parser.add_argument("--doc_dir", type=str, default="docs")
+    parser.add_argument("--ignore_set", type=list, default=['.DS_Store', 'assets', 'stylesheets', 'javascript'])
+    parser.add_argument("-i", "--input_yml", type=str, default="mkdocs_config/mkdocs_config.yml")
+    parser.add_argument("-o", "--output_yml", type=str, default="mkdocs.yml")
+    args = parser.parse_args()
+
+    shutil.copyfile(args.input_yml, args.output_yml)
+
+    with open(args.output_yml,"a") as currentfile:  
+        currentfile.write("\nnav: " + '\n')       
+        dfs_writedir(args.doc_dir, 0, file = currentfile, ignore_set = args.ignore_set)

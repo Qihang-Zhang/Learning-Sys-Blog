@@ -16,7 +16,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 source .venv/bin/activate
-python ./utils/yml_autobuild.py --mode published
+zsh ./generate_yml.sh -p
 mkdocs gh-deploy --force
 git add .
 git commit -m "$commit_msg"

@@ -10,3 +10,7 @@ plugins:
       blog_dir: Blog
       blog_toc: true
       post_dir: "{blog}/Posts"
+
+theme:
+  logo: assets/fruit/watermelon.svg
+  favicon: assets/fruit/lemon.svg
