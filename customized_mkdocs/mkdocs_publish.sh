@@ -36,6 +36,7 @@ echo "remove config done"
 
 rm -rf site
 rm -rf tmp
+rm -rf mkdocs.yml
 
 echo "--------------------------------"
 echo "remove cached files done"

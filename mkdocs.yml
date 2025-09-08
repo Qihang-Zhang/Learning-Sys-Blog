@@ -47,7 +47,7 @@ plugins:
     draft_if_future_date: false
     draft_on_serve: true
     post_date_format: medium
-    post_dir: '{blog}/Posts'
+    post_dir: '{blog}/Posts/published'
     post_url_date_format: yyyy/MM/dd
     post_url_format: '{date}/{slug}'
 
