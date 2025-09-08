@@ -30,9 +30,13 @@ echo "--------------------------------"
 echo "publish done"
 
 ./customized_mkdocs/maintain_config/remove_config.sh
+
+echo "--------------------------------"
+echo "remove config done"
+
 rm -rf site
 rm -rf tmp
 
 echo "--------------------------------"
-echo "remove config done"
+echo "remove cached files done"
 echo "--------------------------------"
