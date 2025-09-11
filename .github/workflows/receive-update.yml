@@ -45,29 +45,3 @@ jobs:
       - name: Clean up temporary logic directory
         if: always() 
         run: rm -rf ./central-logic
-
-      - name: initialize the blog
-        uses: actions/checkout@v4
-        with:
-          repository: 'Qihang-Zhang/Comping' # 你的中心仓库名称
-          ref: 'main' # 建议指向一个稳定的 tag, 如 v1.0.0, 避免被 main 分支的开发影响
-          token: ${{ secrets.CORE_REPO_READ_TOKEN }} # 需要一个能读取中心私有仓的 PAT
-          path: './customized_mkdocs' # 将中心仓的逻辑下载到这个子目录
-
-      - name: install dependencies
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-      
-      - name: Add uv to PATH
-        run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-  
-      - name: Verify uv installation
-        run: uv --version
-
-      - name: release the blog
-        run: |
-          uv run bash ./customized_mkdocs/mkdocs_publish.sh
-
-      - name: Clean up temporary logic directory
-        if: always() 
-        run: rm -rf ./customized_mkdocs
