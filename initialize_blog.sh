@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="git@github.com:Qihang-Zhang/Comping.git"
+REPO_URL="https://github.com/Qihang-Zhang/Comping.git"
 TARGET_DIR="./customized_mkdocs"
 
 # Remove existing directory if present
