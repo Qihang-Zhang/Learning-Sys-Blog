@@ -44,4 +44,8 @@ jobs:
 
       - name: Clean up temporary logic directory
         if: always() 
-        run: rm -rf ./central-logic
+        run: 
+          rm -rf ./central-logic
+          git add .
+          git commit -m "Clean up temporary logic directory"
+          git push
