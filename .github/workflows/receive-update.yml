@@ -41,3 +41,7 @@ jobs:
           CORE_REPO_TOKEN: ${{ secrets.CORE_REPO_READ_TOKEN }}
         run: |
           bash ./central-logic/scripts/sync-files.sh
+
+      - name: Clean up temporary logic directory
+        if: always() 
+        run: rm -rf ./central-logic
