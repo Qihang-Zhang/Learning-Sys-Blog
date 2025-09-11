@@ -1,0 +1,19 @@
+# .github/workflows/receive-update.yml
+name: Receive Update from Core Repo
+
+on:
+  repository_dispatch:
+    types: [update_repo] # 这里的 types 必须和你的脚本 EVENT_TYPE 一致
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Workflow triggered by dispatch
+        run: |
+          echo "🎉 Notification received successfully!"
+          echo "Source Repo: ${{ github.event.client_payload.source_repo }}"
+          echo "Source Ref: ${{ github.event.client_payload.source_ref }}"
+          echo "Source Dir: ${{ github.event.client_payload.source_dir }}"
+          echo "Target Dir: ${{ github.event.client_payload.target_dir }}"
+          # 在这里接上你之前的同步脚本逻辑...
