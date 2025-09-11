@@ -44,5 +44,19 @@ jobs:
 
       - name: Clean up temporary logic directory
         if: always() 
-        run: 
-          rm -rf ./central-logic
+        run: rm -rf ./central-logic
+
+      - name: install dependencies
+        run: |
+          bash ./customized_mkdocs/initialize_blog.sh
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+      
+      - name: Add uv to PATH
+        run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+  
+      - name: Verify uv installation
+        run: uv --version
+
+      - name: release the blog
+        run: |
+          uv run zsh ./customized_mkdocs/mkdocs_publish.sh
