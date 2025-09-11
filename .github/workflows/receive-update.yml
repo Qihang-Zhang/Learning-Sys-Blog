@@ -48,7 +48,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          bash ./customized_mkdocs/initialize_blog.sh
+          bash ./initialize_blog.sh
           curl -LsSf https://astral.sh/uv/install.sh | sh
       
       - name: Add uv to PATH
