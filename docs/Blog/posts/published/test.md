@@ -17,7 +17,7 @@ This is an example post.
 [TOC]
 ## Section1
 ### Subsection1
-Hello, world! 
+Hello, world!
 ## Section2
 
 ***References:***
