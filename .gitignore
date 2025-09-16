@@ -1,0 +1,11 @@
+*.DS_Store
+site
+.venv
+tmp
+*.toml
+*.python-version
+*.lock
+mkdocs.yml
+customized_mkdocs
+main.py
+.env

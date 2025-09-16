@@ -1,0 +1,46 @@
+# .github/workflows/deploy.yml
+name: Deploy
+on:
+  workflow_run:
+    workflows: ["update_content"]  # name of the workflow to listen to
+    types: [completed]            # listen to the completed event
+    branches: [main]              # optional: only listen to main
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      # step 1: checkout edge repo
+      - name: Checkout Edge Repo (self)
+        uses: actions/checkout@v4
+
+      # step 2: checkout core repo
+      - name: Checkout Central Logic Repo
+        uses: actions/checkout@v4
+        with:
+          repository: 'Qihang-Zhang/Comping' # your core repo name
+          ref: 'main' # suggest to point to a stable tag, like v1.0.0, to avoid being affected by the main branch development
+          token: ${{ secrets.CORE_REPO_READ_TOKEN }} # need a PAT to read the core private repo
+          path: './customized_mkdocs' # download the core repo logic to this subdirectory
+      
+      - name: initialize the blog
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash ./customized_mkdocs/maintain_config/copy_config.sh
+
+      - name: install UV
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+        
+      - name: Add uv to PATH
+        run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH      
+
+      - name: release the blog
+        run: |
+          uv run bash ./customized_mkdocs/mkdocs_publish.sh
+
+      - name: Clean up temporary logic directory
+        if: always() 
+        run: rm -rf ./customized_mkdocs

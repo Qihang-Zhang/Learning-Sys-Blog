@@ -1,0 +1,47 @@
+# .github/workflows/receive-update.yml
+name: update_content
+
+on:
+  # 监听由中心仓库发来的、类型为 "update_repo" 的通知
+  repository_dispatch:
+    types: [update_repo]
+  # 同时也允许手动触发，方便调试
+  workflow_dispatch:
+
+# 设置工作流的默认权限
+permissions:
+  contents: write # 需要写入权限来提交和推送变更
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      # 步骤 1: 检出边缘仓库本身，这是我们要修改的地方
+      - name: Checkout Edge Repo (self)
+        uses: actions/checkout@v4
+
+      # 步骤 2: 检出中心仓库的脚本逻辑
+      - name: Checkout Central Logic Repo
+        uses: actions/checkout@v4
+        with:
+          repository: 'Qihang-Zhang/Polyrhythm' # 你的中心仓库名称
+          ref: 'main' # 建议指向一个稳定的 tag, 如 v1.0.0, 避免被 main 分支的开发影响
+          token: ${{ secrets.CORE_REPO_READ_TOKEN }} # 需要一个能读取中心私有仓的 PAT
+          path: './central-logic' # 将中心仓的逻辑下载到这个子目录
+
+      # 步骤 3: 运行同步脚本，并通过 env 传入 payload 参数
+      - name: Run Sync Script
+        env:
+          # 从 dispatch 事件的 payload 中读取参数，并设置为环境变量
+          SYNC_SOURCE_REPO: ${{ github.event.client_payload.source_repo }}
+          SYNC_SOURCE_REF: ${{ github.event.client_payload.source_ref }}
+          SYNC_SOURCE_DIR: ${{ github.event.client_payload.source_dir }}
+          SYNC_TARGET_DIR: ${{ github.event.client_payload.target_dir }}
+          # 传入读取中心仓库所需的 token
+          CORE_REPO_TOKEN: ${{ secrets.CORE_REPO_READ_TOKEN }}
+        run: |
+          bash ./central-logic/scripts/sync-files.sh
+
+      - name: Clean up temporary logic directory
+        if: always() 
+        run: rm -rf ./central-logic
