@@ -26,7 +26,7 @@ jobs:
         with:
           repository: 'Qihang-Zhang/Polyrhythm' # 你的中心仓库名称
           ref: 'main' # 建议指向一个稳定的 tag, 如 v1.0.0, 避免被 main 分支的开发影响
-          token: ${{ secrets.CORE_REPO_READ_TOKEN }} # 需要一个能读取中心私有仓的 PAT
+          token: ${{ secrets.POLYRHYTHM_READ_TOKEN }} # 需要一个能读取中心私有仓的 PAT
           path: './central-logic' # 将中心仓的逻辑下载到这个子目录
 
       # 步骤 3: 运行同步脚本，并通过 env 传入 payload 参数
