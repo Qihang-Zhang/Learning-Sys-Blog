@@ -12,6 +12,8 @@ authors:
 ---
 # Example in Learning-Sys-Blog
 This is an example post in Learning-Sys-Blog.
+>[!note]
+> This is a example of note mark.
 <!-- more -->
 ## Overview
 [TOC]
