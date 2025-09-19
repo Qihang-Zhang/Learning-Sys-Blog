@@ -11,7 +11,7 @@ authors:
   - <qihang>
 ---
 # Example in Learning-Sys-Blog
-This is an example post.
+This is an example post in Learning-Sys-Blog.
 <!-- more -->
 ## Overview
 [TOC]
