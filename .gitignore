@@ -9,3 +9,4 @@ mkdocs.yml
 customized_mkdocs
 main.py
 .env
+docs/Slides/
