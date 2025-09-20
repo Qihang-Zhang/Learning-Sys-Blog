@@ -1,0 +1,21 @@
+index:
+  title: Slides
+  favicon: https://qihang-zhang.com/comping-styles/docs/assets/fruit/watermelon.svg
+  theme: https://qihang-zhang.com/comping-styles/docs/stylesheets/index.css
+slides:
+  favicon: https://qihang-zhang.com/comping-styles/docs/assets/fruit/watermelon.svg
+  theme: https://qihang-zhang.com/comping-styles/docs/stylesheets/slides.css
+  highlight_theme: vs
+  separator: ^\s*---\s*$
+  separator_vertical: ^\s*-v-\s*$
+  separator_notes: "^Notes?:"
+revealjs:
+  height: 1080
+  width: 1920
+  transition: fade
+plugins:
+  - name: RevealMermaid
+    extra_javascript:
+      - https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin/plugin/mermaid/mermaid.min.js
+  - extra_javascript:
+      - https://cdn.jsdelivr.net/npm/reveal-plantuml/dist/reveal-plantuml.min.js
