@@ -2,9 +2,6 @@
 site
 .venv
 tmp
-*.toml
-*.python-version
-*.lock
 main.py
 .env
 docs/Slides/
