@@ -1,10 +1,10 @@
 # .github/workflows/deploy.yml
 name: Deploy
 on:
-  workflow_run:
-    workflows: ["update_content"]  # name of the workflow to listen to
-    types: [completed]            # listen to the completed event
-    branches: [main]              # optional: only listen to main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
