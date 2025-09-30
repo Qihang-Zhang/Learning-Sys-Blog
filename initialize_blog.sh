@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="git@github.com:Qihang-Zhang/Comping.git"
-TARGET_DIR="./customized_mkdocs"
+REPO_URL="https://github.com/Qihang-Zhang/fused_mkdocs.git"
+TARGET_DIR="./fused_mkdocs"
 
 # Remove existing directory if present
 if [ -d "$TARGET_DIR" ]; then
@@ -12,5 +12,5 @@ fi
 # Fresh clone
 git clone "$REPO_URL" "$TARGET_DIR"
 
-zsh ./customized_mkdocs/maintain_config/copy_config.sh
+zsh ./fused_mkdocs/maintain_config/copy_config.sh
 
