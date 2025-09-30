@@ -1,18 +1,3 @@
-INHERIT: ./customized_mkdocs/base_mkdocs.yml
+INHERIT: qihang.mkdocs.yml
 
 site_name: Qihang's Blog For Learning Systems
-
-site_url: https://qihang-zhang.github.io/Learning-Sys-Blog
-
-plugins:
-  blog:
-    blog_dir: Blog
-
-theme:
-  custom_dir: overrides
-
-# Comments used to test Github Actions
-nav: 
-  - index.md
-  - Blog: 
-    - index: Blog/index.md
