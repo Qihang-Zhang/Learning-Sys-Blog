@@ -19,16 +19,15 @@ jobs:
       - name: Checkout Central Logic Repo
         uses: actions/checkout@v4
         with:
-          repository: 'Qihang-Zhang/Comping' # your core repo name
-          ref: 'main' # suggest to point to a stable tag, like v1.0.0, to avoid being affected by the main branch development
-          token: ${{ secrets.CORE_REPO_READ_TOKEN }} # need a PAT to read the core private repo
-          path: './customized_mkdocs' # download the core repo logic to this subdirectory
+          repository: 'Qihang-Zhang/fused_mkdocs' # your core repo name
+          ref: 'main' # suggest to point to a stable tag, like v1.0.0, to avoid being broken by future commits
+          path: './fused_mkdocs' # download the core repo logic to this subdirectory
       
       - name: initialize the blog
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          bash ./customized_mkdocs/maintain_config/copy_config.sh
+          bash ./fused_mkdocs/maintain_config/copy_config.sh
 
       - name: install UV
         run: |
@@ -39,8 +38,8 @@ jobs:
 
       - name: release the blog
         run: |
-          uv run bash ./customized_mkdocs/mkdocs_publish.sh
+          uv run bash ./fused_mkdocs/mkdocs_publish.sh
 
       - name: Clean up temporary logic directory
         if: always() 
-        run: rm -rf ./customized_mkdocs
+        run: rm -rf ./fused_mkdocs
