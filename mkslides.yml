@@ -1,10 +1,10 @@
 index:
   title: Slides
   favicon: https://comping-style.qihang-zhang.com/assets/fruit/watermelon.svg
-  theme: https://comping-style.qihang-zhang.com/docs/stylesheets/index.css
+  theme: https://comping-style.qihang-zhang.com/stylesheets/index.css
 slides:
   favicon: https://comping-style.qihang-zhang.com/assets/fruit/watermelon.svg
-  theme: https://comping-style.qihang-zhang.com/docs/stylesheets/slides.css
+  theme: https://comping-style.qihang-zhang.com/stylesheets/slides.css
   highlight_theme: vs
   separator: ^\s*---\s*$
   separator_vertical: ^\s*-v-\s*$
