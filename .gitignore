@@ -6,3 +6,6 @@ main.py
 .env
 docs/Slides/
 fused_mkdocs/
+.python-version
+uv.lock
+pyproject.toml
