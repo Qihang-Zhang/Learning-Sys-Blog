@@ -1,0 +1,3 @@
+INHERIT: qihang.mkdocs.yml
+
+site_name: Qihang's Blog For Learning Systems
