@@ -13,7 +13,18 @@ revealjs:
   height: 1080
   width: 1920
   transition: fade
+  mathjax3:
+    tex:
+      inlineMath:
+        - ["$", "$"]
+        - ["\\(", "\\)"]
+      displayMath:
+        - ["$$", "$$"]
+        - ["\\[", "\\]"]
 plugins:
+  - name: RevealMath.MathJax3
+    extra_javascript:
+      - https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/math/math.js
   - name: RevealMermaid
     extra_javascript:
       - https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin/plugin/mermaid/mermaid.min.js
