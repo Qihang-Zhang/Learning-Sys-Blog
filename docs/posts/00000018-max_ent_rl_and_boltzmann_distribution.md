@@ -15,10 +15,12 @@ authors:
 Modern RL, attention mechanisms, classification, energy-based modeling, and statistical mechanics keep arriving at the same exponential shape:
 
 $$
-p(x)\;\propto\;\exp(\text{reward}(x)/T)\quad\text{or}\quad p(x)\;\propto\;\exp(-E(x)/T).
+p(x)\;\propto\;\exp(\text{logits or reward}(x)/T)\quad\text{or}\quad p(x)\;\propto\;\exp(-E(x)/T).
 $$
 
 Why does the exponential keep showing up, and what does the "temperature" actually do?
+
+<!-- more -->
 
 This post will go through three views:
 
@@ -28,7 +30,7 @@ This post will go through three views:
 
 3) **Statistical Mechanics**: Jaynes's maximum-entropy principle and ensemble theory (Boltzmann → Gibbs → Shannon → Jaynes) make the exponential inevitable under mean-value constraints.
 
-<!-- more -->
+
 
 ## Table of Contents
 [TOC]
