@@ -162,7 +162,7 @@ In 1982, J. Hopfield proposed the Hopfield Network [@hopfield1982neural], which 
 
 #### Boltzmann Machine
 
-The first work that relatively introduced energy based model in Machine Learning should be the paper by Hinton and Sejnowski in 1985 [@hinton1985boltzmann].
+The first work that relatively introduced energy based model in Machine Learning should be the paper by Hinton and Sejnowski in 1985 [@hinton1985boltzmann], where they defined the probability distribution of Boltzmann machine via the Boltzmann distribution.
 
 ##### Problem Setting:
 
