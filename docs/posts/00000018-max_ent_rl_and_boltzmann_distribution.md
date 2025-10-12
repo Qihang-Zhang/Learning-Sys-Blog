@@ -20,15 +20,13 @@ $$
 
 Why does the exponential keep showing up, and what does the "temperature" actually do?
 
-This post builds a single bridge across three views:
+This post will go through three views:
 
 1) **Maximum Entropy Reinforcement Learning (MaxEnt RL)**: the optimal soft policy is an exponential of reward with an entropy-weighted objective;
 
 2) **Energy-based Models (EBMs)**: probabilities are Boltzmann weights with a partition function $Z$;
 
 3) **Statistical Mechanics**: Jaynes's maximum-entropy principle and ensemble theory (Boltzmann → Gibbs → Shannon → Jaynes) make the exponential inevitable under mean-value constraints.
-
-**TL;DR.** Exponentials arise whenever we maximize Shannon/Gibbs entropy under linear constraints; the normalizer is a partition function $Z$, which relates to free energy $F$ via $F = -k_B T \ln Z$; and "temperature" $T$ in RL plays the same mathematical role as in physics—controlling exploration (entropy) versus exploitation (energy).
 
 <!-- more -->
 
