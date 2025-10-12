@@ -24,7 +24,7 @@ Why does the exponential keep showing up, and what does the "temperature" actual
 
 <!-- more -->
 
-This post will go through three views:
+To demonstrate some intuitions, this post will go through three views to explain why the exponential form is ubiquitous:
 
 1) **Maximum Entropy Reinforcement Learning (MaxEnt RL)**: the optimal soft policy is an exponential of reward with an entropy-weighted objective;
 
