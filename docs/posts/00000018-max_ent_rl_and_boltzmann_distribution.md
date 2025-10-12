@@ -1,6 +1,8 @@
 ---
 tags: ["Reinforcement Learning", "Information Theory", "Statistical Mechanics", "Energy-Based Models"]
-date: 2025-10-06
+date: 
+  created: 2025-10-06
+  updated: 2025-10-11
 draft: false
 comments: true
 links:
