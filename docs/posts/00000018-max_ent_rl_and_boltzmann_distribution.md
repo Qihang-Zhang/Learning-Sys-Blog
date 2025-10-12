@@ -464,4 +464,11 @@ Jaynes (1957) recast statistical mechanics as **inference under incomplete infor
   $$
   This reframes statistical mechanics as *inference under incomplete information*, where maximizing entropy is equivalent to minimizing free energy.
 
+
+## Conclusion
+
+Although this note cannot cover every softmax function in machine learning, it provides intuition by illustrating the cases above, demonstrating why the exponential form appears ubiquitously across reinforcement learning, energy-based models, and statistical mechanics.
+
+Whenever we introduce Shannon or Gibbs entropy as a regularization or principled constraint, the Gibbs distribution naturally emerges as the optimal solution—making the exponential form not just mathematically convenient, but fundamentally inevitable.
+
 \bibliography{references}
