@@ -41,7 +41,7 @@ This post will go through three views:
 
 Last week I was reading the paper [All Roads Lead to Likelihood: The Value of Reinforcement Learning in Fine-Tuning](https://arxiv.org/abs/1812.05905)[@swamy2025roadsleadlikelihoodvalue]. In their proof to prove that DPO is equivalent to first train a reward model and then do on-policy RL to optimize the LLM with the help of the reward model, they used the conclusion from Maximum Entropy Reinforcement Learning (MaxEnt RL).
 
-Since the MaxEnt RL framework underlies many modern reinforcement learning algorithms, I revisit its derivation here. During this process, I also found its close connection to statistical thermodynamics, which I will elaborate on below.
+Since the MaxEnt RL framework underlies many modern reinforcement learning algorithms, I revisit its derivation here. During this process, I also found its close connection to statistical mechanics, which I will elaborate on below.
 
 ### Optimal-Soft Policy Form
 
@@ -284,7 +284,7 @@ They optimize $G$ via stochastic gradient descent on the energy parameters, a pr
 
 ## Boltzmann Distribution and Gibbs Distribution
 
-After the above sections, we can realize that the ubiquitous exponential form in probabilistic models originates from statistical thermodynamics:
+After the above sections, we can realize that the ubiquitous exponential form in probabilistic models originates from statistical mechanics:
 
 - Generally speaking, the **Boltzmann distribution** refers specifically to the case under the **canonical ensemble** (NVT, i.e., constant particle number, volume, and temperature).
 
