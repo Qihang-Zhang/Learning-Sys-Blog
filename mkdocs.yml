@@ -1,3 +1,6 @@
 INHERIT: qihang.mkdocs.yml
 
 site_name: Qihang's Blog For Learning Systems
+
+repo_url: https://github.com/Qihang-Zhang/Learning-Sys-Blog
+repo_name: Learning-Sys-Blog
