@@ -1,5 +1,5 @@
 ---
-tags: ["Reinforcement Learning", "Information Theory", "Statistical Mechanics", "Energy-Based Models"]
+categories: ["Reinforcement Learning", "Information Theory", "Statistical Mechanics", "Energy-Based Models"]
 date: 
   created: 2025-10-06
   updated: 2025-10-11
