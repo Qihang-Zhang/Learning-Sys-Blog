@@ -3,7 +3,7 @@ extra_css:
   
 extra:
   homepage: https://qihang-zhang.com/
-  tags:
+  categories:
     HTML5: html
     JavaScript: js
     CSS: css
@@ -36,7 +36,15 @@ plugins:
   bibtex:
     bib_file: 'docs/assets/references.bib'
   meta: {}
-  tags: {}
+  tags:
+    tags_file: tags.md          
+    tags_allowed: []             
+    tags_hierarchy: true
+    tags_hierarchy_separator: /
+    tags_sort_by: !!python/name:material.plugins.tags.tag_name
+    tags_sort_reverse: false     
+    tags_name_property: tags     
+    tags_name_variable: tags
   info:
     enabled: false
     enabled_on_serve: true
@@ -54,6 +62,13 @@ plugins:
     post_dir: '{blog}/posts/'
     post_url_date_format: yyyy/MM/dd
     post_url_format: '{date}/{slug}'
+    categories: true
+    categories_name: Categories
+    categories_url_format: 'category/{slug}'
+    categories_slugify: !!python/object/apply:pymdownx.slugs.slugify
+      kwds:
+        case: lower
+    categories_allowed: []
   callouts: {}
   awesome-nav: {}
 
