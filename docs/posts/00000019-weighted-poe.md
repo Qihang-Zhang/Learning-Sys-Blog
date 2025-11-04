@@ -156,8 +156,11 @@ $$
 
 </details>
 
-## Even To Combine Simple Statistical Method Can help LLMs Compress Better
-To make LLMs performe better on potentially unseen data, we combine LLMs with simple statistical methods like Naive Bayes With Laplace smoothing, with the help of wPoE:
+## Two-Experts
+
+### ⭐️ Even To Combine Simple Statistical Method Can help LLMs Compress Better
+
+To make LLMs perform better on potentially unseen data, we combine LLMs with simple statistical methods like Naive Bayes With Laplace smoothing, with the help of wPoE:
 
 The distribution of Naive Bayes with Laplace smoothing is defined as:
 
@@ -180,45 +183,45 @@ Moreover, since we do not need to fine-tune the pretrained model $p_{\theta}$, i
 
 ### Experiments
 
-Compression rates for five datasets (lower is better).
+All experiments are conducted to evaluate the compression rates on five datasets (lower is better).
 
-| Tokenizer | Compressor | math | code | shakespeare | enwik8* | enwik9* |
-| --- | --- | --- | --- | --- | --- | --- |
-| Byte Level | gzip | 43.59% | 36.72% | 52.80% | 49.14% | 48.07% |
-| Byte Level | LZMA2 | 45.35% | 38.61% | 56.86% | 51.33% | 49.98% |
-| Byte Level | Naive Bayes | 68.90% | 64.65% | 64.57% | 66.03% | 67.14% |
-| Byte Level | Transformer 200K | 56.25% | 65.67% | 44.04% | 31.59% | 30.74% |
-| Byte Level | Transformer 200K + Ours | **50.95%** | **53.94%** | **42.12%** | **31.58%** | **30.71%** |
-| Byte Level | Transformer 800K | 47.41% | 62.13% | 40.53% | 25.97% | 25.52% |
-| Byte Level | Transformer 800K + Ours | **44.34%** | **49.68%** | **38.79%** | **25.94%** | **25.45%** |
-| Byte Level | Transformer 3.2M | 34.15% | 41.02% | 32.02% | 18.53% | 17.66% |
-| Byte Level | Transformer 3.2M + Ours | **32.04%** | **36.61%** | **31.29%** | **18.52%** | **17.65%** |
-| BPE (GPT-2) | Naive Bayes | 66.41% | 59.30% | 49.74% | 48.85% | 53.43% |
-| BPE (GPT-2) | GPT-2 | 17.68% | 14.17% | 23.44% | 16.48% | 16.73% |
-| BPE (GPT-2) | GPT-2 + Ours | **17.55%** | **14.16%** | **23.11%** | **16.42%** | **16.65%** |
-| BPE (LLaMA 3) | Naive Bayes | 68.70% | 47.54% | 51.35% | 48.87% | 51.93% |
-| BPE (LLaMA 3) | LLaMA 3.2-1B | 8.54% | 6.66% | 16.51% | 10.22% | 10.05% |
-| BPE (LLaMA 3) | LLaMA 3.2-1B + Ours | **8.48%** | **6.64%** | **16.42%** | **10.16%** | **9.98%** |
-| BPE (LLaMA 3) | LLaMA 3.2-3B | 7.56% | 5.99% | 13.97% | 9.16% | 8.93% |
-| BPE (LLaMA 3) | LLaMA 3.2-3B + Ours | **7.50%** | **5.95%** | **13.88%** | **9.09%** | **8.86%** |
-| BPE (LLaMA 3) | LLaMA 3-8B | 6.90% | 5.61% | 4.74% | 8.18% | 8.10% |
-| BPE (LLaMA 3) | LLaMA 3-8B + Ours | **6.84%** | **5.57%** | **4.73%** | **8.12%** | **8.04%** |
+#### Experiments on `pretrained vanilla transformers`
 
-*An asterisk (*) indicates that enwik8 and enwik9 are considered in-distribution for vanilla transformers. “Pretrained model + Ours” refers to the ensemble of the pretrained model with a Naive Bayes classifier using Laplace smoothing, averaged over five runs.*
+| Tokenizer      | Compressor                   | math      | code      | shakespeare | enwik8*   | enwik9*   |
+| -------------- | ---------------------------- | --------- | --------- | ----------- | --------- | --------- |
+| **Byte Level** | gzip                         | 43.59%    | 36.72%    | 52.80%      | 49.14%    | 48.07%    |
+|                | LZMA2                        | 45.35%    | 38.61%    | 56.86%      | 51.33%    | 49.98%    |
+|                | Naive Bayes                  | 68.90%    | 64.65%    | 64.57%      | 66.03%    | 67.14%    |
+|                | Transformer 200K             | 56.25%    | 65.67%    | 44.04%      | 31.59%    | 30.74%    |
+|                | **Transformer 200K + Ours**  | **50.95%**| **53.94%**| **42.12%**  | **31.58%**| **30.71%**|
+|                | Transformer 800K             | 47.41%    | 62.13%    | 40.53%      | 25.97%    | 25.52%    |
+|                | **Transformer 800K + Ours**  | **44.34%**| **49.68%**| **38.79%**  | **25.94%**| **25.45%**|
+|                | Transformer 3.2M             | 34.15%    | 41.02%    | 32.02%      | 18.53%    | 17.66%    |
+|                | **Transformer 3.2M + Ours**  | **32.04%**| **36.61%**| **31.29%**  | **18.52%**| **17.65%**|
+
+#### Experiments on `GPT-2`
+
+| Tokenizer        | Compressor       | math      | code      | shakespeare | enwik8*   | enwik9*   |
+| ---------------- | ---------------- | --------- | --------- | ----------- | --------- | --------- |
+| **BPE (GPT-2)**  | Naive Bayes      | 66.41%    | 59.30%    | 49.74%      | 48.85%    | 53.43%    |
+|                  | GPT-2            | 17.68%    | 14.17%    | 23.44%      | 16.48%    | 16.73%    |
+|                  | **GPT-2 + Ours** | **17.55%**| **14.16%**| **23.11%**  | **16.42%**| **16.65%**|
+
+#### Experiments on `LLaMA 3`
+
+| Tokenizer         | Compressor              | math      | code      | shakespeare | enwik8*   | enwik9*   |
+| ----------------- | ----------------------- | --------- | --------- | ----------- | --------- | --------- |
+| **BPE (LLaMA 3)** | Naive Bayes             | 68.70%    | 47.54%    | 51.35%      | 48.87%    | 51.93%    |
+|                   | LLaMA 3.2-1B            | 8.54%     | 6.66%     | 16.51%      | 10.22%    | 10.05%    |
+|                   | **LLaMA 3.2-1B + Ours** | **8.48%** | **6.64%** | **16.42%**  | **10.16%**| **9.98%** |
+|                   | LLaMA 3.2-3B            | 7.56%     | 5.99%     | 13.97%      | 9.16%     | 8.93%     |
+|                   | **LLaMA 3.2-3B + Ours** | **7.50%** | **5.95%** | **13.88%**  | **9.09%** | **8.86%** |
+|                   | LLaMA 3-8B              | 6.90%     | 5.61%     | 4.74%       | 8.18%     | 8.10%     |
+|                   | **LLaMA 3-8B + Ours**   | **6.84%** | **5.57%** | **4.73%**   | **8.12%** | **8.04%** |
 
 ## Multi-Experts
 
 ### Experiments
-
-<!-- ## Future Applications
-
-wPoE can not only combine different autoregressive models, it can also be used to ensemble any models that share the same dictionary, i.e., any category distributions that have the same alphabet.
-
-Here is a provement for general category distributions:
-
-<details>
-
-</details> -->
 
 ## Citation
 
