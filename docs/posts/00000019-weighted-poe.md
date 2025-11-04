@@ -532,9 +532,10 @@ It is reasonable that as we use larger and larger models, the improvement brough
 ## Multiple Experts
 Beyond combining simple statistical methods with LLMs, we can also combine multiple pretrained LLMs together to further improve compression rates.
 
-
-
 ### Experiment Results
+The three decoder-only transformers we used are all trained on the same dataset (i.e., enwik8) but with different model sizes (i.e., 200k, 800k, and 3.2M parameters respectively). We combine them together using wPoE and evaluate the compression rates on three new datasets (i.e., math, code, and shakespeare).
+
+The results show that even if transformer 200k and transformer 800k are much more powerful than Naive Bayes when used alone, the improvement brought by combining Naive Bayes with LLMs is still significant. This indicates that diversity is really important to wPoE, some times even more important than the performance of each expert.
 
 <details>
 <summary>Expand to see the full table</summary>
