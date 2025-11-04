@@ -22,7 +22,9 @@
 	</body>
 </html>
 
-Hi, this is [Qihang](https://qihang-zhang.com)👋. I’m documenting my learning process in this blog. ***I do believe beautiful and robust design emerges from full-chain optimization and deep integration.*** That’s why I’m obsessed with connecting the whole value loop. In this blog, I plan to dive into everything from machine-learning algorithms and systems to hardware tweaks, product interaction design, and even the business side that makes it all real.
+Hi, this is [Qihang](https://qihang-zhang.com)👋. I’m documenting my learning process in this blog. 
+
+<!-- ***I do believe beautiful and robust design emerges from full-chain optimization and deep integration.*** That’s why I’m obsessed with connecting the whole value loop. In this blog, I plan to dive into everything from machine-learning algorithms and systems to hardware tweaks, product interaction design, and even the business side that makes it all real. -->
 
 <br>
 <br>
