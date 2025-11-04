@@ -23,13 +23,14 @@ When I was a child, I was always wondering if I use the compressor to compress a
 
 Today I have known it's because of the fundamental limits of lossless compression established by information theory. But how about using multiple compressors together? If we combine multiple compressors simultaneously, each of the compressor reduces part of redundancy of data? And how can we design such a way to combine different compressors? 
 
-This is the question that our work [Test-Time Steering for Lossless Text Compression via Weighted Product of Experts](https://aclanthology.org/2025.findings-emnlp.110/) aims to answer. Comparing with our writing in EMNLP paper, this blog post will focus more on the intuition behind our method, to go through our methods in a easier to understand way.
+This is the question that our work [Test-Time Steering for Lossless Text Compression via Weighted Product of Experts](https://aclanthology.org/2025.findings-emnlp.110/) [@zhang-etal-2025-test] aims to answer. Comparing with our writing in EMNLP paper, this blog post will focus more on the intuition behind our method, to go through our methods in a easier to understand way.
 
 <!-- more -->
 ## Table of Contents
 [TOC]
+## Background
 
-## LLMs can serve as a powerful lossless compressor
+### LLMs can serve as a powerful lossless compressor
 The statement of "Generation is equalivant to Compression" has been widely spreaded in the Machine Learing community. The relationship between they two has been estibalished for a very long time in Information Theory.
 
 If we use a distribution $p_{\theta}$ to compress data sampled from a true distribution $p_{data}$, one can create a lossless compressor with an expected codelength of $L$, which satisfies the following bounds: 
@@ -42,16 +43,18 @@ where $H(p_{data}, p_{\theta})$ is the cross-entropy between the true distributi
 
 Also what is very well-known is that the training target of large language models (LLMs) is mininize the cross-entropy of between the dataset and the distrubution encoded by the LLM. Therefore, the training target of LLMs is exactly the same as the objective of building a good lossless compressor.
 
-In the work "Language Modelling is Compression"[@hinton1985boltzmann], it has been shown that LLMs can achieve very good compression ratios on text data, better than traditional compressors like `zip` and `gzip`. This is because LLMs can capture the complex dependencies in natural language data, which traditional compressors cannot.
+In the work "Language Modelling is Compression"[@delétang2024languagemodelingcompression], it has been shown that LLMs can achieve very good compression ratios on text data, better than traditional compressors like `zip` and `gzip`. This is because LLMs can capture the complex dependencies in natural language data, which traditional compressors cannot.
 
-## How to convert an auto-regressive model into a lossless compressor?
+### How to convert an auto-regressive model into a lossless compressor?
 The method of using an existing distribution compress data from another distribution is called source coding. The most well-known source coding algorithm is Haffman coding. 
 
 With respect to computational efficiency, Arithmetic coding fits more for auto-regressive models like LLMs. Since Arithmetic coding also compresses sequencial data by encoding each token one by one, it can be easily combined with auto-regressive models.
 
 Here is the example of using Arithmetic coding to compress a text sequence with a simple auto-regressive model:
 
-## Combining multiple compressors via Weighted Product of Experts
+![wpoe-ac](https://img.qihang-zhang.com/2025/11/d72acba7cc8df2ff866f25c313ffda10.png)
+
+## Method: Combine multiple category distribution via *Weighted Product of Experts*
 Even before the era of LLMs, people have been trying to use neural network like transformer to training and build better compressors. However, the generalization ability of these models are limited by the scale of training data. While univerial compressors like `gzip` can work well on a wide range of data, even they have never seen those data.
 
 Thus it's natural to think that if we can combine the univerial compressors with the neural-based compressors, so that we can achieve better compression ratios on a wide range of data. It can help neural-based compressors to generalize better on potentially unseen data. In our experiments we can see that the combination of universal compressors is not only helpful for those transformers trained on small datasets, but also helpful for large LLMs like GPT-2 and Llamma3. Meanwhil only very small computation overhead is introduced.
@@ -85,7 +88,7 @@ Although Jeffory has been proposed product of experts for a very long time and t
 <details>
 <summary>Proposition Proof</summary>
 
-### Proof of Proposition
+#### Proof of Proposition
 
 Let $p_{\theta_1},p_{\theta_2},...,p_{\theta_K}$ be $K$ autoregressive models used to compress a sequence $x_{<n+1} = \{x_1, x_2, \dots, x_n\}$, where $X_{<n} \sim p_{\text{data}}$. Each $x_i$ takes values from the dictionary $\mathcal{A} = \{ a_1, \dots, a_D \}$. For an autoregressive model $p_{\theta_k}$, the following equation reveals the relationship between the joint distribution of $X_{<n}$ and the conditional distribution of $X_n$:
 
@@ -124,7 +127,7 @@ $$
 
 To complete the proof, we introduce the following technical lemma for bounding $Z(\boldsymbol{\theta}, \boldsymbol{\alpha},i)$.
 
-#### Lemma 1
+##### Lemma 1
 
 Let $p^{(k)} = \bigl(p^{(k)}_1, \ldots, p^{(k)}_D\bigr)$ for $k=1,\dots,K$ be $K$ categorical distributions, so $\sum_{j=1}^D p^{(k)}_j = 1$ for each $k$. Let $\alpha_1,\dots,\alpha_K \ge 0$ satisfy $\sum_{k=1}^K \alpha_k = 1.$ Then
 
@@ -156,6 +159,90 @@ $$
 
 </details>
 
+### ⭐️ The intuation behind math formulation
+
+In the proof we can see that the cross entropy of the ensemble model can be reformulated into the following form, and this form will provide inituation to why our experiments work. 
+
+$$
+\begin{aligned}
+H(p_{\text{data}}, p_{\boldsymbol{\theta}, \boldsymbol{\alpha}}) 
+&=  \sum_{k = 1}^K \alpha_k H(p_{\text{data}},p_{\theta_k})
++\underset{p_{\text{data}}}{\mathbb{E}} \displaystyle\sum_{i=1}^{n} \log \left[Z(\boldsymbol{\theta}, \boldsymbol{\alpha},i)\right].
+\end{aligned},
+$$
+
+where:
+
+$$
+Z(\boldsymbol{\theta}, \boldsymbol{\alpha}, n) \;=\; \sum_{a \in \mathcal{A}}\prod_{k = 1}^K p_{\theta_k}(X_n = a \mid  X_{<n})^{\alpha_k}.
+$$
+
+<br>
+
+#### ⭐️ How can we improve the ensemble wPoE model's performance from the perspective of the first term?
+
+The first term of this formulation is the weighted average of the cross entropy between data distribution and each expert, and the weights is the alpha we want to learn or solve from a small amount of data.
+
+**Conclusion:**
+> Therefore, we can easliy know that:
+> 
+> 1. The better experts are use in wPoE, the better the ensembled model is likely to be.
+> 2. The larger credits (i.e. the corresponding $\alpha$ value) we assign to the best experts we have, the better the ensembled model is likely to be.
+
+<br>
+
+#### ⭐️ How can we improve the ensemble wPoE model's performance from the perspective of the second term?
+
+The second term is the expectation of log partical function under data distribution. And the value of this term is alway smaller or equal to `0`.
+
+If we go into the detail of the second term, we will find that this term has the following excellent property:
+
+1. **This term is always smaller or equal to `0` no matter what data distribution is**, given we didn't make any assumptions on the data distribution in the proof.
+
+2. **This term is equal to zero if and only if: $p_{\theta_1} = p_{\theta_2} = \cdots = p_{\theta_3}$ or exactly one $\alpha_k=1$ and the rest are `0`**, as proved by `Cauchy–Schwarz Inequality`.
+
+3. **The more diverse experts are, the smaller this term is.**
+<details>
+  <summary>Click to expand the explanation</summary>
+  <ol>
+    <li>
+      For two-expert cases, this term behaves like a distance between two distributions. It becomes <code>0</code> only when the distributions are identical. The more diverse the distributions are, the smaller this term becomes, which helps reduce cross-entropy and improves the wPoE ensemble on compression tasks.
+    </li>
+    <li>For K-expert cases, treat the ensemble of the first K-1 experts as a single model. The term then captures the distance between that ensemble and the Kth expert we are about to combine.</li>
+    <li>
+      This distance measures diversity differently from the usual KL divergence:
+      <ol>
+        <li>It is a true distance: symmetric, so swapping the order of the two distributions does not change its value.</li>
+        <li>The family of distances is controlled by the weights &alpha;<sub>k</sub>; when one weight is 1 and the others are 0, the distance collapses to 0.</li>
+        <li>With a fixed set of experts, the distance is convex in the weights. Starting from &alpha;<sub>k</sub> = 1 and gradually adding more experts shrinks this second term, and the optimization is straightforward because of convexity.</li>
+      </ol>
+    </li>
+  </ol>
+</details>
+
+**Conclusion:**
+> Therefore, we can know that:
+> 
+> 1. If experts are diverse defined from the perspective of the second term, the performance of wPoE enssembled model is likly to have a better performance.
+> 2. If the experts are really diverse, using a non-sparse alpha weight will provide a better performance.
+
+<br>
+
+#### ⭐️ We need to make the best trade-off between the first term and the second term on target data
+
+It's easy to know that we should try to use as good as experts and as diverse as experts we have when we are choosing experts. *Thus the best choice is to combine different models with good performance but are really diverse (e.g. trained on different data.).*
+
+**Diversity is really important in wPoE:**
+
+> But sometimes those two targets have conflicts with each other. In this case we only need to utilize a very small amount of data to make this trade-off. In our experiments we can see that:
+> 
+> 1. When we combine another expert with good performance but not that different with the current one, the benefit that wPoE can bring is really small. (For example, when we combine two different models with different size but trained on the same dataset.)
+> 
+> 2. When we combine another expert with even a bad performance but really different from current one, the benefit that wPoE can bring is still significant and stable on verious dataset and models' combination.
+
+
+
+
 ## Two-Experts
 
 ### ⭐️ Even To Combine Simple Statistical Method Can help LLMs Compress Better
@@ -183,15 +270,20 @@ Moreover, since we do not need to fine-tune the pretrained model $p_{\theta}$, i
 
 ### Experiments Results
 
-All experiments are conducted to evaluate the compression rates on five datasets (lower is better).
-
 As mentioned in our paper, this combination can help various pretrained models we have to achieve better compression rates on various all datasets we collect from different sources.
 
 It's reasonable that with we use bigger and bigger models, the improvement brought by Naive Bayes will be smaller and smaller, since larger models can already generalize better on potientially unseen data with large scale training on large amount of data.
 
 > However, what is not that obvious is that even for very large LLMs like LLaMA 3-8B, the combination with Naive Bayes can still bring non-trivial improvement on various datasets. Considering the how small the computation overhead of Naive Bayes is, also how weak when we sololy use Naive Bayes to compress data.
 > 
-> <span style="color:#1b4f9c;">***This indicates that regard the performance of each model, the ensemble model get by wPoE also can get benefit from the diversity of different models.***</span>
+> <span style="color:#1b4f9c;">
+> ***This indicates that regard the performance of each model, the ensemble model get by wPoE also can get benefit from the diversity of different models.***</span> 
+> 
+> <span style="color:#1b4f9c;"> 
+> ***And this aligns with our discussed intuition that diversity is key to improving the performance of wPoE.***</span>
+
+>[!note] 
+>All experiments are conducted to evaluate the compression rates on five datasets (lower is better).
 
 #### Experiments on `pretrained vanilla transformers`
 
@@ -428,26 +520,55 @@ It's reasonable that with we use bigger and bigger models, the improvement broug
 </details>
 
 ## Multi-Experts
+Beyond combining simple statistical methods with LLMs, we can also combine multiple pretrained LLMs together to further improve the compression rates.
+
+
 
 ### Experiments Results
 
-\begin{table}[!htb]
-  \centering
-  \caption{Compression rates on three OOD datasets \texttt{code}, \texttt{math}, and \texttt{shakespeare}, as more experts are added to the Transformer 3.2M model. "1 expert" refers to the base Transformer pretrained on \texttt{enwik8}, additional experts correspond to the inclusion of 800K, 200K, and a Naive Bayes expert, respectively.}
-  \label{tab:muti_experts_compression_results}
-  \resizebox{0.85\linewidth}{!}{
-    \begin{tabular}{lccc}
-      \toprule
-      \textbf{Compressor} & \textbf{math} & \textbf{code} & \textbf{shakespeare} \\
-      \midrule
-      1 expert & 34.15\% & 41.02\% & 32.02\% \\
-      2 experts wPoE& 33.63\% & 40.59\% & 31.99\% \\
-      3 experts wPoE& 33.62\% & 40.46\% & 31.97\% \\
-      4 experts wPoE& \textbf{31.99\%} & \textbf{36.49\%} & \textbf{31.35\%} \\
-      \bottomrule
-    \end{tabular}
-  }
-\end{table}
+<details>
+<summary>Expand to see the full table</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Compressor</th>
+        <th>math</th>
+        <th>code</th>
+        <th>shakespeare</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1 expert</td>
+        <td>34.15%</td>
+        <td>41.02%</td>
+        <td>32.02%</td>
+      </tr>
+      <tr>
+        <td>2 experts wPoE</td>
+        <td>33.63%</td>
+        <td>40.59%</td>
+        <td>31.99%</td>
+      </tr>
+      <tr>
+        <td>3 experts wPoE</td>
+        <td>33.62%</td>
+        <td>40.46%</td>
+        <td>31.97%</td>
+      </tr>
+      <tr>
+        <td><strong>4 experts wPoE</strong></td>
+        <td><strong>31.99%</strong></td>
+        <td><strong>36.49%</strong></td>
+        <td><strong>31.35%</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+
+## Possible Applications on other domains
+<!-- TODO: Add the future applications -->
+To be done.
 
 ## Citation
 
