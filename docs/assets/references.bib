@@ -107,4 +107,31 @@
     abstract = "Lossless compression techniques are crucial in an era of rapidly growing data. Traditional universal compressors like gzip offer low computational overhead, high speed, and broad applicability across data distributions. However, they often lead to worse compression rates than modern neural compressors, which leverage large-scale training data to model data distributions more effectively.Despite their advantages, neural compressors struggle to generalize to unseen data. To address this limitation, we propose a novel framework that performs Test-Time Steering via a Weighted Product of Experts (wPoE).At inference, our method adaptively combines a universal compression model with a pretrained neural language model, ensuring the compression rate is at least as good as the best individual model.Extensive experiments demonstrate that our approach improves the performance of text compression without requiring fine-tuning. Furthermore, it seamlessly integrates with any autoregressive language model, providing a practical solution for enhancing text compression across diverse data distributions."
 }
 
+@article{gPoE,
+  author       = {Yanshuai Cao and
+                  David J. Fleet},
+  title        = {Generalized Product of Experts for Automatic and Principled Fusion
+                  of Gaussian Process Predictions},
+  journal      = {CoRR},
+  volume       = {abs/1410.7827},
+  year         = {2014},
+  url          = {http://arxiv.org/abs/1410.7827},
+  eprinttype    = {arXiv},
+  eprint       = {1410.7827},
+  timestamp    = {Mon, 13 Aug 2018 16:47:02 +0200},
+  biburl       = {https://dblp.org/rec/journals/corr/CaoF14.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{PoE,
+  title={Training products of experts by minimizing contrastive divergence},
+  author={Hinton, Geoffrey E},
+  journal={Neural computation},
+  volume={14},
+  number={8},
+  pages={1771--1800},
+  year={2002},
+  publisher={MIT Press}
+}
+
 
