@@ -240,9 +240,6 @@ It's easy to know that we should try to use as good as experts and as diverse as
 > 
 > 2. When we combine another expert with even a bad performance but really different from current one, the benefit that wPoE can bring is still significant and stable on verious dataset and models' combination.
 
-
-
-
 ## Two-Experts
 
 ### ⭐️ Even To Combine Simple Statistical Method Can help LLMs Compress Better
@@ -274,7 +271,7 @@ As mentioned in our paper, this combination can help various pretrained models w
 
 It's reasonable that with we use bigger and bigger models, the improvement brought by Naive Bayes will be smaller and smaller, since larger models can already generalize better on potientially unseen data with large scale training on large amount of data.
 
-> However, what is not that obvious is that even for very large LLMs like LLaMA 3-8B, the combination with Naive Bayes can still bring non-trivial improvement on various datasets. Considering the how small the computation overhead of Naive Bayes is, also how weak when we sololy use Naive Bayes to compress data.
+> However, what is kind of surprising is that even for very large LLMs like LLaMA 3-8B, the combination with Naive Bayes can still bring non-trivial improvement on various datasets. Considering the how small the computation overhead of Naive Bayes is, also how weak Naive Bayes comparing with LLaMA 3-8B.
 > 
 > <span style="color:#1b4f9c;">
 > ***This indicates that regard the performance of each model, the ensemble model get by wPoE also can get benefit from the diversity of different models.***</span> 
