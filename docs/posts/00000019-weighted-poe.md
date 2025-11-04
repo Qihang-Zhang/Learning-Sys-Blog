@@ -10,12 +10,20 @@ authors:
   - <qihang>
 ---
 # Test-Time Steering for Lossless Text Compression via Weighted Product of Experts
+<p align="center">
+  <a href="https://github.com/DSL-Lab/Weighted-Product-of-Experts" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-Code-181717?style=for-the-badge&logo=github" alt="GitHub Repository" />
+  </a>
 
+  <a href="https://aclanthology.org/2025.findings-emnlp.110/" target="_blank">
+    <img src="https://img.shields.io/badge/EMNLP%202025-Paper-006400?style=for-the-badge&logo=readthedocs&logoColor=white" alt="EMNLP 2025 Paper" />
+  </a>
+</p>
 When I was a child, I was always wondering if I use the compressor to compress a file over and over again, will the file get smaller and smaller until it vanishes? Of course the result will be no, if I compress the compressed data with the same compressor again, I will get a file with exactly the same size.
 
 Today I have known it's because of the fundamental limits of lossless compression established by information theory. But how about using multiple compressors together? If we combine multiple compressors simultaneously, each of the compressor reduces part of redundancy of data? And how can we design such a way to combine different compressors? 
 
-This is the question that my recent work "Test-Time Steering for Lossless Text Compression via Weighted Product of Experts" aims to answer.
+This is the question that our work [Test-Time Steering for Lossless Text Compression via Weighted Product of Experts](https://aclanthology.org/2025.findings-emnlp.110/) aims to answer. Comparing with our writing in EMNLP paper, this blog post will focus more on the intuition behind our method, to go through our methods in a easier to understand way.
 
 <!-- more -->
 ## Table of Contents
@@ -172,13 +180,37 @@ Moreover, since we do not need to fine-tune the pretrained model $p_{\theta}$, i
 
 ### Experiments
 
-<!-- main table -->
+Compression rates for five datasets (lower is better).
+
+| Tokenizer | Compressor | math | code | shakespeare | enwik8* | enwik9* |
+| --- | --- | --- | --- | --- | --- | --- |
+| Byte Level | gzip | 43.59% | 36.72% | 52.80% | 49.14% | 48.07% |
+| Byte Level | LZMA2 | 45.35% | 38.61% | 56.86% | 51.33% | 49.98% |
+| Byte Level | Naive Bayes | 68.90% | 64.65% | 64.57% | 66.03% | 67.14% |
+| Byte Level | Transformer 200K | 56.25% | 65.67% | 44.04% | 31.59% | 30.74% |
+| Byte Level | Transformer 200K + Ours | **50.95%** | **53.94%** | **42.12%** | **31.58%** | **30.71%** |
+| Byte Level | Transformer 800K | 47.41% | 62.13% | 40.53% | 25.97% | 25.52% |
+| Byte Level | Transformer 800K + Ours | **44.34%** | **49.68%** | **38.79%** | **25.94%** | **25.45%** |
+| Byte Level | Transformer 3.2M | 34.15% | 41.02% | 32.02% | 18.53% | 17.66% |
+| Byte Level | Transformer 3.2M + Ours | **32.04%** | **36.61%** | **31.29%** | **18.52%** | **17.65%** |
+| BPE (GPT-2) | Naive Bayes | 66.41% | 59.30% | 49.74% | 48.85% | 53.43% |
+| BPE (GPT-2) | GPT-2 | 17.68% | 14.17% | 23.44% | 16.48% | 16.73% |
+| BPE (GPT-2) | GPT-2 + Ours | **17.55%** | **14.16%** | **23.11%** | **16.42%** | **16.65%** |
+| BPE (LLaMA 3) | Naive Bayes | 68.70% | 47.54% | 51.35% | 48.87% | 51.93% |
+| BPE (LLaMA 3) | LLaMA 3.2-1B | 8.54% | 6.66% | 16.51% | 10.22% | 10.05% |
+| BPE (LLaMA 3) | LLaMA 3.2-1B + Ours | **8.48%** | **6.64%** | **16.42%** | **10.16%** | **9.98%** |
+| BPE (LLaMA 3) | LLaMA 3.2-3B | 7.56% | 5.99% | 13.97% | 9.16% | 8.93% |
+| BPE (LLaMA 3) | LLaMA 3.2-3B + Ours | **7.50%** | **5.95%** | **13.88%** | **9.09%** | **8.86%** |
+| BPE (LLaMA 3) | LLaMA 3-8B | 6.90% | 5.61% | 4.74% | 8.18% | 8.10% |
+| BPE (LLaMA 3) | LLaMA 3-8B + Ours | **6.84%** | **5.57%** | **4.73%** | **8.12%** | **8.04%** |
+
+*An asterisk (*) indicates that enwik8 and enwik9 are considered in-distribution for vanilla transformers. “Pretrained model + Ours” refers to the ensemble of the pretrained model with a Naive Bayes classifier using Laplace smoothing, averaged over five runs.*
 
 ## Multi-Experts
 
 ### Experiments
 
-## Future Applications
+<!-- ## Future Applications
 
 wPoE can not only combine different autoregressive models, it can also be used to ensemble any models that share the same dictionary, i.e., any category distributions that have the same alphabet.
 
@@ -186,9 +218,32 @@ Here is a provement for general category distributions:
 
 <details>
 
-</details>
+</details> -->
 
+## Citation
 
+If you find our work useful in your research, please consider citing:
 
-
-
+```bibtex
+@inproceedings{zhang-etal-2025-test,
+    title = "Test-Time Steering for Lossless Text Compression via Weighted Product of Experts",
+    author = "Zhang, Qihang  and
+      Li, Muchen  and
+      Wang, Ziao  and
+      Liao, Renjie  and
+      Wang, Lele",
+    editor = "Christodoulopoulos, Christos  and
+      Chakraborty, Tanmoy  and
+      Rose, Carolyn  and
+      Peng, Violet",
+    booktitle = "Findings of the Association for Computational Linguistics: EMNLP 2025",
+    month = nov,
+    year = "2025",
+    address = "Suzhou, China",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.findings-emnlp.110/",
+    pages = "2076--2088",
+    ISBN = "979-8-89176-335-7",
+    abstract = "Lossless compression techniques are crucial in an era of rapidly growing data. Traditional universal compressors like gzip offer low computational overhead, high speed, and broad applicability across data distributions. However, they often lead to worse compression rates than modern neural compressors, which leverage large-scale training data to model data distributions more effectively.Despite their advantages, neural compressors struggle to generalize to unseen data. To address this limitation, we propose a novel framework that performs Test-Time Steering via a Weighted Product of Experts (wPoE).At inference, our method adaptively combines a universal compression model with a pretrained neural language model, ensuring the compression rate is at least as good as the best individual model.Extensive experiments demonstrate that our approach improves the performance of text compression without requiring fine-tuning. Furthermore, it seamlessly integrates with any autoregressive language model, providing a practical solution for enhancing text compression across diverse data distributions."
+}
+```
