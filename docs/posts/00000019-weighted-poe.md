@@ -181,47 +181,273 @@ $$
 Where $\alpha$ is a scalar as we have only two experts.
 Moreover, since we do not need to fine-tune the pretrained model $p_{\theta}$, i.e., $\theta$ is frozen, we omit the dependency of $\theta$ in the wPoE model $\pi$.
 
-### Experiments
+### Experiments Results
 
 All experiments are conducted to evaluate the compression rates on five datasets (lower is better).
 
+As mentioned in our paper, this combination can help various pretrained models we have to achieve better compression rates on various all datasets we collect from different sources.
+
+It's reasonable that with we use bigger and bigger models, the improvement brought by Naive Bayes will be smaller and smaller, since larger models can already generalize better on potientially unseen data with large scale training on large amount of data.
+
+> However, what is not that obvious is that even for very large LLMs like LLaMA 3-8B, the combination with Naive Bayes can still bring non-trivial improvement on various datasets. Considering the how small the computation overhead of Naive Bayes is, also how weak when we sololy use Naive Bayes to compress data.
+> 
+> <span style="color:#1b4f9c;">***This indicates that regard the performance of each model, the ensemble model get by wPoE also can get benefit from the diversity of different models.***</span>
+
 #### Experiments on `pretrained vanilla transformers`
 
-| Tokenizer      | Compressor                   | math      | code      | shakespeare | enwik8*   | enwik9*   |
-| -------------- | ---------------------------- | --------- | --------- | ----------- | --------- | --------- |
-| **Byte Level** | gzip                         | 43.59%    | 36.72%    | 52.80%      | 49.14%    | 48.07%    |
-|                | LZMA2                        | 45.35%    | 38.61%    | 56.86%      | 51.33%    | 49.98%    |
-|                | Naive Bayes                  | 68.90%    | 64.65%    | 64.57%      | 66.03%    | 67.14%    |
-|                | Transformer 200K             | 56.25%    | 65.67%    | 44.04%      | 31.59%    | 30.74%    |
-|                | **Transformer 200K + Ours**  | **50.95%**| **53.94%**| **42.12%**  | **31.58%**| **30.71%**|
-|                | Transformer 800K             | 47.41%    | 62.13%    | 40.53%      | 25.97%    | 25.52%    |
-|                | **Transformer 800K + Ours**  | **44.34%**| **49.68%**| **38.79%**  | **25.94%**| **25.45%**|
-|                | Transformer 3.2M             | 34.15%    | 41.02%    | 32.02%      | 18.53%    | 17.66%    |
-|                | **Transformer 3.2M + Ours**  | **32.04%**| **36.61%**| **31.29%**  | **18.52%**| **17.65%**|
+<details>
+<summary>Expand to see the full table</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Tokenizer</th>
+        <th>Compressor</th>
+        <th>math</th>
+        <th>code</th>
+        <th>shakespeare</th>
+        <th>enwik8*</th>
+        <th>enwik9*</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Byte Level</strong></td>
+        <td>gzip</td>
+        <td>43.59%</td>
+        <td>36.72%</td>
+        <td>52.80%</td>
+        <td>49.14%</td>
+        <td>48.07%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>LZMA2</td>
+        <td>45.35%</td>
+        <td>38.61%</td>
+        <td>56.86%</td>
+        <td>51.33%</td>
+        <td>49.98%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Naive Bayes</td>
+        <td>68.90%</td>
+        <td>64.65%</td>
+        <td>64.57%</td>
+        <td>66.03%</td>
+        <td>67.14%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Transformer 200K</td>
+        <td>56.25%</td>
+        <td>65.67%</td>
+        <td>44.04%</td>
+        <td>31.59%</td>
+        <td>30.74%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>Transformer 200K + Ours</strong></td>
+        <td><strong>50.95%</strong></td>
+        <td><strong>53.94%</strong></td>
+        <td><strong>42.12%</strong></td>
+        <td><strong>31.58%</strong></td>
+        <td><strong>30.71%</strong></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Transformer 800K</td>
+        <td>47.41%</td>
+        <td>62.13%</td>
+        <td>40.53%</td>
+        <td>25.97%</td>
+        <td>25.52%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>Transformer 800K + Ours</strong></td>
+        <td><strong>44.34%</strong></td>
+        <td><strong>49.68%</strong></td>
+        <td><strong>38.79%</strong></td>
+        <td><strong>25.94%</strong></td>
+        <td><strong>25.45%</strong></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Transformer 3.2M</td>
+        <td>34.15%</td>
+        <td>41.02%</td>
+        <td>32.02%</td>
+        <td>18.53%</td>
+        <td>17.66%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>Transformer 3.2M + Ours</strong></td>
+        <td><strong>32.04%</strong></td>
+        <td><strong>36.61%</strong></td>
+        <td><strong>31.29%</strong></td>
+        <td><strong>18.52%</strong></td>
+        <td><strong>17.65%</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</details>
 
 #### Experiments on `GPT-2`
 
-| Tokenizer        | Compressor       | math      | code      | shakespeare | enwik8*   | enwik9*   |
-| ---------------- | ---------------- | --------- | --------- | ----------- | --------- | --------- |
-| **BPE (GPT-2)**  | Naive Bayes      | 66.41%    | 59.30%    | 49.74%      | 48.85%    | 53.43%    |
-|                  | GPT-2            | 17.68%    | 14.17%    | 23.44%      | 16.48%    | 16.73%    |
-|                  | **GPT-2 + Ours** | **17.55%**| **14.16%**| **23.11%**  | **16.42%**| **16.65%**|
+<details>
+<summary>Expand to see the full table</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Tokenizer</th>
+        <th>Compressor</th>
+        <th>math</th>
+        <th>code</th>
+        <th>shakespeare</th>
+        <th>enwik8*</th>
+        <th>enwik9*</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>BPE (GPT-2)</strong></td>
+        <td>Naive Bayes</td>
+        <td>66.41%</td>
+        <td>59.30%</td>
+        <td>49.74%</td>
+        <td>48.85%</td>
+        <td>53.43%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>GPT-2</td>
+        <td>17.68%</td>
+        <td>14.17%</td>
+        <td>23.44%</td>
+        <td>16.48%</td>
+        <td>16.73%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>GPT-2 + Ours</strong></td>
+        <td><strong>17.55%</strong></td>
+        <td><strong>14.16%</strong></td>
+        <td><strong>23.11%</strong></td>
+        <td><strong>16.42%</strong></td>
+        <td><strong>16.65%</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</details>
 
 #### Experiments on `LLaMA 3`
 
-| Tokenizer         | Compressor              | math      | code      | shakespeare | enwik8*   | enwik9*   |
-| ----------------- | ----------------------- | --------- | --------- | ----------- | --------- | --------- |
-| **BPE (LLaMA 3)** | Naive Bayes             | 68.70%    | 47.54%    | 51.35%      | 48.87%    | 51.93%    |
-|                   | LLaMA 3.2-1B            | 8.54%     | 6.66%     | 16.51%      | 10.22%    | 10.05%    |
-|                   | **LLaMA 3.2-1B + Ours** | **8.48%** | **6.64%** | **16.42%**  | **10.16%**| **9.98%** |
-|                   | LLaMA 3.2-3B            | 7.56%     | 5.99%     | 13.97%      | 9.16%     | 8.93%     |
-|                   | **LLaMA 3.2-3B + Ours** | **7.50%** | **5.95%** | **13.88%**  | **9.09%** | **8.86%** |
-|                   | LLaMA 3-8B              | 6.90%     | 5.61%     | 4.74%       | 8.18%     | 8.10%     |
-|                   | **LLaMA 3-8B + Ours**   | **6.84%** | **5.57%** | **4.73%**   | **8.12%** | **8.04%** |
+<details>
+<summary>Expand to see the full table</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Tokenizer</th>
+        <th>Compressor</th>
+        <th>math</th>
+        <th>code</th>
+        <th>shakespeare</th>
+        <th>enwik8*</th>
+        <th>enwik9*</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>BPE (LLaMA 3)</strong></td>
+        <td>Naive Bayes</td>
+        <td>68.70%</td>
+        <td>47.54%</td>
+        <td>51.35%</td>
+        <td>48.87%</td>
+        <td>51.93%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>LLaMA 3.2-1B</td>
+        <td>8.54%</td>
+        <td>6.66%</td>
+        <td>16.51%</td>
+        <td>10.22%</td>
+        <td>10.05%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>LLaMA 3.2-1B + Ours</strong></td>
+        <td><strong>8.48%</strong></td>
+        <td><strong>6.64%</strong></td>
+        <td><strong>16.42%</strong></td>
+        <td><strong>10.16%</strong></td>
+        <td><strong>9.98%</strong></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>LLaMA 3.2-3B</td>
+        <td>7.56%</td>
+        <td>5.99%</td>
+        <td>13.97%</td>
+        <td>9.16%</td>
+        <td>8.93%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>LLaMA 3.2-3B + Ours</strong></td>
+        <td><strong>7.50%</strong></td>
+        <td><strong>5.95%</strong></td>
+        <td><strong>13.88%</strong></td>
+        <td><strong>9.09%</strong></td>
+        <td><strong>8.86%</strong></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>LLaMA 3-8B</td>
+        <td>6.90%</td>
+        <td>5.61%</td>
+        <td>4.74%</td>
+        <td>8.18%</td>
+        <td>8.10%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>LLaMA 3-8B + Ours</strong></td>
+        <td><strong>6.84%</strong></td>
+        <td><strong>5.57%</strong></td>
+        <td><strong>4.73%</strong></td>
+        <td><strong>8.12%</strong></td>
+        <td><strong>8.04%</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</details>
 
 ## Multi-Experts
 
-### Experiments
+### Experiments Results
+
+\begin{table}[!htb]
+  \centering
+  \caption{Compression rates on three OOD datasets \texttt{code}, \texttt{math}, and \texttt{shakespeare}, as more experts are added to the Transformer 3.2M model. "1 expert" refers to the base Transformer pretrained on \texttt{enwik8}, additional experts correspond to the inclusion of 800K, 200K, and a Naive Bayes expert, respectively.}
+  \label{tab:muti_experts_compression_results}
+  \resizebox{0.85\linewidth}{!}{
+    \begin{tabular}{lccc}
+      \toprule
+      \textbf{Compressor} & \textbf{math} & \textbf{code} & \textbf{shakespeare} \\
+      \midrule
+      1 expert & 34.15\% & 41.02\% & 32.02\% \\
+      2 experts wPoE& 33.63\% & 40.59\% & 31.99\% \\
+      3 experts wPoE& 33.62\% & 40.46\% & 31.97\% \\
+      4 experts wPoE& \textbf{31.99\%} & \textbf{36.49\%} & \textbf{31.35\%} \\
+      \bottomrule
+    \end{tabular}
+  }
+\end{table}
 
 ## Citation
 
