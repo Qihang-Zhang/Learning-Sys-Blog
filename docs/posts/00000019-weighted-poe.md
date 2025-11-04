@@ -57,7 +57,7 @@ However, with respect to computational efficiency, Arithmetic Coding is better s
 
 Here is an example of using Arithmetic Coding to compress a text sequence with a simple auto-regressive model:
 
-![wpoe-ac](https://img.qihang-zhang.com/2025/11/d72acba7cc8df2ff866f25c313ffda10.png)
+![wpoe-ac](https://img.qihang-zhang.com/2025/11/776c744e9ef9e4353be5c2ff374209c1.jpg)
 
 ## Method: Combine multiple categorical distributions via *Weighted Product of Experts*
 Even before the era of LLMs, people have been trying to use neural networks like Transformers to train and build better compressors. However, the generalization ability of these models is limited by the scale of training data. Meanwhile, universal compressors like `gzip` can work well on a wide range of data, even data they have never seen before.
