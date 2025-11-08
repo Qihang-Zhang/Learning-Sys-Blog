@@ -28,6 +28,7 @@ This is the question that our work [Test-Time Steering for Lossless Text Compres
 <!-- more -->
 ## Table of Contents
 [TOC]
+
 ## Background
 
 ### LLMs can serve as powerful lossless compressors
@@ -578,8 +579,11 @@ The results show that even if transformer 200k and transformer 800k are much mor
 </details>
 
 ## Possible Applications in Other Domains
-<!-- TODO: Add the future applications -->
+<!-- TODO: Add potential future applications -->
 To be done.
+<!-- TODO: Add an explanation of the code implementation (i.e., how to use it) -->
+
+<!-- TODO: Add a comparison between weighted sum and weighted product of probabilities -->
 
 ## Citation
 
