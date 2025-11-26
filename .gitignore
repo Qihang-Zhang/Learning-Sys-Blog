@@ -9,3 +9,4 @@ fused_mkdocs/
 .python-version
 uv.lock
 pyproject.toml
+.obsidian/
