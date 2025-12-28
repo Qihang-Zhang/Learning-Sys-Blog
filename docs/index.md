@@ -1,6 +1,8 @@
 # 
-## Welcome to Qihang’Blog 👋 
-Hi, this is [Qihang](https://qihang-zhang.com)👋. I’m documenting my learning process in this blog.
+### Welcome to Qihang’s Learning Systems 👋 
+
+
+Hi, this is [Qihang](https://qihang-zhang.com)👋. I’m documenting my learning process on this blog, covering everything related to machine learning.
 
 <html>
 	<head>
