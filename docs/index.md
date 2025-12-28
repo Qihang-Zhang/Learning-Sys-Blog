@@ -1,4 +1,6 @@
-# 
+# Welcome to Qihang’Blog 👋 
+Hi, this is [Qihang](https://qihang-zhang.com)👋. I’m documenting my learning process in this blog.
+
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -20,9 +22,7 @@
 			<img src="https://images.unsplash.com/photo-1509023464722-18d996393ca8?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" width = "400" alt="Mountain" />
 		</div>
 	</body>
-</html>
-
-Hi, this is [Qihang](https://qihang-zhang.com)👋. I’m documenting my learning process in this blog. 
+</html> 
 
 <!-- ***I do believe beautiful and robust design emerges from full-chain optimization and deep integration.*** That’s why I’m obsessed with connecting the whole value loop. In this blog, I plan to dive into everything from machine-learning algorithms and systems to hardware tweaks, product interaction design, and even the business side that makes it all real. -->
 
