@@ -472,3 +472,5 @@ Although this note cannot cover every softmax function in machine learning, it p
 Whenever we introduce Shannon or Gibbs entropy as a regularization or principled constraint, the Gibbs distribution naturally emerges as the optimal solution—making the exponential form not just mathematically convenient, but fundamentally inevitable.
 
 \bibliography
+
+
