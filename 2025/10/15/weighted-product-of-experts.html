@@ -1,0 +1,1706 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../06/max-ent-rl-and-boltzmann-distribution.html">
+      
+      
+        <link rel="next" href="weighted-product-of-experts.html">
+      
+      
+      <link rel="icon" href="https://comping-style.qihang-zhang.com/assets/fruit/lemon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Test-Time Steering for Lossless Text Compression via Weighted Product of Experts - Qihang’s Log | Learning Systems</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+  
+  
+    
+    
+      
+    
+    
+  
+    
+    
+      
+    
+    
+  
+    
+    
+      
+    
+    
+  
+  
+  <style>:root{.md-tag.md-tag--html{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20384%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%206.7.2%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202024%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22m0%2032%2034.9%20395.8L191.5%20480l157.6-52.2L384%2032zm308.2%20127.9H124.4l4.1%2049.4h175.6l-13.6%20148.4-97.9%2027v.3h-1.1l-98.7-27.3-6-75.8h47.7L138%20320l53.5%2014.5%2053.7-14.5%206-62.2H84.3L71.5%20112.2h241.1z%22/%3E%3C/svg%3E');}.md-tag.md-tag--js{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%206.7.2%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202024%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M0%2032v448h448V32zm243.8%20349.4c0%2043.6-25.6%2063.5-62.9%2063.5-33.7%200-53.2-17.4-63.2-38.5l34.3-20.7c6.6%2011.7%2012.6%2021.6%2027.1%2021.6%2013.8%200%2022.6-5.4%2022.6-26.5V237.7h42.1zm99.6%2063.5c-39.1%200-64.4-18.6-76.7-43l34.3-19.8c9%2014.7%2020.8%2025.6%2041.5%2025.6%2017.4%200%2028.6-8.7%2028.6-20.8%200-14.4-11.4-19.5-30.7-28l-10.5-4.5c-30.4-12.9-50.5-29.2-50.5-63.5%200-31.6%2024.1-55.6%2061.6-55.6%2026.8%200%2046%209.3%2059.8%2033.7L368%20290c-7.2-12.9-15-18-27.1-18-12.3%200-20.1%207.8-20.1%2018%200%2012.6%207.8%2017.7%2025.9%2025.6l10.5%204.5c35.8%2015.3%2055.9%2031%2055.9%2066.2%200%2037.8-29.8%2058.6-69.7%2058.6%22/%3E%3C/svg%3E');}.md-tag.md-tag--css{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%206.7.2%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202024%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22m480%2032-64%20368-223.3%2080L0%20400l19.6-94.8h82l-8%2040.6L210%20390.2l134.1-44.4%2018.8-97.1H29.5l16-82h333.7l10.5-52.7H56.3l16.3-82z%22/%3E%3C/svg%3E');}}</style>
+
+    
+    
+      
+        <script src="https://unpkg.com/iframe-worker/shim"></script>
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://comping-style.qihang-zhang.com/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#test-time-steering-for-lossless-text-compression-via-weighted-product-of-experts" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="https://qihang-zhang.com/" title="Qihang’s Log | Learning Systems" class="md-header__button md-logo" aria-label="Qihang’s Log | Learning Systems" data-md-component="logo">
+      
+  <img src="https://comping-style.qihang-zhang.com/assets/fruit/watermelon.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Qihang’s Log | Learning Systems
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Test-Time Steering for Lossless Text Compression via Weighted Product of Experts
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 2c-1.05 0-2.05.16-3 .46 4.06 1.27 7 5.04 7 9.54s-2.94 8.27-7 9.54c.95.3 1.95.46 3 .46a10 10 0 0 0 10-10A10 10 0 0 0 9 2"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Qihang-Zhang/Learning-Sys-Blog" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Learning-Sys-Blog
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="../../../index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../archive/2025.html" class="md-tabs__link">
+          
+  
+  
+  Archive
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../category/energy-based-models.html" class="md-tabs__link">
+          
+  
+  
+  Categories
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://qihang-zhang.com/" title="Qihang’s Log | Learning Systems" class="md-nav__button md-logo" aria-label="Qihang’s Log | Learning Systems" data-md-component="logo">
+      
+  <img src="https://comping-style.qihang-zhang.com/assets/fruit/watermelon.svg" alt="logo">
+
+    </a>
+    Qihang’s Log | Learning Systems
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Qihang-Zhang/Learning-Sys-Blog" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Learning-Sys-Blog
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href="../../../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Archive
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../archive/2025.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Categories
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Categories
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/energy-based-models.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Energy-Based Models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/information-theory.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Information Theory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/qihangs-research.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qihang's Research
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/reinforcement-learning.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reinforcement Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/statistical-mechanics.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistical Mechanics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../index.html" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://avatars.githubusercontent.com/u/148497514?v=4" alt="Qihang">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Qihang
+                        
+                      </strong>
+                      <br>
+                      Learning By Doing
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2025-10-15 00:00:00+00:00" class="md-ellipsis">Oct 15, 2025</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../category/qihangs-research.html">Qihang's Research</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              15 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      Background
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Background">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#llms-can-serve-as-powerful-lossless-compressors" class="md-nav__link">
+    <span class="md-ellipsis">
+      LLMs can serve as powerful lossless compressors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-convert-an-auto-regressive-model-into-a-lossless-compressor" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to convert an auto-regressive model into a lossless compressor?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-combine-multiple-categorical-distributions-via-weighted-product-of-experts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method: Combine multiple categorical distributions via Weighted Product of Experts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method: Combine multiple categorical distributions via Weighted Product of Experts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#weighted-product-of-experts" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⭐️ Weighted Product of Experts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⭐️ Weighted Product of Experts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proof-of-proposition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Proof of Proposition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-intuition-behind-the-mathematical-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⭐️ The intuition behind the mathematical formulation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⭐️ The intuition behind the mathematical formulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-can-we-improve-the-ensemble-wpoe-models-performance-from-the-perspective-of-the-first-term" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⭐️ How can we improve the ensemble wPoE model's performance from the perspective of the first term?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-can-we-improve-the-ensemble-wpoe-models-performance-from-the-perspective-of-the-second-term" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⭐️ How can we improve the ensemble wPoE model's performance from the perspective of the second term?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#we-need-to-make-the-best-trade-off-between-the-first-term-and-the-second-term-on-the-target-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⭐️ We need to make the best trade-off between the first term and the second term on the target data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#two-experts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Two Experts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Two Experts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#even-combining-simple-statistical-methods-can-help-llms-compress-better" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⭐️ Even Combining Simple Statistical Methods Can Help LLMs Compress Better
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#experiment-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experiment Results
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Experiment Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#experiments-on-pretrained-vanilla-transformers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experiments on pretrained vanilla Transformers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#experiments-on-gpt-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experiments on GPT-2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#experiments-on-llama-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experiments on LLaMA 3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-experts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Experts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multiple Experts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#experiment-results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experiment Results
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#possible-applications-in-other-domains" class="md-nav__link">
+    <span class="md-ellipsis">
+      Possible Applications in Other Domains
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#citation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Citation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="test-time-steering-for-lossless-text-compression-via-weighted-product-of-experts">Test-Time Steering for Lossless Text Compression via Weighted Product of Experts<a class="headerlink" href="#test-time-steering-for-lossless-text-compression-via-weighted-product-of-experts" title="Permanent link">&para;</a></h1>
+<p align="center">
+  <a href="https://github.com/DSL-Lab/Weighted-Product-of-Experts" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-Code-181717?style=for-the-badge&logo=github" alt="GitHub Repository" />
+  </a>
+
+  <a href="https://aclanthology.org/2025.findings-emnlp.110/" target="_blank">
+    <img src="https://img.shields.io/badge/EMNLP%202025-Paper-006400?style=for-the-badge&logo=readthedocs&logoColor=white" alt="EMNLP 2025 Paper" />
+  </a>
+</p>
+<p>When I was a child, I always wondered: if I use a compressor to compress a file over and over again, will the file get smaller and smaller until it vanishes? Of course, the answer is no. If we compress the compressed data with the same compressor again, I will get a file with exactly the same size.</p>
+<p>Today I understand this is because of the fundamental limits of lossless compression established by information theory. <strong>But what about using multiple compressors together? If we combine multiple compressors simultaneously, can each compressor reduce part of the data's redundancy? And how can we design such a method to combine different compressors?</strong></p>
+<p>This is the question that our work <a href="https://aclanthology.org/2025.findings-emnlp.110/">Test-Time Steering for Lossless Text Compression via Weighted Product of Experts</a> <sup id="fnref:zhang-etal-2025-test"><a class="footnote-ref" href="#fn:zhang-etal-2025-test">1</a></sup> aims to answer. <strong>Compared to the EMNLP paper, this blog post focuses more on the intuition behind our method, presenting it in a way that is easier to understand.</strong></p>
+<!-- more -->
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<div class="toc">
+<ul>
+<li><a href="#test-time-steering-for-lossless-text-compression-via-weighted-product-of-experts">Test-Time Steering for Lossless Text Compression via Weighted Product of Experts</a><ul>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#background">Background</a><ul>
+<li><a href="#llms-can-serve-as-powerful-lossless-compressors">LLMs can serve as powerful lossless compressors</a></li>
+<li><a href="#how-to-convert-an-auto-regressive-model-into-a-lossless-compressor">How to convert an auto-regressive model into a lossless compressor?</a></li>
+</ul>
+</li>
+<li><a href="#method-combine-multiple-categorical-distributions-via-weighted-product-of-experts">Method: Combine multiple categorical distributions via Weighted Product of Experts</a><ul>
+<li><a href="#weighted-product-of-experts">⭐️ Weighted Product of Experts</a><ul>
+<li><a href="#proof-of-proposition">Proof of Proposition</a></li>
+</ul>
+</li>
+<li><a href="#the-intuition-behind-the-mathematical-formulation">⭐️ The intuition behind the mathematical formulation</a><ul>
+<li><a href="#how-can-we-improve-the-ensemble-wpoe-models-performance-from-the-perspective-of-the-first-term">⭐️ How can we improve the ensemble wPoE model's performance from the perspective of the first term?</a></li>
+<li><a href="#how-can-we-improve-the-ensemble-wpoe-models-performance-from-the-perspective-of-the-second-term">⭐️ How can we improve the ensemble wPoE model's performance from the perspective of the second term?</a></li>
+<li><a href="#we-need-to-make-the-best-trade-off-between-the-first-term-and-the-second-term-on-the-target-data">⭐️ We need to make the best trade-off between the first term and the second term on the target data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#two-experts">Two Experts</a><ul>
+<li><a href="#even-combining-simple-statistical-methods-can-help-llms-compress-better">⭐️ Even Combining Simple Statistical Methods Can Help LLMs Compress Better</a></li>
+<li><a href="#experiment-results">Experiment Results</a><ul>
+<li><a href="#experiments-on-pretrained-vanilla-transformers">Experiments on pretrained vanilla Transformers</a></li>
+<li><a href="#experiments-on-gpt-2">Experiments on GPT-2</a></li>
+<li><a href="#experiments-on-llama-3">Experiments on LLaMA 3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#multiple-experts">Multiple Experts</a><ul>
+<li><a href="#experiment-results_1">Experiment Results</a></li>
+</ul>
+</li>
+<li><a href="#possible-applications-in-other-domains">Possible Applications in Other Domains</a></li>
+<li><a href="#citation">Citation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h2>
+<h3 id="llms-can-serve-as-powerful-lossless-compressors">LLMs can serve as powerful lossless compressors<a class="headerlink" href="#llms-can-serve-as-powerful-lossless-compressors" title="Permanent link">&para;</a></h3>
+<p>The statement "Generation is equivalent to Compression" has been widely spread in the Machine Learning community. The relationship between these two has been established for a very long time in Information Theory:</p>
+<p><strong>The target of lossless compression is minimizing cross entropy:</strong></p>
+<p>If we use a distribution <span class="arithmatex">\(p_{\theta}\)</span> to compress data sampled from a true distribution <span class="arithmatex">\(p_{data}\)</span>, one can create a lossless compressor with an expected codelength of <span class="arithmatex">\(L\)</span>, which satisfies the following bounds: </p>
+<div class="arithmatex">\[
+H(p_{data}, p_{\theta}) \leq L \leq H(p_{data}, p_{\theta}) + 2
+\]</div>
+<p>where <span class="arithmatex">\(H(p_{data}, p_{\theta})\)</span> is the cross entropy between the true distribution and the model distribution.</p>
+<p><br>
+<strong>The target of LLMs' pre-training is also minimizing cross entropy:</strong></p>
+<p>It is also well-known that the training objective of large language models (LLMs) pre-training is to minimize the cross entropy between the dataset and the distribution encoded by the LLM. Therefore, the training objective of LLMs' pre-training is exactly the same as the objective of building a good lossless compressor.</p>
+<p>In the work <a href="https://arxiv.org/abs/2309.10668">Language Modelling is Compression</a><sup id="fnref:delétang2024languagemodelingcompression"><a class="footnote-ref" href="#fn:delétang2024languagemodelingcompression">2</a></sup>, it has been shown that LLMs can achieve very good compression ratios on text data, better than traditional compressors like <code>zip</code> and <code>gzip</code>. This is because LLMs can capture the complex dependencies in natural language data, which traditional compressors cannot.</p>
+<h3 id="how-to-convert-an-auto-regressive-model-into-a-lossless-compressor">How to convert an auto-regressive model into a lossless compressor?<a class="headerlink" href="#how-to-convert-an-auto-regressive-model-into-a-lossless-compressor" title="Permanent link">&para;</a></h3>
+<p>The method of using an existing distribution to compress data from another distribution is called source coding. The most well-known source coding algorithm is Huffman coding. </p>
+<p>However, with respect to computational efficiency, Arithmetic Coding is better suited for auto-regressive models like LLMs. Since Arithmetic Coding also compresses sequential data by encoding each token one by one, it can be easily combined with auto-regressive models.</p>
+<p>Here is an example of using Arithmetic Coding to compress a text sequence with a simple auto-regressive model:</p>
+<p><img alt="wpoe-ac" src="https://img.qihang-zhang.com/2025/11/776c744e9ef9e4353be5c2ff374209c1.jpg" /></p>
+<h2 id="method-combine-multiple-categorical-distributions-via-weighted-product-of-experts">Method: Combine multiple categorical distributions via <em>Weighted Product of Experts</em><a class="headerlink" href="#method-combine-multiple-categorical-distributions-via-weighted-product-of-experts" title="Permanent link">&para;</a></h2>
+<p>Even before the era of LLMs, people have been trying to use neural networks like Transformers to train and build better compressors. However, the generalization ability of these models is limited by the scale of training data. Meanwhile, universal compressors like <code>gzip</code> can work well on a wide range of data, even data they have never seen before.</p>
+<p><strong>Thus, it is natural to think that if we can combine universal compressors with neural-based compressors, we can achieve better compression ratios on a wide range of data.</strong> This can help neural-based compressors generalize better to potentially unseen data. In our experiments, we can see that combining with universal compressors is not only helpful for Transformers trained on small datasets, but also helpful for large LLMs like GPT-2 and LLaMA 3. Meanwhile, only very small computational overhead is introduced.</p>
+<div class="admonition note">
+<p class="admonition-title"><strong>Note on terminology:</strong> Throughout this blog post, we use several terms interchangeably</p>
+<ul>
+<li><strong>"Expert"</strong> and <strong>"model"</strong> both refer to the individual discrete probability distributions that we combine.</li>
+<li><strong>"categorical distribution"</strong> and <strong>"probability distribution"</strong> both refer to the distribution over possible next tokens that each model outputs.</li>
+</ul>
+</div>
+<h3 id="weighted-product-of-experts">⭐️ Weighted Product of Experts<a class="headerlink" href="#weighted-product-of-experts" title="Permanent link">&para;</a></h3>
+<p>We propose a framework called Weighted Product of Experts (wPoE) to combine multiple distributions (also called <strong>experts</strong> or <strong>models</strong>) together so that we can guarantee the ensemble model is always no worse than the best individual expert with respect to the cross entropy with the real data distribution. </p>
+<p>The idea is to use a weighted product of the probability distributions of multiple experts (compressors) to form a new distribution. Here is how we define the distribution of wPoE:</p>
+<div class="arithmatex">\[
+p_{\boldsymbol{\theta}, \boldsymbol{\alpha}}(X_n|  X_{&lt;n}) =  \frac{1}{Z(\boldsymbol{\theta}, \boldsymbol{\alpha},n)}\displaystyle\prod_{k = 1}^K p_{\theta_k}(X_n  |  X_{&lt;n})^{\alpha_k},
+\]</div>
+<p>where:</p>
+<ul>
+<li>the weights are <span class="arithmatex">\(\boldsymbol{\alpha} = \{\alpha_1,...,\alpha_K\}\)</span>, <span class="arithmatex">\(\alpha_k \in[0,1]\)</span>, <span class="arithmatex">\(\displaystyle\sum_{k = 1}^K \alpha_k = 1\)</span>, </li>
+<li>the parameters of experts are <span class="arithmatex">\(\boldsymbol{\theta} = \{\theta_1,...,\theta_K\}\)</span>,</li>
+<li>the normalization constant is <span class="arithmatex">\(Z(\boldsymbol{\theta}, \boldsymbol{\alpha}, n) = \displaystyle\sum_{a \in \mathcal{A}}\prod_{k = 1}^K p_{\theta_k}(X_n = a |  X_{&lt;n})^{\alpha_k}\)</span>.</li>
+</ul>
+<p>And we can propose the following <strong>proposition</strong>:</p>
+<div class="arithmatex">\[
+\displaystyle\inf_{\boldsymbol{\alpha}}H(p_{\text{data}},p_{\boldsymbol{\theta}, \boldsymbol{\alpha}} ) \leq \displaystyle\min_{k \in \{1,...K\}} H(p_{\text{data}}, p_{\theta_k}),
+\]</div>
+<p>This means we can always find a set of weights <span class="arithmatex">\(\boldsymbol{\alpha}\)</span> such that the cross entropy between the data distribution and the wPoE distribution is no worse than the best individual expert.</p>
+<p>Although Geoffrey Hinton proposed Product of Experts <sup id="fnref:PoE"><a class="footnote-ref" href="#fn:PoE">3</a></sup> a long time ago, and there are also variants like Generalized Product of Experts<sup id="fnref:gPoE"><a class="footnote-ref" href="#fn:gPoE">4</a></sup>, these methods usually train the experts jointly. In contrast, we operate under a setting where each expert's distribution is fixed and cannot be changed (i.e., pretrained models).</p>
+<details>
+<summary>Proposition Proof</summary>
+
+<h4 id="proof-of-proposition">Proof of Proposition<a class="headerlink" href="#proof-of-proposition" title="Permanent link">&para;</a></h4>
+<p>Let <span class="arithmatex">\(p_{\theta_1},p_{\theta_2},...,p_{\theta_K}\)</span> be <span class="arithmatex">\(K\)</span> autoregressive models used to compress a sequence <span class="arithmatex">\(x_{&lt;n+1} = \{x_1, x_2, \dots, x_n\}\)</span>, where <span class="arithmatex">\(X_{&lt;n} \sim p_{\text{data}}\)</span>. Each <span class="arithmatex">\(x_i\)</span> takes values from the dictionary <span class="arithmatex">\(\mathcal{A} = \{ a_1, \dots, a_D \}\)</span>. For an autoregressive model <span class="arithmatex">\(p_{\theta_k}\)</span>, the following equation reveals the relationship between the joint distribution of <span class="arithmatex">\(X_{&lt;n}\)</span> and the conditional distribution of <span class="arithmatex">\(X_n\)</span>:</p>
+<div class="arithmatex">\[
+p_{\theta_k}(X_{&lt;n+1}) = \displaystyle\prod_{i = 1}^{n} p_{\theta_k}(X_i \mid X_{&lt;i}).
+\]</div>
+<p>Therefore, the cross entropy between <span class="arithmatex">\(p_{\text{data}}\)</span> and a certain model <span class="arithmatex">\(p_{\theta_k}\)</span> can be expanded as follows:</p>
+<div class="arithmatex">\[
+H(p_{\text{data}},p_{\theta_k}) = \underset{p_{\text{data}}}{\mathbb{E}} \sum_{i = 1}^{n} -\log p_{\theta_k}(X_i \mid X_{&lt;i}).
+\]</div>
+<p>Our weighted product of experts (wPoE) model is given by:</p>
+<div class="arithmatex">\[
+p_{\boldsymbol{\theta}, \boldsymbol{\alpha}}(X_n\mid  X_{&lt;n}) \;=\;  \frac{1}{Z(\boldsymbol{\theta}, \boldsymbol{\alpha},n)}
+\displaystyle\prod_{k = 1}^K p_{\theta_k}(X_n  \mid  X_{&lt;n})^{\alpha_k},
+\]</div>
+<p>where the weights are <span class="arithmatex">\(\boldsymbol{\alpha} = \{\alpha_1,...,\alpha_K\}\)</span>, <span class="arithmatex">\(\alpha_k \in[0,1]\)</span>, <span class="arithmatex">\(\sum_{k = 1}^K \alpha_k = 1\)</span>, the parameters of experts are <span class="arithmatex">\(\boldsymbol{\theta} = \{\theta_1,...,\theta_K\}\)</span>, and the normalization constant is</p>
+<div class="arithmatex">\[
+Z(\boldsymbol{\theta}, \boldsymbol{\alpha}, n) \;=\; \sum_{a \in \mathcal{A}}\prod_{k = 1}^K p_{\theta_k}(X_n = a \mid  X_{&lt;n})^{\alpha_k}.
+\]</div>
+<p>Here we can derive:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+H(p_{\text{data}}, p_{\boldsymbol{\theta}, \boldsymbol{\alpha}}) 
+&amp;=  \sum_{k = 1}^K \alpha_k H(p_{\text{data}},p_{\theta_k})
++\underset{p_{\text{data}}}{\mathbb{E}} \displaystyle\sum_{i=1}^{n} \log \left[Z(\boldsymbol{\theta}, \boldsymbol{\alpha},i)\right].
+\end{aligned}
+\]</div>
+<p>To complete the proof, we introduce the following technical lemma for bounding <span class="arithmatex">\(Z(\boldsymbol{\theta}, \boldsymbol{\alpha},i)\)</span>.</p>
+<h5 id="lemma-1">Lemma 1<a class="headerlink" href="#lemma-1" title="Permanent link">&para;</a></h5>
+<p>Let <span class="arithmatex">\(p^{(k)} = \bigl(p^{(k)}_1, \ldots, p^{(k)}_D\bigr)\)</span> for <span class="arithmatex">\(k=1,\dots,K\)</span> be <span class="arithmatex">\(K\)</span> categorical distributions, so <span class="arithmatex">\(\sum_{j=1}^D p^{(k)}_j = 1\)</span> for each <span class="arithmatex">\(k\)</span>. Let <span class="arithmatex">\(\alpha_1,\dots,\alpha_K \ge 0\)</span> satisfy <span class="arithmatex">\(\sum_{k=1}^K \alpha_k = 1.\)</span> Then</p>
+<div class="arithmatex">\[
+\sum_{j=1}^D 
+\prod_{k=1}^K \bigl(p^{(k)}_j\bigr)^{\alpha_k}
+\;\;\le\;\; 1,
+\]</div>
+<p>with equality if and only if <span class="arithmatex">\(p^{(1)} = p^{(2)} = \cdots = p^{(K)}\)</span> or exactly one <span class="arithmatex">\(\alpha_k=1\)</span> and the rest are zero.</p>
+<p>From <code>Cauchy–Schwarz inequality</code>, it can be concluded that:</p>
+<div class="arithmatex">\[
+Z(\boldsymbol{\theta}, \boldsymbol{\alpha},i) \leq  1, \quad \forall \boldsymbol{\theta}, \boldsymbol{\alpha},i.
+\]</div>
+<p>Equality holds if and only if each distribution <span class="arithmatex">\(p_{\theta_k}(X_i \mid X_{&lt;i})\)</span> is the same, or <span class="arithmatex">\(\alpha_k = 1\)</span> and others are 0. Thus we can conclude that:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\inf_{\boldsymbol{\alpha}}H(p_{\text{data}},p_{\boldsymbol{\theta}, \boldsymbol{\alpha}} )
+&amp;\leq \min_{k \in \{1,\dots,K\}} H(p_{\text{data}}, p_{\theta_k})
++ \underset{p_{\text{data}}}{\mathbb{E}} \displaystyle\sum_{i=1}^{n} \log \left[Z(\boldsymbol{\theta}, \boldsymbol{\alpha},i)\right] \\
+\inf_{\boldsymbol{\alpha}}H(p_{\text{data}},p_{\boldsymbol{\theta}, \boldsymbol{\alpha}} )
+&amp;\leq \min_{k \in \{1,\dots,K\}} H(p_{\text{data}}, p_{\theta_k}).
+\end{aligned}
+\]</div>
+</details>
+<h3 id="the-intuition-behind-the-mathematical-formulation">⭐️ The intuition behind the mathematical formulation<a class="headerlink" href="#the-intuition-behind-the-mathematical-formulation" title="Permanent link">&para;</a></h3>
+<p>In the proof, we can see that the cross entropy of the ensemble model can be reformulated into the following form, and this form provides intuition for why our experiments work. </p>
+<div class="arithmatex">\[
+\begin{aligned}
+H(p_{\text{data}}, p_{\boldsymbol{\theta}, \boldsymbol{\alpha}}) 
+&amp;=  \sum_{k = 1}^K \alpha_k H(p_{\text{data}},p_{\theta_k})
++\underset{p_{\text{data}}}{\mathbb{E}} \displaystyle\sum_{i=1}^{n} \log \left[Z(\boldsymbol{\theta}, \boldsymbol{\alpha},i)\right].
+\end{aligned},
+\]</div>
+<p>where:</p>
+<div class="arithmatex">\[
+Z(\boldsymbol{\theta}, \boldsymbol{\alpha}, n) \;=\; \sum_{a \in \mathcal{A}}\prod_{k = 1}^K p_{\theta_k}(X_n = a \mid  X_{&lt;n})^{\alpha_k}.
+\]</div>
+<p><br></p>
+<h4 id="how-can-we-improve-the-ensemble-wpoe-models-performance-from-the-perspective-of-the-first-term">⭐️ How can we improve the ensemble wPoE model's performance from the perspective of the first term?<a class="headerlink" href="#how-can-we-improve-the-ensemble-wpoe-models-performance-from-the-perspective-of-the-first-term" title="Permanent link">&para;</a></h4>
+<p>The first term of this formulation is the weighted average of the cross entropy between the data distribution and each expert (model), where the weights are the <span class="arithmatex">\(\alpha\)</span> values we want to learn or optimize using a small amount of data.</p>
+<p><strong>Conclusion:</strong></p>
+<blockquote>
+<p>Therefore, we can easily see that:</p>
+<ol>
+<li>The better the experts used in wPoE, the better the ensembled model is likely to be.</li>
+<li>The larger the weight (i.e., the corresponding <span class="arithmatex">\(\alpha\)</span> value) we assign to the best experts we have, the better the ensembled model is likely to be.</li>
+</ol>
+</blockquote>
+<p><br></p>
+<h4 id="how-can-we-improve-the-ensemble-wpoe-models-performance-from-the-perspective-of-the-second-term">⭐️ How can we improve the ensemble wPoE model's performance from the perspective of the second term?<a class="headerlink" href="#how-can-we-improve-the-ensemble-wpoe-models-performance-from-the-perspective-of-the-second-term" title="Permanent link">&para;</a></h4>
+<p>The second term is the expectation of the log partition function under the data distribution. The value of this term is always smaller than or equal to <code>0</code>.</p>
+<p>If we look into the details of the second term, we will find that it has the following excellent properties:</p>
+<ol>
+<li>
+<p><strong>This term is always smaller than or equal to <code>0</code> no matter what the data distribution is</strong>, since we didn't make any assumptions about the data distribution in the proof.</p>
+</li>
+<li>
+<p><strong>This term equals zero if and only if: <span class="arithmatex">\(p_{\theta_1} = p_{\theta_2} = \cdots = p_{\theta_K}\)</span> or exactly one <span class="arithmatex">\(\alpha_k=1\)</span> and the rest are <code>0</code></strong>, as proved by the Cauchy–Schwarz Inequality.</p>
+</li>
+<li>
+<p><strong>The more diverse the experts are, the smaller (more negative) this term is.</strong></p>
+</li>
+</ol>
+<details>
+  <summary>Click to expand the explanation</summary>
+  <ol>
+    <li>
+      For two-expert cases, this term behaves like a distance between two distributions. It becomes <code>0</code> only when the distributions are identical. The more diverse the distributions are, the smaller this term becomes, which helps reduce cross entropy and improves the wPoE ensemble on compression tasks.
+    </li>
+    <li>For K-expert cases, treat the ensemble of the first K-1 experts as a single model. The term then captures the distance between that ensemble and the Kth expert we are about to combine.</li>
+    <li>
+      This distance measures diversity differently from the usual KL divergence:
+      <ol>
+        <li>It is a true distance: symmetric, so swapping the order of the two distributions does not change its value.</li>
+        <li>The family of distances is controlled by the weights &alpha;<sub>k</sub>; when one weight is 1 and the others are 0, the distance collapses to 0.</li>
+        <li>With a fixed set of experts, the distance is convex in the weights. Starting from &alpha;<sub>k</sub> = 1 and gradually adding more experts shrinks this second term, and the optimization is straightforward because of convexity.</li>
+      </ol>
+    </li>
+  </ol>
+</details>
+
+<p><strong>Conclusion:</strong></p>
+<blockquote>
+<p>Therefore, we can see that:</p>
+<ol>
+<li>If the experts are diverse (as defined from the perspective of the second term), the wPoE ensembled model is likely to have better performance.</li>
+<li>If the experts are truly diverse, using non-sparse <span class="arithmatex">\(\alpha\)</span> weights will provide better performance.</li>
+</ol>
+</blockquote>
+<p><br></p>
+<h4 id="we-need-to-make-the-best-trade-off-between-the-first-term-and-the-second-term-on-the-target-data">⭐️ We need to make the best trade-off between the first term and the second term on the target data<a class="headerlink" href="#we-need-to-make-the-best-trade-off-between-the-first-term-and-the-second-term-on-the-target-data" title="Permanent link">&para;</a></h4>
+<p>It is easy to see that we should try to use experts that are both high-quality and diverse when choosing which experts to combine. <em>Thus, the best choice is to combine different models with good performance that are also diverse (e.g., trained on different data).</em></p>
+<p><strong>Diversity is crucial in wPoE:</strong></p>
+<blockquote>
+<p>Sometimes these two objectives conflict with each other. In this case, we only need to use a very small amount of data to find the optimal trade-off. In our experiments, we observe that:</p>
+<ol>
+<li>
+<p>When we combine another expert with good performance but not very different from the current one, the benefit that wPoE brings is quite small. (For example, when we combine two models of different sizes but trained on the same dataset.)</p>
+</li>
+<li>
+<p>When we combine another expert with even mediocre performance but very different from the current one, the benefit that wPoE brings is still significant and stable across various datasets and model combinations.</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="two-experts">Two Experts<a class="headerlink" href="#two-experts" title="Permanent link">&para;</a></h2>
+<h3 id="even-combining-simple-statistical-methods-can-help-llms-compress-better">⭐️ Even Combining Simple Statistical Methods Can Help LLMs Compress Better<a class="headerlink" href="#even-combining-simple-statistical-methods-can-help-llms-compress-better" title="Permanent link">&para;</a></h3>
+<p>To make LLMs perform better on potentially unseen data, we combine LLMs with simple statistical methods like Naive Bayes with Laplace smoothing, using wPoE:</p>
+<p>The distribution of Naive Bayes with Laplace smoothing is defined as:</p>
+<div class="arithmatex">\[
+q(X_n = a \mid X_{&lt;n}) := \frac{\sum_{k=1}^{n-1} \mathbb{I}(X_k = a) + 1}{n - 1 + D},
+\]</div>
+<p>where <span class="arithmatex">\(\mathbb{I}(\cdot)\)</span> denotes the indicator function and <span class="arithmatex">\(D\)</span> is the vocabulary size. </p>
+<p>We then combine the Naive Bayes with Laplace smoothing <span class="arithmatex">\(q\)</span> with a pretrained language model <span class="arithmatex">\(p_{\theta}\)</span> using the weighted product of experts as follows:</p>
+<div class="arithmatex">\[
+\pi_{\alpha}\!(X_n \vert X_{&lt;n}) \!= \!
+    \frac{q(X_n \vert X_{&lt;n})^{\alpha} p_{\theta}(X_n \vert X_{&lt;n})^{1 - \alpha}}
+    {Z(\theta, \alpha, n)},
+\]</div>
+<p>where <span class="arithmatex">\(\alpha\)</span> is a scalar since we have only two experts.
+Moreover, since we do not need to fine-tune the pretrained model <span class="arithmatex">\(p_{\theta}\)</span> (i.e., <span class="arithmatex">\(\theta\)</span> is frozen), we omit the dependency on <span class="arithmatex">\(\theta\)</span> in the wPoE model <span class="arithmatex">\(\pi\)</span>.</p>
+<h3 id="experiment-results">Experiment Results<a class="headerlink" href="#experiment-results" title="Permanent link">&para;</a></h3>
+<p>As mentioned in our paper, this combination helps various pretrained models achieve better compression rates across all datasets we collected from different sources.</p>
+<p>It is reasonable that as we use larger and larger models, the improvement brought by Naive Bayes becomes smaller, since larger models can already generalize better to potentially unseen data through large-scale training on vast amounts of data.</p>
+<blockquote>
+<p>However, what is not obvious is that even for very large LLMs like LLaMA 3-8B, the combination with Naive Bayes can still bring non-trivial improvements across various datasets. Considering how small the computational overhead of Naive Bayes is, and how weak Naive Bayes performs when used alone to compress data, this result is remarkable.</p>
+<p><span style="color:#1b4f9c;">
+<strong><em>This indicates that regardless of the performance of each individual model, the ensemble model obtained by wPoE can still benefit from the diversity of different models.</em></strong></span> </p>
+<p><span style="color:#1b4f9c;"> 
+<strong><em>This aligns with our intuition that diversity is key to improving the performance of wPoE.</em></strong></span></p>
+</blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All experiments are conducted to evaluate the compression rates on five datasets (lower is better).</p>
+</div>
+<h4 id="experiments-on-pretrained-vanilla-transformers">Experiments on pretrained vanilla Transformers<a class="headerlink" href="#experiments-on-pretrained-vanilla-transformers" title="Permanent link">&para;</a></h4>
+<details>
+<summary>Expand to see the full table</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Tokenizer</th>
+        <th>Compressor</th>
+        <th>math</th>
+        <th>code</th>
+        <th>shakespeare</th>
+        <th>enwik8*</th>
+        <th>enwik9*</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Byte Level</strong></td>
+        <td>gzip</td>
+        <td>43.59%</td>
+        <td>36.72%</td>
+        <td>52.80%</td>
+        <td>49.14%</td>
+        <td>48.07%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>LZMA2</td>
+        <td>45.35%</td>
+        <td>38.61%</td>
+        <td>56.86%</td>
+        <td>51.33%</td>
+        <td>49.98%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Naive Bayes</td>
+        <td>68.90%</td>
+        <td>64.65%</td>
+        <td>64.57%</td>
+        <td>66.03%</td>
+        <td>67.14%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Transformer 200K</td>
+        <td>56.25%</td>
+        <td>65.67%</td>
+        <td>44.04%</td>
+        <td>31.59%</td>
+        <td>30.74%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>Transformer 200K + Ours</strong></td>
+        <td><strong>50.95%</strong></td>
+        <td><strong>53.94%</strong></td>
+        <td><strong>42.12%</strong></td>
+        <td><strong>31.58%</strong></td>
+        <td><strong>30.71%</strong></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Transformer 800K</td>
+        <td>47.41%</td>
+        <td>62.13%</td>
+        <td>40.53%</td>
+        <td>25.97%</td>
+        <td>25.52%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>Transformer 800K + Ours</strong></td>
+        <td><strong>44.34%</strong></td>
+        <td><strong>49.68%</strong></td>
+        <td><strong>38.79%</strong></td>
+        <td><strong>25.94%</strong></td>
+        <td><strong>25.45%</strong></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Transformer 3.2M</td>
+        <td>34.15%</td>
+        <td>41.02%</td>
+        <td>32.02%</td>
+        <td>18.53%</td>
+        <td>17.66%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>Transformer 3.2M + Ours</strong></td>
+        <td><strong>32.04%</strong></td>
+        <td><strong>36.61%</strong></td>
+        <td><strong>31.29%</strong></td>
+        <td><strong>18.52%</strong></td>
+        <td><strong>17.65%</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+
+<h4 id="experiments-on-gpt-2">Experiments on GPT-2<a class="headerlink" href="#experiments-on-gpt-2" title="Permanent link">&para;</a></h4>
+<details>
+<summary>Expand to see the full table</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Tokenizer</th>
+        <th>Compressor</th>
+        <th>math</th>
+        <th>code</th>
+        <th>shakespeare</th>
+        <th>enwik8*</th>
+        <th>enwik9*</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>BPE (GPT-2)</strong></td>
+        <td>Naive Bayes</td>
+        <td>66.41%</td>
+        <td>59.30%</td>
+        <td>49.74%</td>
+        <td>48.85%</td>
+        <td>53.43%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>GPT-2</td>
+        <td>17.68%</td>
+        <td>14.17%</td>
+        <td>23.44%</td>
+        <td>16.48%</td>
+        <td>16.73%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>GPT-2 + Ours</strong></td>
+        <td><strong>17.55%</strong></td>
+        <td><strong>14.16%</strong></td>
+        <td><strong>23.11%</strong></td>
+        <td><strong>16.42%</strong></td>
+        <td><strong>16.65%</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+
+<h4 id="experiments-on-llama-3">Experiments on LLaMA 3<a class="headerlink" href="#experiments-on-llama-3" title="Permanent link">&para;</a></h4>
+<details>
+<summary>Expand to see the full table</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Tokenizer</th>
+        <th>Compressor</th>
+        <th>math</th>
+        <th>code</th>
+        <th>shakespeare</th>
+        <th>enwik8*</th>
+        <th>enwik9*</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>BPE (LLaMA 3)</strong></td>
+        <td>Naive Bayes</td>
+        <td>68.70%</td>
+        <td>47.54%</td>
+        <td>51.35%</td>
+        <td>48.87%</td>
+        <td>51.93%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>LLaMA 3.2-1B</td>
+        <td>8.54%</td>
+        <td>6.66%</td>
+        <td>16.51%</td>
+        <td>10.22%</td>
+        <td>10.05%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>LLaMA 3.2-1B + Ours</strong></td>
+        <td><strong>8.48%</strong></td>
+        <td><strong>6.64%</strong></td>
+        <td><strong>16.42%</strong></td>
+        <td><strong>10.16%</strong></td>
+        <td><strong>9.98%</strong></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>LLaMA 3.2-3B</td>
+        <td>7.56%</td>
+        <td>5.99%</td>
+        <td>13.97%</td>
+        <td>9.16%</td>
+        <td>8.93%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>LLaMA 3.2-3B + Ours</strong></td>
+        <td><strong>7.50%</strong></td>
+        <td><strong>5.95%</strong></td>
+        <td><strong>13.88%</strong></td>
+        <td><strong>9.09%</strong></td>
+        <td><strong>8.86%</strong></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>LLaMA 3-8B</td>
+        <td>6.90%</td>
+        <td>5.61%</td>
+        <td>4.74%</td>
+        <td>8.18%</td>
+        <td>8.10%</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>LLaMA 3-8B + Ours</strong></td>
+        <td><strong>6.84%</strong></td>
+        <td><strong>5.57%</strong></td>
+        <td><strong>4.73%</strong></td>
+        <td><strong>8.12%</strong></td>
+        <td><strong>8.04%</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+
+<h2 id="multiple-experts">Multiple Experts<a class="headerlink" href="#multiple-experts" title="Permanent link">&para;</a></h2>
+<p>Beyond combining simple statistical methods with LLMs, we can also combine multiple pretrained LLMs together to further improve compression rates.</p>
+<h3 id="experiment-results_1">Experiment Results<a class="headerlink" href="#experiment-results_1" title="Permanent link">&para;</a></h3>
+<p>The three decoder-only transformers we used are all trained on the same dataset (i.e., enwik8) but with different model sizes (i.e., 200k, 800k, and 3.2M parameters respectively). We combine them together using wPoE and evaluate the compression rates on three new datasets (i.e., math, code, and shakespeare).</p>
+<p>The results show that even if transformer 200k and transformer 800k are much more powerful than Naive Bayes when used alone, the improvement brought by combining Naive Bayes with LLMs is still significant. This indicates that diversity is really important to wPoE, some times even more important than the performance of each expert.</p>
+<details>
+<summary>Expand to see the full table</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Compressor</th>
+        <th>math</th>
+        <th>code</th>
+        <th>shakespeare</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1 expert</td>
+        <td>34.15%</td>
+        <td>41.02%</td>
+        <td>32.02%</td>
+      </tr>
+      <tr>
+        <td>2 experts wPoE</td>
+        <td>33.63%</td>
+        <td>40.59%</td>
+        <td>31.99%</td>
+      </tr>
+      <tr>
+        <td>3 experts wPoE</td>
+        <td>33.62%</td>
+        <td>40.46%</td>
+        <td>31.97%</td>
+      </tr>
+      <tr>
+        <td><strong>4 experts wPoE</strong></td>
+        <td><strong>31.99%</strong></td>
+        <td><strong>36.49%</strong></td>
+        <td><strong>31.35%</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+
+<h2 id="possible-applications-in-other-domains">Possible Applications in Other Domains<a class="headerlink" href="#possible-applications-in-other-domains" title="Permanent link">&para;</a></h2>
+<!-- TODO: Add potential future applications -->
+<p>To be done.</p>
+<!-- TODO: Add an explanation of the code implementation (i.e., how to use it) -->
+
+<!-- TODO: Add a comparison between weighted sum and weighted product of probabilities -->
+
+<h2 id="citation">Citation<a class="headerlink" href="#citation" title="Permanent link">&para;</a></h2>
+<p>If you find our work useful in your research, please consider citing:</p>
+<div class="highlight"><pre><span></span><code><span class="nc">@inproceedings</span><span class="p">{</span><span class="nl">zhang-etal-2025-test</span><span class="p">,</span>
+<span class="w">    </span><span class="na">title</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Test-Time Steering for Lossless Text Compression via Weighted Product of Experts&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">author</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Zhang, Qihang  and</span>
+<span class="s">      Li, Muchen  and</span>
+<span class="s">      Wang, Ziao  and</span>
+<span class="s">      Liao, Renjie  and</span>
+<span class="s">      Wang, Lele&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">editor</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Christodoulopoulos, Christos  and</span>
+<span class="s">      Chakraborty, Tanmoy  and</span>
+<span class="s">      Rose, Carolyn  and</span>
+<span class="s">      Peng, Violet&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">booktitle</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Findings of the Association for Computational Linguistics: EMNLP 2025&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">month</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nv">nov</span><span class="p">,</span>
+<span class="w">    </span><span class="na">year</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;2025&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">address</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Suzhou, China&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">publisher</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Association for Computational Linguistics&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://aclanthology.org/2025.findings-emnlp.110/&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">pages</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;2076--2088&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">ISBN</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;979-8-89176-335-7&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">abstract</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Lossless compression techniques are crucial in an era of rapidly growing data. Traditional universal compressors like gzip offer low computational overhead, high speed, and broad applicability across data distributions. However, they often lead to worse compression rates than modern neural compressors, which leverage large-scale training data to model data distributions more effectively.Despite their advantages, neural compressors struggle to generalize to unseen data. To address this limitation, we propose a novel framework that performs Test-Time Steering via a Weighted Product of Experts (wPoE).At inference, our method adaptively combines a universal compression model with a pretrained neural language model, ensuring the compression rate is at least as good as the best individual model.Extensive experiments demonstrate that our approach improves the performance of text compression without requiring fine-tuning. Furthermore, it seamlessly integrates with any autoregressive language model, providing a practical solution for enhancing text compression across diverse data distributions.&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><em>References</em></p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:zhang-etal-2025-test">
+<p>Qihang Zhang, Muchen Li, Ziao Wang, Renjie Liao, and Lele Wang. Test-time steering for lossless text compression via weighted product of experts. In Christos Christodoulopoulos, Tanmoy Chakraborty, Carolyn Rose, and Violet Peng, editors, <em>Findings of the Association for Computational Linguistics: EMNLP 2025</em>, 2076–2088. Suzhou, China, November 2025. Association for Computational Linguistics. URL: <a href="https://aclanthology.org/2025.findings-emnlp.110/">https://aclanthology.org/2025.findings-emnlp.110/</a>.&#160;<a class="footnote-backref" href="#fnref:zhang-etal-2025-test" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:delétang2024languagemodelingcompression">
+<p>Grégoire Delétang, Anian Ruoss, Paul-Ambroise Duquenne, Elliot Catt, Tim Genewein, Christopher Mattern, Jordi Grau-Moya, Li Kevin Wenliang, Matthew Aitchison, Laurent Orseau, Marcus Hutter, and Joel Veness. Language modeling is compression. 2024. URL: <a href="https://arxiv.org/abs/2309.10668">https://arxiv.org/abs/2309.10668</a>, <a href="https://arxiv.org/abs/2309.10668">arXiv:2309.10668</a>.&#160;<a class="footnote-backref" href="#fnref:delétang2024languagemodelingcompression" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:PoE">
+<p>Geoffrey E Hinton. Training products of experts by minimizing contrastive divergence. <em>Neural computation</em>, 14(8):1771–1800, 2002.&#160;<a class="footnote-backref" href="#fnref:PoE" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:gPoE">
+<p>Yanshuai Cao and David J. Fleet. Generalized product of experts for automatic and principled fusion of gaussian process predictions. <em>CoRR</em>, 2014. URL: <a href="http://arxiv.org/abs/1410.7827">http://arxiv.org/abs/1410.7827</a>, <a href="https://arxiv.org/abs/1410.7827">arXiv:1410.7827</a>.&#160;<a class="footnote-backref" href="#fnref:gPoE" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="Qihang-Zhang/Learning-Sys-Blog"
+        data-repo-id="R_kgDOOA4-JA"
+        data-category="Ideas"
+        data-category-id="DIC_kwDOOA4-JM4CvqZ7"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+<!-- Comments used to test Github Actions -->
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../06/max-ent-rl-and-boltzmann-distribution.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Why the Exponential? From Max‑Entropy RL to the Boltzmann Distribution">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Why the Exponential? From Max‑Entropy RL to the Boltzmann Distribution
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="weighted-product-of-experts.html" class="md-footer__link md-footer__link--next" aria-label="Next: Test-Time Steering for Lossless Text Compression via Weighted Product of Experts">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Test-Time Steering for Lossless Text Compression via Weighted Product of Experts
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["katex", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "search.suggest", "search.highlight", "search.share", "header.autohide", "navigation.footer", "toc.integrate", "navigation.sections", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

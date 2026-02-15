@@ -1,0 +1,1525 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+        <link rel="next" href="max-ent-rl-and-boltzmann-distribution.html">
+      
+      
+      <link rel="icon" href="https://comping-style.qihang-zhang.com/assets/fruit/lemon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Why the Exponential? From Max‑Entropy RL to the Boltzmann Distribution - Qihang’s Log | Learning Systems</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+  
+  
+    
+    
+      
+    
+    
+  
+    
+    
+      
+    
+    
+  
+    
+    
+      
+    
+    
+  
+  
+  <style>:root{.md-tag.md-tag--html{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20384%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%206.7.2%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202024%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22m0%2032%2034.9%20395.8L191.5%20480l157.6-52.2L384%2032zm308.2%20127.9H124.4l4.1%2049.4h175.6l-13.6%20148.4-97.9%2027v.3h-1.1l-98.7-27.3-6-75.8h47.7L138%20320l53.5%2014.5%2053.7-14.5%206-62.2H84.3L71.5%20112.2h241.1z%22/%3E%3C/svg%3E');}.md-tag.md-tag--js{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%206.7.2%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202024%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M0%2032v448h448V32zm243.8%20349.4c0%2043.6-25.6%2063.5-62.9%2063.5-33.7%200-53.2-17.4-63.2-38.5l34.3-20.7c6.6%2011.7%2012.6%2021.6%2027.1%2021.6%2013.8%200%2022.6-5.4%2022.6-26.5V237.7h42.1zm99.6%2063.5c-39.1%200-64.4-18.6-76.7-43l34.3-19.8c9%2014.7%2020.8%2025.6%2041.5%2025.6%2017.4%200%2028.6-8.7%2028.6-20.8%200-14.4-11.4-19.5-30.7-28l-10.5-4.5c-30.4-12.9-50.5-29.2-50.5-63.5%200-31.6%2024.1-55.6%2061.6-55.6%2026.8%200%2046%209.3%2059.8%2033.7L368%20290c-7.2-12.9-15-18-27.1-18-12.3%200-20.1%207.8-20.1%2018%200%2012.6%207.8%2017.7%2025.9%2025.6l10.5%204.5c35.8%2015.3%2055.9%2031%2055.9%2066.2%200%2037.8-29.8%2058.6-69.7%2058.6%22/%3E%3C/svg%3E');}.md-tag.md-tag--css{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%206.7.2%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202024%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22m480%2032-64%20368-223.3%2080L0%20400l19.6-94.8h82l-8%2040.6L210%20390.2l134.1-44.4%2018.8-97.1H29.5l16-82h333.7l10.5-52.7H56.3l16.3-82z%22/%3E%3C/svg%3E');}}</style>
+
+    
+    
+      
+        <script src="https://unpkg.com/iframe-worker/shim"></script>
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://comping-style.qihang-zhang.com/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#why-the-exponential-from-maxentropy-rl-to-the-boltzmann-distribution" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="https://qihang-zhang.com/" title="Qihang’s Log | Learning Systems" class="md-header__button md-logo" aria-label="Qihang’s Log | Learning Systems" data-md-component="logo">
+      
+  <img src="https://comping-style.qihang-zhang.com/assets/fruit/watermelon.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Qihang’s Log | Learning Systems
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Why the Exponential? From Max‑Entropy RL to the Boltzmann Distribution
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 2c-1.05 0-2.05.16-3 .46 4.06 1.27 7 5.04 7 9.54s-2.94 8.27-7 9.54c.95.3 1.95.46 3 .46a10 10 0 0 0 10-10A10 10 0 0 0 9 2"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Qihang-Zhang/Learning-Sys-Blog" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Learning-Sys-Blog
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="../../../index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../archive/2025.html" class="md-tabs__link">
+          
+  
+  
+  Archive
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../category/energy-based-models.html" class="md-tabs__link">
+          
+  
+  
+  Categories
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://qihang-zhang.com/" title="Qihang’s Log | Learning Systems" class="md-nav__button md-logo" aria-label="Qihang’s Log | Learning Systems" data-md-component="logo">
+      
+  <img src="https://comping-style.qihang-zhang.com/assets/fruit/watermelon.svg" alt="logo">
+
+    </a>
+    Qihang’s Log | Learning Systems
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Qihang-Zhang/Learning-Sys-Blog" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Learning-Sys-Blog
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href="../../../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Archive
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../archive/2025.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Categories
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Categories
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/energy-based-models.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Energy-Based Models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/information-theory.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Information Theory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/qihangs-research.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qihang's Research
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/reinforcement-learning.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reinforcement Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/statistical-mechanics.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistical Mechanics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../index.html" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://avatars.githubusercontent.com/u/148497514?v=4" alt="Qihang">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Qihang
+                        
+                      </strong>
+                      <br>
+                      Learning By Doing
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2025-10-06 00:00:00+00:00" class="md-ellipsis">Oct 6, 2025</time>
+                      </div>
+                    </li>
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2025-10-11 00:00:00+00:00" class="md-ellipsis">Oct 11, 2025</time>
+                        </div>
+                      </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../category/reinforcement-learning.html">Reinforcement Learning</a>, 
+                              <a href="../../../category/information-theory.html">Information Theory</a>, 
+                              <a href="../../../category/statistical-mechanics.html">Statistical Mechanics</a>, 
+                              <a href="../../../category/energy-based-models.html">Energy-Based Models</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              30 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+            
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maximum-entropy-reinforcement-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maximum Entropy Reinforcement Learning
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Maximum Entropy Reinforcement Learning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optimal-soft-policy-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optimal-Soft Policy Form
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proof-of-optimal-soft-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      Proof of Optimal-Soft Form
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Proof of Optimal-Soft Form">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jpit-is-a-concave-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      \(J(\pi,T)\) is a Concave function
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-the-optimal-soft-policy-via-method-of-lagrange-multipliers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get The Optimal-Soft Policy Via Method of Lagrange Multipliers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#energy-based-models-ebm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Energy-Based Models (EBM)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Energy-Based Models (EBM)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-very-first-energy-based-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Very First Energy-Based Model
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Very First Energy-Based Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hopfield-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hopfield Network
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boltzmann-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boltzmann Machine
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boltzmann-distribution-and-gibbs-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boltzmann Distribution and Gibbs Distribution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Boltzmann Distribution and Gibbs Distribution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-origin-of-boltzmann-and-gibbs-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Origin of Boltzmann and Gibbs Distribution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Origin of Boltzmann and Gibbs Distribution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gibbs-distribution-a-more-general-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gibbs Distribution: A More General Framework
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jayness-principle-of-maximum-entropy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jaynes's Principle of Maximum Entropy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jaynes&#39;s Principle of Maximum Entropy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      History
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="why-the-exponential-from-maxentropy-rl-to-the-boltzmann-distribution">Why the Exponential? From Max‑Entropy RL to the Boltzmann Distribution<a class="headerlink" href="#why-the-exponential-from-maxentropy-rl-to-the-boltzmann-distribution" title="Permanent link">&para;</a></h1>
+<p>Modern RL, attention mechanisms, classification, energy-based modeling, and statistical mechanics keep arriving at the same exponential shape:</p>
+<div class="arithmatex">\[
+p(x)\;\propto\;\exp(\text{logits or reward}(x)/T)\quad\text{or}\quad p(x)\;\propto\;\exp(-E(x)/T).
+\]</div>
+<p>Why does the exponential keep showing up, and what does the "temperature" actually do?</p>
+<!-- more -->
+
+<p>To demonstrate some intuitions, this post will go through three views to explain why the exponential form is ubiquitous:</p>
+<p>1) <strong>Maximum Entropy Reinforcement Learning (MaxEnt RL)</strong>: the optimal soft policy is an exponential of reward with an entropy-weighted objective;</p>
+<p>2) <strong>Energy-based Models (EBMs)</strong>: probabilities are Boltzmann weights with a partition function <span class="arithmatex">\(Z\)</span>;</p>
+<p>3) <strong>Statistical Mechanics</strong>: Jaynes's maximum-entropy principle and ensemble theory (Boltzmann → Gibbs → Shannon → Jaynes) make the exponential inevitable under mean-value constraints.</p>
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<div class="toc">
+<ul>
+<li><a href="#why-the-exponential-from-maxentropy-rl-to-the-boltzmann-distribution">Why the Exponential? From Max‑Entropy RL to the Boltzmann Distribution</a><ul>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#maximum-entropy-reinforcement-learning">Maximum Entropy Reinforcement Learning</a><ul>
+<li><a href="#optimal-soft-policy-form">Optimal-Soft Policy Form</a></li>
+<li><a href="#proof-of-optimal-soft-form">Proof of Optimal-Soft Form</a><ul>
+<li><a href="#jpit-is-a-concave-function">\(J(\pi,T)\) is a Concave function</a></li>
+<li><a href="#get-the-optimal-soft-policy-via-method-of-lagrange-multipliers">Get The Optimal-Soft Policy Via Method of Lagrange Multipliers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#energy-based-models-ebm">Energy-Based Models (EBM)</a><ul>
+<li><a href="#the-very-first-energy-based-model">The Very First Energy-Based Model</a><ul>
+<li><a href="#hopfield-network">Hopfield Network</a></li>
+<li><a href="#boltzmann-machine">Boltzmann Machine</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#boltzmann-distribution-and-gibbs-distribution">Boltzmann Distribution and Gibbs Distribution</a><ul>
+<li><a href="#the-origin-of-boltzmann-and-gibbs-distribution">The Origin of Boltzmann and Gibbs Distribution</a><ul>
+<li><a href="#gibbs-distribution-a-more-general-framework">Gibbs Distribution: A More General Framework</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#jayness-principle-of-maximum-entropy">Jaynes's Principle of Maximum Entropy</a><ul>
+<li><a href="#history">History</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="maximum-entropy-reinforcement-learning">Maximum Entropy Reinforcement Learning<a class="headerlink" href="#maximum-entropy-reinforcement-learning" title="Permanent link">&para;</a></h2>
+<p>Last week I was reading the paper <a href="https://arxiv.org/abs/1812.05905">All Roads Lead to Likelihood: The Value of Reinforcement Learning in Fine-Tuning</a><sup id="fnref:swamy2025roadsleadlikelihoodvalue"><a class="footnote-ref" href="#fn:swamy2025roadsleadlikelihoodvalue">1</a></sup>. In their proof to prove that DPO is equivalent to first train a reward model and then do on-policy RL to optimize the LLM with the help of the reward model, they used the conclusion from Maximum Entropy Reinforcement Learning (MaxEnt RL).</p>
+<p>Since the MaxEnt RL framework underlies many modern reinforcement learning algorithms, I revisit its derivation here. During this process, I also found its close connection to statistical mechanics, which I will elaborate on below.</p>
+<h3 id="optimal-soft-policy-form">Optimal-Soft Policy Form<a class="headerlink" href="#optimal-soft-policy-form" title="Permanent link">&para;</a></h3>
+<p>In LLM post-training, when we have a reward function <span class="arithmatex">\(r_{\theta}(\xi, s_0)\)</span> to calculate the reward of a given trajectory <span class="arithmatex">\(\xi\)</span> generated by a LLM <span class="arithmatex">\(\pi \in \Pi\)</span> conditioned on the initial state <span class="arithmatex">\(s_0\)</span>, i.e. <span class="arithmatex">\(\xi \sim \pi(\cdot \mid s_0)\)</span>, we want to find the optimal-soft policy <span class="arithmatex">\(\pi_{r_{\theta}, T}^\star\)</span> that maximizes the expected reward while also not too complex so that it won't overfit the learned reward model, which itself acts as a synthetic data proxy.</p>
+<p>Furthermore, we include an entropy regularization term, following Jaynes's maximum entropy principle, to encourage exploration and prevent degenerate deterministic policies.</p>
+<p><strong>The Optimal-Soft Policy Form is defined as follows:</strong></p>
+<div class="arithmatex">\[
+\begin{align}
+  \pi _{r _{\theta}, T}^\star 
+  &amp;= \operatorname*{argmax} _{\pi\in\Pi} \;
+  \mathbb{E} _{\xi\sim\pi} \! \left[r _{\theta}(\xi, s_0)\right] + T \cdot \mathcal{H}(\pi)\\
+  \iff &amp; \pi _{r _{\theta}, T}^\star(\xi \mid s_0)
+  = \frac{\exp\!\big(r _{\theta}(\xi, s_0)/T\big)}{Z(r _{\theta},s_0,T)},\\
+  &amp; \text{where }Z(r _{\theta},s_0,T) = \sum _{\xi'\in \Xi}\exp\!\big(r _{\theta}(\xi', s_0)/T\big)
+\end{align}
+\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(\pi\)</span> is a policy in <span class="arithmatex">\(\Pi\)</span>, <span class="arithmatex">\(\Pi\)</span> is the set of all possible policies;</li>
+<li>Both <span class="arithmatex">\(\xi\)</span> and <span class="arithmatex">\(\xi'\)</span> are trajectories in <span class="arithmatex">\(\Xi\)</span>, <span class="arithmatex">\(\Xi\)</span> is the set of all possible trajectories;</li>
+<li><span class="arithmatex">\(s_0\)</span> is the initial state, <span class="arithmatex">\(s_0 \sim \rho(s_0)\)</span>, it is corresponding to the prompt in LLM post-training;</li>
+<li><span class="arithmatex">\(T\)</span> is a temperature parameter that controls the exploration-exploitation trade-off in Reinforcement Learning, or can be explained as a regularization strength that controls the importance of the entropy term in the objective function.</li>
+</ul>
+<h3 id="proof-of-optimal-soft-form">Proof of Optimal-Soft Form<a class="headerlink" href="#proof-of-optimal-soft-form" title="Permanent link">&para;</a></h3>
+<p>If we denote <span class="arithmatex">\(\pi_i = \pi_{r_{\theta}}(\xi_i \mid s_0), \; r_i = r_{\theta}(\xi_i \mid s_0)\)</span>:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+J(\pi,T) &amp;=\mathbb{E} _{\xi\sim\pi} \! \left[r _{\theta}(\xi, s_0)\right] + T \cdot \mathcal{H}(\pi) \\
+&amp;= \sum_i \pi_i r_i -T \sum_i \pi_i \log \pi_i\\
+\end{aligned}
+\]</div>
+<div class="arithmatex">\[
+J(\pi,T) = \underbrace{\sum_i \pi_i r_i}_{R(\pi)\text{: Expected Reward}} + T \cdot \underbrace{(- \sum_i \pi_i \log \pi_i)}_{H(\pi)\text{: Shannon Entropy}}
+\]</div>
+<p>In this formulation, the variables are <span class="arithmatex">\(\{\pi_1,...,\pi_{\mid \Xi \mid}\}\)</span>, the constraint is <span class="arithmatex">\(\displaystyle\sum_{i = 1}^{\mid \Xi \mid} \pi_i = 1\)</span>.</p>
+<p><br></p>
+<h4 id="jpit-is-a-concave-function"><span class="arithmatex">\(J(\pi,T)\)</span> is a Concave function<a class="headerlink" href="#jpit-is-a-concave-function" title="Permanent link">&para;</a></h4>
+<p>Given:
++ <span class="arithmatex">\(R(\pi) = \displaystyle\sum_{i = 1}^{\mid \Xi \mid} \pi_i r_i\)</span> is a linear function with respect to variables <span class="arithmatex">\(\{p_1,...,p_{\mid \Xi \mid}\}\)</span>. And thus it is a concave function.
++ <span class="arithmatex">\(H(\pi) = - \displaystyle\sum_{i = 1}^{\mid \Xi \mid} \pi_i \log \pi_i\)</span> is a strictly concave function. When <span class="arithmatex">\(T &gt; 0\)</span>, <span class="arithmatex">\(T \cdot H(\pi)\)</span> is also strictly concave.</p>
+<p>Thus when <span class="arithmatex">\(T &gt; 0\)</span>, the sum <span class="arithmatex">\(J(\pi,T) = R(\pi) + T \cdot H(\pi)\)</span> is strictly concave (since the sum of a concave and a strictly concave function is strictly concave).</p>
+<p>Because <span class="arithmatex">\(J(\pi,T)\)</span> is strictly concave under the normalization constraint when <span class="arithmatex">\(T &gt; 0\)</span>, the stationary point found below is the unique global optimum.</p>
+<p><br></p>
+<h4 id="get-the-optimal-soft-policy-via-method-of-lagrange-multipliers">Get The Optimal-Soft Policy Via Method of Lagrange Multipliers<a class="headerlink" href="#get-the-optimal-soft-policy-via-method-of-lagrange-multipliers" title="Permanent link">&para;</a></h4>
+<p>Given <span class="arithmatex">\(J(\pi,T)\)</span> is a Concave function, we have the following Lagrange Function:</p>
+<div class="arithmatex">\[
+\begin{align}
+\mathcal{L}(\pi, T, \lambda) 
+&amp;= \underbrace{J(\pi,T)}_{\text{Original Target}} - \lambda \cdot \underbrace{(\sum_i \pi_i - 1)}_{\text{Constrain}} \\
+&amp;= \sum_i \pi_i r_i -T \sum_i \pi_i \log \pi_i - \lambda \left( \sum_{i = 1}^{\mid \Xi \mid} \pi_i - 1 \right)
+\end{align}
+\]</div>
+<p>In order to find the maximum, we take the partial derivative with respect to any <span class="arithmatex">\(\pi_i\)</span> and set it to zero:
+$$
+\frac{\partial \mathcal{L}}{\partial \pi_i} = r_i - T (\log \pi_i + 1)  - \lambda = 0
+$$
+And we can get  <span class="arithmatex">\(\pi_i\)</span>:</p>
+<div class="arithmatex">\[
+\begin{align}
+    \log \pi_i &amp;= -1 -\lambda/T + r_i/T \\
+    \pi_i &amp;= \exp(-1 - \lambda/T) \cdot \exp(r_i/T)
+\end{align}
+\]</div>
+<p>Thus:
+$$
+\pi_{r_{\theta}}^\star(\xi_i \mid s_0) \propto \exp\big(r_{\theta}(\xi_i \mid s_0) / T\big)
+$$</p>
+<p>And Because <span class="arithmatex">\(\displaystyle\sum_{i = 1}^{\mid \Xi \mid} \pi_{r_{\theta}} = 1\)</span>, we can get the final form of Optimal-Soft Policy:</p>
+<div class="arithmatex">\[
+\begin{align}
+\pi _{r _{\theta}, T}^\star(\xi \mid s_0)
+&amp;= \frac{\exp\!\big(r _{\theta}(\xi, s_0)/T\big)}{Z(r _{\theta},s_0,T)}\\
+\text{where }Z(r _{\theta},s_0,T) &amp;= \sum _{\xi'\in \Xi}\exp\!\big(r _{\theta}(\xi', s_0)/T\big)
+\end{align}
+\]</div>
+<h2 id="energy-based-models-ebm">Energy-Based Models (EBM)<a class="headerlink" href="#energy-based-models-ebm" title="Permanent link">&para;</a></h2>
+<p>We have already known that the Optimal-Soft Policy is <span class="arithmatex">\(\pi_{r_{\theta}, T}^\star(\xi \mid s_0) = \frac{\exp(r _{\theta}(\xi, s_0)/T)}{Z(r _{\theta},s_0,T)}\)</span>, and we can regard it as a special energy-based model. </p>
+<p>In the context of energy-based models, we call <span class="arithmatex">\(E(\xi) = -r_{\theta}(\xi, s_0)\)</span> the energy function, while <span class="arithmatex">\(Z(r_{\theta}, s_0, T)\)</span> serves as the partition function that normalizes the probabilities.</p>
+<p>This identification reveals that the softmax over rewards in RL is mathematically identical to the Boltzmann distribution in physics, with reward playing the role of negative energy.</p>
+<h3 id="the-very-first-energy-based-model">The Very First Energy-Based Model<a class="headerlink" href="#the-very-first-energy-based-model" title="Permanent link">&para;</a></h3>
+<h4 id="hopfield-network">Hopfield Network<a class="headerlink" href="#hopfield-network" title="Permanent link">&para;</a></h4>
+<p>In 1982, J. Hopfield proposed the Hopfield Network <sup id="fnref:hopfield1982neural"><a class="footnote-ref" href="#fn:hopfield1982neural">2</a></sup>, which first introduced the concept of energy function in neural networks. </p>
+<h4 id="boltzmann-machine">Boltzmann Machine<a class="headerlink" href="#boltzmann-machine" title="Permanent link">&para;</a></h4>
+<p>The first work that relatively introduced energy based model in Machine Learning should be the paper by Hinton and Sejnowski in 1985 <sup id="fnref:hinton1985boltzmann"><a class="footnote-ref" href="#fn:hinton1985boltzmann">3</a></sup>, where they defined the probability distribution of Boltzmann machine via the Boltzmann distribution.</p>
+<h5 id="problem-setting">Problem Setting:<a class="headerlink" href="#problem-setting" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Given a set of binary vectors (data) <span class="arithmatex">\(\{v^L\}\)</span>, where <span class="arithmatex">\(v^L \in \{0,1\}^L\)</span>.</li>
+<li>In the dataset they used, there are 4 binary vectors with Length <span class="arithmatex">\(8\)</span>: </li>
+</ul>
+<div class="arithmatex">\[
+\begin{align}
+  \{&amp;(1,0,0,0) -&gt; (1,0,0,0), \\
+    &amp;(0,1,0,0) -&gt; (0,1,0,0), \\
+    &amp;(0,0,1,0) -&gt; (0,0,1,0), \\
+    &amp;(0,0,0,1) -&gt; (0,0,0,1)\}  
+\end{align}
+\]</div>
+<h5 id="the-energy-function-of-boltzmann-machine">The Energy Function of Boltzmann Machine<a class="headerlink" href="#the-energy-function-of-boltzmann-machine" title="Permanent link">&para;</a></h5>
+<p>The energy function of a Boltzmann machine is defined as follows:</p>
+<div class="arithmatex">\[
+E = - \sum_{i &lt; j} w_{ij} s_i s_j - \sum_i \theta_i s_i
+\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(E\)</span> is the energy of a global configuration of the network,</li>
+<li><span class="arithmatex">\(w_{ij}\)</span> are the weights between units <span class="arithmatex">\(i\)</span> and <span class="arithmatex">\(j\)</span>,</li>
+<li><span class="arithmatex">\(s_i\)</span> is 1 if unit <span class="arithmatex">\(i\)</span> is on, and 0 if it is off,</li>
+<li><span class="arithmatex">\(\theta_i\)</span> is a threshold for unit <span class="arithmatex">\(i\)</span>.</li>
+</ul>
+<p>As shown in the figure below, in their experiments setting, the Boltzmann machine has totally 10 units: the visible units 1-4 are corresponding to the first 4 digits, the visible units 7-10 are corresponding to the last 4 digits. The hidden units 5-6 are used to construct a information bottleneck and also disentangle the two part of data.</p>
+<div align="center">
+
+<pre class="mermaid"><code>flowchart TD
+  subgraph V1 [Visible Units]
+    direction LR
+    v1_1[Unit 1]
+    v1_2[Unit 2]
+    v1_3[Unit 3]
+    v1_4[Unit 4]
+
+    %% use invisible links to force horizontal layout
+    v1_1 ~~~ v1_2 ~~~ v1_3 ~~~ v1_4
+  end
+
+  subgraph H [Hidden Units]
+    direction LR
+    h1[Unit 5]
+    h2[Unit 6]
+
+    %% use invisible links to force horizontal layout
+    h1 ~~~ h2
+  end
+
+  subgraph V2 [Visible Units]
+    direction LR
+    v2_1[Unit 7]
+    v2_2[Unit 8]
+    v2_3[Unit 9]
+    v2_4[Unit 10]
+
+    %% use invisible links to force horizontal layout
+    v2_1 ~~~ v2_2 ~~~ v2_3 ~~~ v2_4
+  end
+
+  V1 ~~~ H
+  H ~~~ V2
+
+  style V1 fill:#e6f3ff,stroke:#333,stroke-width:2px
+  style H fill:#fffbe6,stroke:#333,stroke-width:2px
+  style V2 fill:#e6ffed,stroke:#333,stroke-width:2px</code></pre>
+
+</div>
+
+<h5 id="the-probability-distribution-of-boltzmann-machine">The Probability Distribution of Boltzmann Machine<a class="headerlink" href="#the-probability-distribution-of-boltzmann-machine" title="Permanent link">&para;</a></h5>
+<p>The probability distribution over the states of the Boltzmann machine is given by the Boltzmann distribution:</p>
+<div class="arithmatex">\[
+\frac{P_{\alpha}}{P_{\beta}} = e^{-(E_{\alpha} - E_{\beta})/T}
+\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(P_{\alpha}\)</span> is the probability of the network being in <span class="arithmatex">\(\alpha^{th}\)</span> state;</li>
+<li><span class="arithmatex">\(E_{\alpha}\)</span> is the energy of the corresponding state.</li>
+</ul>
+<p>Thus for arbitrary state <span class="arithmatex">\(\alpha\)</span>, we can get the probability of the network being in this state:</p>
+<div class="arithmatex">\[
+P_{\alpha} = \frac{e^{-E_{\alpha}/T}}{\displaystyle\sum_{\alpha^{\prime} \in \mathcal{A}} e^{-E_{\alpha^{\prime}}/T}} = \frac{e^{-E_{\alpha}/T}}{Z}
+\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(\mathcal{A}\)</span> is the set of all possible states of the network;</li>
+<li><span class="arithmatex">\(Z = \displaystyle\sum_{\alpha^{\prime} \in \mathcal{A}} e^{-E_{\alpha^{\prime}}/T}\)</span> is the partition function, ensuring that the probabilities sum to 1.</li>
+</ul>
+<h5 id="optimization-of-boltzmann-machine">Optimization of Boltzmann Machine<a class="headerlink" href="#optimization-of-boltzmann-machine" title="Permanent link">&para;</a></h5>
+<p>Optimization of Boltzmann machine is to minimize the Kullback-Leibler divergence between the data distribution and the model distribution, which is equivalent to maximizing the log-likelihood of the data under the model.</p>
+<div class="arithmatex">\[
+G = \sum_{\alpha} P(V_{\alpha}) \log \frac{P(V_{\alpha})}{P^{\prime}(V_{\alpha})}
+\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(P(V_{\alpha})\)</span> is the data distribution;</li>
+<li><span class="arithmatex">\(P^{\prime}(V_{\alpha})\)</span> is the model distribution defined by energy based model.</li>
+</ul>
+<p>They optimize <span class="arithmatex">\(G\)</span> via stochastic gradient descent on the energy parameters, a precursor to the contrastive divergence training used in later works.</p>
+<h2 id="boltzmann-distribution-and-gibbs-distribution">Boltzmann Distribution and Gibbs Distribution<a class="headerlink" href="#boltzmann-distribution-and-gibbs-distribution" title="Permanent link">&para;</a></h2>
+<p>After the above sections, we can realize that the ubiquitous exponential form in probabilistic models originates from statistical mechanics:</p>
+<ul>
+<li>
+<p>Generally speaking, the <strong>Boltzmann distribution</strong> refers specifically to the case under the <strong>canonical ensemble</strong> (NVT, i.e., constant particle number, volume, and temperature).</p>
+</li>
+<li>
+<p>The <strong>Gibbs distribution/measure</strong> is a more general concept that refers to any probability distribution of the form <span class="arithmatex">\(p \propto e^{-\beta H}\)</span> and can be applied to other physical ensembles.</p>
+</li>
+</ul>
+<p>The canonical definition of the Boltzmann distribution is as follows:</p>
+<div class="arithmatex">\[
+\displaystyle P(x) = \frac{e^{-\beta E(x)}}{Z}
+\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(\displaystyle x\)</span> represents a specific microstate of the system.</li>
+<li><span class="arithmatex">\(\displaystyle E(x)\)</span> is the energy of the system in the microstate <span class="arithmatex">\(x\)</span>.</li>
+<li><span class="arithmatex">\(\displaystyle \beta = \frac{1}{k_B T}\)</span> is the <strong>inverse temperature</strong>. <span class="arithmatex">\(k_B\)</span> is the Boltzmann constant, and <span class="arithmatex">\(T\)</span> is the thermodynamic temperature.</li>
+<li><span class="arithmatex">\(\displaystyle Z = \sum_{x'} e^{-\beta E(x')}\)</span> is the <strong>partition function</strong>, a normalization constant ensuring that the sum of probabilities over all states is 1.</li>
+</ul>
+<h3 id="the-origin-of-boltzmann-and-gibbs-distribution">The Origin of Boltzmann and Gibbs Distribution<a class="headerlink" href="#the-origin-of-boltzmann-and-gibbs-distribution" title="Permanent link">&para;</a></h3>
+<p>This beautiful exponential form does not arise out of thin air. </p>
+<p>Based on the <strong>equal probability assumption of the microcanonical ensemble</strong>, <strong>weak coupling</strong> between the system and the heat reservoir, and applying <strong>Jaynes's maximum entropy principle</strong> (or equivalent combinatorial counting methods) under the constraint of a given average energy, we can derive the Boltzmann distribution of the canonical ensemble. </p>
+<p>It is consistent with the macroscopic evolutionary direction described by the second law of thermodynamics, but more directly speaking, it is the <strong>result of equilibrium statistics and maximum entropy inference</strong>.</p>
+<p>Let's break down the derivation process:</p>
+<ol>
+<li>
+<p><strong>Entropy defined by Boltzmann under Microcanonical Ensemble:</strong> </p>
+<p>For an isolated system with fixed energy, Boltzmann's hypothesis states that all accessible microstates are equally probable. The entropy is defined by the famous Boltzmann formula:</p>
+<div class="arithmatex">\[
+S = k_B \ln W
+\]</div>
+<p>where <span class="arithmatex">\(W\)</span> is the total number of microstates.</p>
+<p><br></p>
+</li>
+<li>
+<p><strong>Entropy defined by Gibbs under Canonical Ensemble:</strong> </p>
+<p>When the system is no longer isolated but is in contact with a large heat reservoir at constant temperature, the energy of the system will fluctuate. At this point, the probabilities of different energy microstates are no longer equal. </p>
+<p>Gibbs generalized Boltzmann's entropy definition to the canonical ensemble, defining the entropy as:</p>
+<div class="arithmatex">\[
+S = -k_B \sum_{x \in \mathcal{X}} p(x) \ln p(x)
+\]</div>
+<p>where:
+- <span class="arithmatex">\(p(x)\)</span> is the probability of the system being in microstate <span class="arithmatex">\(x\)</span>. 
+- <span class="arithmatex">\(\mathcal{X}\)</span> is the set of all possible microstates of the system.</p>
+<p>What's worth noting is that this is exactly the <strong>Shannon entropy</strong> in information theory when <span class="arithmatex">\(k_B\)</span> is set to 1. This equivalence between physical and informational entropy later became the foundation of Jaynes's reinterpretation.</p>
+<p><br></p>
+</li>
+<li>
+<p><strong>Calculate the explicit form of the distribution of whole system:</strong></p>
+<ul>
+<li>
+<p><strong>From the perspective of maximizing Gibbs Entropy:</strong></p>
+<p>In order to explicitly calculate the probability distribution <span class="arithmatex">\(p(x)\)</span>, following Jaynes's principle of maximum entropy, we maximize the Gibbs entropy:</p>
+<div class="arithmatex">\[
+S = -k_B \sum_{x \in \mathcal{X}} p(x) \ln p(x).
+\]</div>
+<p>Under the constraint of fixed average energy of the system, i.e <span class="arithmatex">\(\displaystyle\mathbb{E}_{x \sim p(x)} [E(x)] = U\)</span>, and the normalization condition <span class="arithmatex">\(\displaystyle\sum_x p(x) = 1\)</span>, we can formulate the constrained optimization problem as follows:</p>
+<div class="arithmatex">\[
+\begin{align}
+\max_{p(x)} \quad &amp; -k_B \sum_{x \in \mathcal{X}} p(x) \ln p(x) \\
+\text{subject to} \quad &amp; \sum_{x \in \mathcal{X}} p(x) = 1, \\
+&amp; \sum_{x \in \mathcal{X}} p(x) E(x) = U.
+\end{align}
+\]</div>
+<p>With the <a href="#get-the-optimal-soft-policy-via-method-of-lagrange-multipliers">method of lagrange multipliers</a> mentioned before, the unique solution to this constrained optimization problem is the Boltzmann distribution:</p>
+<div class="arithmatex">\[
+p(x) = \frac{e^{-\beta E(x)}}{Z} 
+\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(\beta = \frac{1}{k_B T}\)</span> is the inverse temperature, </li>
+<li><span class="arithmatex">\(Z = \displaystyle \sum_{x' \in \mathcal{X}} e^{-\beta E(x')}\)</span> is the partition function.</li>
+</ul>
+</li>
+<li>
+<p><strong>From the perspective of minimizing Helmholtz free energy:</strong></p>
+<p>The Helmholtz free energy <span class="arithmatex">\(F\)</span> (for canonical ensemble at constant <span class="arithmatex">\(N\)</span>, <span class="arithmatex">\(V\)</span>, <span class="arithmatex">\(T\)</span>) is defined as:</p>
+<div class="arithmatex">\[
+\begin{align}
+F &amp;= U - TS \\
+  &amp;= \sum_{x \in \mathcal{X}} p(x) E(x) + k_B T \sum_{x \in \mathcal{X}} p(x) \ln p(x)
+\end{align}
+\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(U\)</span> is the internal energy, </li>
+<li><span class="arithmatex">\(T\)</span> is the temperature,</li>
+<li><span class="arithmatex">\(S\)</span> is the entropy.</li>
+</ul>
+<p>We can see that:</p>
+<p>At equilibrium, minimizing the Helmholtz free energy <span class="arithmatex">\(F\)</span> with respect to the probability distribution <span class="arithmatex">\(p(x)\)</span> is equivalent to maximizing the entropy <span class="arithmatex">\(S\)</span> subject to the constraint of fixed average energy <span class="arithmatex">\(\langle E \rangle = U\)</span>. Thus, both formulations—entropy maximization under energy constraint and free-energy minimization—lead to the same exponential family distribution.</p>
+</li>
+</ul>
+<p><br></p>
+</li>
+</ol>
+<p>This distribution relies on several key assumptions, including: weak coupling between the system and the heat reservoir, the thermodynamic limit (large number of degrees of freedom), and exhibiting ergodicity or typicality.</p>
+<h4 id="gibbs-distribution-a-more-general-framework">Gibbs Distribution: A More General Framework<a class="headerlink" href="#gibbs-distribution-a-more-general-framework" title="Permanent link">&para;</a></h4>
+<p>The concept of the "Gibbs distribution" is more general and can unify the description of equilibrium distributions across different statistical ensembles. This is typically achieved by introducing an <strong>effective Hamiltonian <span class="arithmatex">\(H_{\text{eff}}\)</span></strong>, allowing the distribution to be uniformly expressed as <span class="arithmatex">\(p \propto e^{-\beta H_{\text{eff}}}\)</span>.</p>
+<p>All partition functions share the core form:
+$$
+\text{Partition Function} = \sum_{\text{states}} e^{-\beta (\text{Energy-like term})}
+$$
+where <span class="arithmatex">\(\beta = 1 / (k_B T)\)</span>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Ensemble</th>
+<th style="text-align: left;">Constraints</th>
+<th style="text-align: left;">Random Variables</th>
+<th style="text-align: left;">Effective Hamiltonian <span class="arithmatex">\(H_{\text{eff}}\)</span></th>
+<th style="text-align: left;">Partition Function</th>
+<th style="text-align: left;">Thermodynamic Free Energy</th>
+<th style="text-align: left;">Statistical Free Energy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Microcanonical</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(N, V, E\)</span></td>
+<td style="text-align: left;">(None)</td>
+<td style="text-align: left;"><strong>Not applicable</strong>¹</td>
+<td style="text-align: left;"><span class="arithmatex">\(\Omega(E,V,N)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(S=k_B\ln\Omega\)</span></td>
+<td style="text-align: left;">(Fundamental definition)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Canonical</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(N, V, T\)</span></td>
+<td style="text-align: left;">Energy <span class="arithmatex">\(E\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(E\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(Z = \sum_i e^{-\beta E_i}\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(F = U - TS\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(F = -k_B T \ln Z\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Grand Canonical</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\mu, V, T\)</span></td>
+<td style="text-align: left;">Energy <span class="arithmatex">\(E\)</span>, Particle Number <span class="arithmatex">\(N\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(E-\mu N\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(\Xi = \sum_{N,i} e^{-\beta(E_i - \mu N)}\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(\Omega = U -TS -\mu N\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(\Omega = -k_B T \ln \Xi\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Isothermal-Isobaric</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(N, P, T\)</span></td>
+<td style="text-align: left;">Energy <span class="arithmatex">\(E\)</span>, Volume <span class="arithmatex">\(V\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(E+PV\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(\Delta = \int e^{-\beta(E + PV)} dV\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(G = U - TS + PV\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(G = -k_B T \ln \Delta\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Relationships:</strong></p>
+<ul>
+<li><strong>From <span class="arithmatex">\(Z\)</span> to <span class="arithmatex">\(\Xi\)</span>:</strong> <span class="arithmatex">\(\Xi = \sum_{N=0}^{\infty} e^{\beta \mu N} Z(N,V,T)\)</span> (introduces particle number fluctuations)</li>
+<li><strong>From <span class="arithmatex">\(Z\)</span> to <span class="arithmatex">\(\Delta\)</span>:</strong> <span class="arithmatex">\(\Delta = \int_0^{\infty} e^{-\beta PV} Z(N,V,T) dV\)</span> (introduces volume fluctuations)</li>
+</ul>
+<p><strong>Notes:</strong></p>
+<p>[1] The microcanonical ensemble follows a uniform distribution <span class="arithmatex">\(P(\text{state}) = 1/\Omega\)</span> for accessible states with energy <span class="arithmatex">\(E\)</span>, rather than the exponential Gibbs form <span class="arithmatex">\(p \propto e^{-\beta H_{\text{eff}}}\)</span>. It serves as the foundation for other ensembles but doesn't itself belong to the Gibbs distribution family.</p>
+<h2 id="jayness-principle-of-maximum-entropy">Jaynes's Principle of Maximum Entropy<a class="headerlink" href="#jayness-principle-of-maximum-entropy" title="Permanent link">&para;</a></h2>
+<p>Jaynes (1957) recast statistical mechanics as <strong>inference under incomplete information</strong>: among all distributions consistent with the constraints you actually know, choose the one with <strong>maximum Shannon entropy</strong>. This yields the canonical Boltzmann/Gibbs form and, equivalently, a <strong>free‑energy minimization</strong> principle.</p>
+<h3 id="history">History<a class="headerlink" href="#history" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>1870s (Boltzmann):</strong> Proposed the <em>statistical interpretation of entropy</em>, connecting microscopic configurations to macroscopic thermodynamic quantities through the celebrated formula:
+  $$
+  S = k_B \ln W
+  $$
+  where <span class="arithmatex">\(S\)</span> is entropy, <span class="arithmatex">\(k_B\)</span> is the Boltzmann constant, and <span class="arithmatex">\(W\)</span> is the number of accessible microstates. This marks the birth of statistical mechanics and introduces the probabilistic foundation of thermodynamics.</p>
+</li>
+<li>
+<p><strong>1902 (Gibbs):</strong> Generalized Boltzmann's discrete-state formulation into a <em>probabilistic ensemble theory</em>. For systems in thermal equilibrium with varying probabilities <span class="arithmatex">\(p_i\)</span> for each microstate <span class="arithmatex">\(i\)</span>, Gibbs defined:
+  $$
+  S = -k_B \sum_i p_i \ln p_i
+  $$
+  and derived the canonical and grand canonical ensembles, where the equilibrium distribution takes the now-fundamental exponential form:
+  $$
+  p_i = \frac{e^{-\beta E_i}}{Z}, \quad Z = \sum_i e^{-\beta E_i}.
+  $$</p>
+</li>
+<li>
+<p><strong>1948 (Shannon):</strong> Reinterpreted Gibbs's entropy in the context of communication theory as <em>information entropy</em>: <sup id="fnref:shannon1948mathematical"><a class="footnote-ref" href="#fn:shannon1948mathematical">4</a></sup>
+  $$
+  H = -\sum_x p(x) \ln p(x),
+  $$
+  formally decoupling the mathematical structure of entropy from its physical meaning and laying the foundation of information theory.</p>
+</li>
+<li>
+<p><strong>1957 (Jaynes):</strong> Unified Boltzmann–Gibbs statistical mechanics with Shannon's information theory in <em>"Information Theory and Statistical Mechanics I/II"</em> <sup id="fnref:jaynes1957information"><a class="footnote-ref" href="#fn:jaynes1957information">5</a></sup>.<br />
+  Jaynes postulated that thermodynamic equilibrium corresponds to the <strong>maximum entropy distribution</strong> consistent with known constraints:
+  $$
+  \max_{p(x)} \; -\sum_x p(x)\ln p(x)
+  $$
+  subject to <span class="arithmatex">\(\sum_x p(x)=1\)</span> and <span class="arithmatex">\(\sum_x p(x)E(x)=U\)</span>.<br />
+  Solving this yields the <strong>canonical Boltzmann distribution</strong>:
+  $$
+  p(x)=\frac{e^{-\beta E(x)}}{Z}.
+  $$
+  This reframes statistical mechanics as <em>inference under incomplete information</em>, where maximizing entropy is equivalent to minimizing free energy.</p>
+</li>
+</ul>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>Although this note cannot cover every softmax function in machine learning, it provides intuition by illustrating the cases above, demonstrating why the exponential form appears ubiquitously across reinforcement learning, energy-based models, and statistical mechanics.</p>
+<p>Whenever we introduce Shannon or Gibbs entropy as a regularization or principled constraint, the Gibbs distribution naturally emerges as the optimal solution—making the exponential form not just mathematically convenient, but fundamentally inevitable.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:swamy2025roadsleadlikelihoodvalue">
+<p>Gokul Swamy, Sanjiban Choudhury, Wen Sun, Zhiwei Steven Wu, and J. Andrew Bagnell. All roads lead to likelihood: the value of reinforcement learning in fine-tuning. 2025. URL: <a href="https://arxiv.org/abs/2503.01067">https://arxiv.org/abs/2503.01067</a>, <a href="https://arxiv.org/abs/2503.01067">arXiv:2503.01067</a>.&#160;<a class="footnote-backref" href="#fnref:swamy2025roadsleadlikelihoodvalue" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:hopfield1982neural">
+<p>John J. Hopfield. Neural networks and physical systems with emergent collective computational abilities. <em>Proceedings of the National Academy of Sciences</em>, 79(8):2554–2558, 1982. <a href="https://doi.org/10.1073/pnas.79.8.2554">doi:10.1073/pnas.79.8.2554</a>.&#160;<a class="footnote-backref" href="#fnref:hopfield1982neural" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:hinton1985boltzmann">
+<p>Geoffrey E. Hinton and Terrence J. Sejnowski. A learning algorithm for boltzmann machines. <em>Cognitive Science</em>, 9(1):147–169, 1985. <a href="https://doi.org/10.1207/s15516709cog0901_7">doi:10.1207/s15516709cog0901_7</a>.&#160;<a class="footnote-backref" href="#fnref:hinton1985boltzmann" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:shannon1948mathematical">
+<p>Claude E. Shannon. A mathematical theory of communication. <em>Bell System Technical Journal</em>, 27(3):379–423, 1948. <a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x">doi:10.1002/j.1538-7305.1948.tb01338.x</a>.&#160;<a class="footnote-backref" href="#fnref:shannon1948mathematical" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:jaynes1957information">
+<p>Edwin T. Jaynes. Information theory and statistical mechanics. <em>Physical Review</em>, 106(4):620–630, 1957. <a href="https://doi.org/10.1103/PhysRev.106.620">doi:10.1103/PhysRev.106.620</a>.&#160;<a class="footnote-backref" href="#fnref:jaynes1957information" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="Qihang-Zhang/Learning-Sys-Blog"
+        data-repo-id="R_kgDOOA4-JA"
+        data-category="Ideas"
+        data-category-id="DIC_kwDOOA4-JM4CvqZ7"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+<!-- Comments used to test Github Actions -->
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+        
+          
+          <a href="max-ent-rl-and-boltzmann-distribution.html" class="md-footer__link md-footer__link--next" aria-label="Next: Why the Exponential? From Max‑Entropy RL to the Boltzmann Distribution">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Why the Exponential? From Max‑Entropy RL to the Boltzmann Distribution
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["katex", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "search.suggest", "search.highlight", "search.share", "header.autohide", "navigation.footer", "toc.integrate", "navigation.sections", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
